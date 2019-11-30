@@ -2,32 +2,24 @@ import * as React from "react";
 
 import { observer, inject } from "mobx-react";
 
-import { StoresEnum } from "stores";
+import { IAppModel } from "models/i_appmodel";
 
 type Props = {
-  comboboxStore?: I_ComboboxStore;
+ appModel?: IAppModel
 };
 
 function About(props: Props) {
-  const { comboboxStore } = props;
-
-  if (!comboboxStore) {
-    return null;
-  }
-
-  const msg = comboboxStore.selectedItem 
-    ? comboboxStore.selectedItem.label
-    : "You have no selected item";
+  const appModel = props.appModel;
 
   return (
     <div className="about">
       <h2 className="page-title">About</h2>
       <div className="alert alert-primary query-row">
         <span>Combobox selected Item: </span>
-        <b className="attention-msg">{ msg }</b>
+        <b className="attention-msg">Here should be a selected checkbox item value</b>
       </div>
     </div>
   );
 }
 
-export default inject(StoresEnum.comboboxStore)(observer(About));
+export default inject("appModel")(observer(About));

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
+import { Combobox } from "shared/components";
 // import _throttle from "lodash/throttle";
 
 // import { TextInpRealLn, Combobox, MousePositionView } from "shared";
@@ -12,10 +13,13 @@ import { IAppModel } from "models/i_appmodel";
 //   mousePositionStore?: I_MousePositionStore;
 // };
 type HomeProperties = {
-  appModel: IAppModel
+  appModel?: IAppModel 
 };
 
-// @inject(StoresEnum.comboboxStore, StoresEnum.mousePositionStore)
+/* TODO: Delete after reading.
+ We need to let Mobx to know that we want to inject the appModel store into our component.
+*/
+@inject("appModel")
 @observer
 export default class Home extends React.Component<HomeProperties> {
   /*
@@ -42,20 +46,59 @@ export default class Home extends React.Component<HomeProperties> {
   //   this.props.mousePositionStore.setPosition({ x: e.clientX, y: e.clientY });
   // };
 
+  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.appModel.textInput = e.target.value;
+  }
+
   render() {
+
+    //TODO: delete after reading.
+    // we can extract the appModel to avoid boilerplate :  this.props.appModel.<some_prop>
+    const { appModel } = this.props;
+    // We can even extract some re-usable props from appModel to follow DRY
+    const { textInput, selectedItem } = appModel;
+
     //const { comboboxStore } = this.props;
 
     //const { query, items, selectedItem } = comboboxStore;
     // MousePositionView
 
     return (
-        <div className="home">
-          <h2>Home Page</h2>
-          <h3>Mouse Position: 
-            {this.props.appModel.mousePosition.x}, 
-            {this.props.appModel.mousePosition.y}</h3>
-        </div>
-    );
+      <div className="home">
+        <h2>Home Page</h2>
+        <h3>Mouse Position: 
+          {this.props.appModel.mousePosition.x}, 
+          {this.props.appModel.mousePosition.y}</h3>
+
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
+
+        <h3>Text Input Length tracking</h3>
+        <input type="text" value={ textInput } onChange={this.handleInputChange} /><br/>
+        <b>Value</b>: { textInput }<br />
+        <b>Length</b>: {appModel.textInputLength}
+
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
+
+        <h3>Combobox</h3>
+          <Combobox
+            itemsSource={appModel.flavors}
+            selectedItem={selectedItem}
+            onSelectValue={item => {
+              appModel.selectedItem = item;
+            }}
+          /><br />
+          <b>Selected Item</b>: { JSON.stringify(selectedItem) }
+        
+      </div>
+  );
     // return (
     //   <div className="home">
     //     <h2 className="page-title">Home</h2>

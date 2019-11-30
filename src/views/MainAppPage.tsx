@@ -5,21 +5,31 @@
 
 import React from "react";
 
+import { observer, inject } from "mobx-react";
+
 import Home from "views/HomePage";
 import About from "views/AboutPage";
-import {IAppModel} from "models/i_appmodel";
+import { IAppModel } from "models/i_appmodel";
 
 import { Switch, Route, Link } from "react-router-dom";
 
 type MainProperties = {
-  appModel: IAppModel
+  /* 'shallow-optional' because the component will receive the appModel from the Provider. 
+    Without it we'll receive a TS error about missed prop as we aren't passing anything manually. Mobx does it.
+   */
+  appModel?: IAppModel
 };
 
+// TODO: delete after reading. 
+// let's make this class 'reactive' via observer and we need to inject the appModel via Mobx
+@inject("appModel")
+@observer
 export default class MainAppPage extends React.Component<MainProperties> {
   _myAppModel: IAppModel;
-  constructor(props: MainProperties) {
-    super(props);
-  }
+  //TODO: Delete after reading. As we don't do anything with constructor it could be ommited
+  // constructor(props: MainProperties) {
+  //   super(props);
+  // }
 
   handleMouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     this.props.appModel.mousePosition.x = event.pageX;
