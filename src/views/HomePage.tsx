@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
-import { Combobox } from "shared/components";
+import { Combobox, Button } from "shared/components";
 // import _throttle from "lodash/throttle";
 
 // import { TextInpRealLn, Combobox, MousePositionView } from "shared";
@@ -96,7 +96,18 @@ export default class Home extends React.Component<HomeProperties> {
             }}
           /><br />
           <b>Selected Item</b>: { JSON.stringify(selectedItem) }
-        
+
+        <br />
+        <br />
+        <hr />
+        <br />
+        <br />
+        <h3>The Transformation Buttons</h3>
+        <Button onClick={appModel.setUppercase} >Upper Case</Button>
+        <Button onClick={appModel.setLowercase} >Lower Case</Button>
+        <br />
+        <br />
+        Text that will be transformed: <b>{ appModel.transformationText }</b>
       </div>
   );
     // return (

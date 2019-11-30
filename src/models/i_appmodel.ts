@@ -12,5 +12,11 @@ export interface IAppModel {
     textInput: string;
     textInputLength: number;
     selectedFlavorIndex: number;
-    selectedItem: ComboboxItem
+    selectedItem: ComboboxItem;
+
+    // some dummy text which could be transformed etc.
+    transformationText: string;
+
+    setUppercase: () => void;
+    setLowercase: () => void;
 };

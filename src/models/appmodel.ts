@@ -22,4 +22,14 @@ export class AppModel implements IAppModel {
     get textInput(): string { return this._textInput; }
     set textInput(value: string) { this._textInput = value; }
     get textInputLength(): number { return this._textInput.length; }
+
+    @observable private _transformationText = "Here is some dummy text.";
+    get transformationText(): string { return this._transformationText; }
+    set transformationText(value: string) { this._transformationText = value; }
+    @action setUppercase = () => {
+        this._transformationText = this.transformationText.toUpperCase();
+    };
+    @action setLowercase = () => {
+        this._transformationText = this.transformationText.toLowerCase();
+    }
 }
