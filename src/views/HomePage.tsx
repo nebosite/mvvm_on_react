@@ -70,22 +70,16 @@ export default class Home extends React.Component<HomeProperties> {
           {this.props.appModel.mousePosition.x}, 
           {this.props.appModel.mousePosition.y}</h3>
 
-        <br />
-        <br />
-        <hr />
-        <br />
-        <br />
+        <hr style={{ margin: "15px 0" }} />
 
         <h3>Text Input Length tracking</h3>
         <input type="text" value={ textInput } onChange={this.handleInputChange} /><br/>
         <b>Value</b>: { textInput }<br />
-        <b>Length</b>: {appModel.textInputLength}
+        <b>Length</b>: {appModel.textInputLength}<br />
+        <Button onClick={appModel.setUppercase} >Make the text uppercased</Button>
+        <Button onClick={appModel.setLowercase} >Make the text lowercased</Button>
 
-        <br />
-        <br />
-        <hr />
-        <br />
-        <br />
+        <hr style={{ margin: "15px 0" }} />
 
         <h3>Combobox</h3>
           <Combobox
@@ -95,19 +89,7 @@ export default class Home extends React.Component<HomeProperties> {
               appModel.selectedItem = item;
             }}
           /><br />
-          <b>Selected Item</b>: { JSON.stringify(selectedItem) }
-
-        <br />
-        <br />
-        <hr />
-        <br />
-        <br />
-        <h3>The Transformation Buttons</h3>
-        <Button onClick={appModel.setUppercase} >Upper Case</Button>
-        <Button onClick={appModel.setLowercase} >Lower Case</Button>
-        <br />
-        <br />
-        Text that will be transformed: <b>{ appModel.transformationText }</b>
+          <b>Selected Item</b>: { selectedItem }
       </div>
   );
     // return (

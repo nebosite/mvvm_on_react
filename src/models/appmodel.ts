@@ -1,6 +1,5 @@
 import { observable, action, computed } from "mobx";
 import { IAppModel } from "./i_appmodel";
-import { ComboboxItem } from "shared/components/Combobox";
 
 export class AppModel implements IAppModel {
     @observable private _mousePosition = { x: -1, y: -1 };
@@ -14,22 +13,19 @@ export class AppModel implements IAppModel {
     set selectedFlavorIndex(value: number) { this._selectedFlavorIndex = value; }
 
     // we can create a dedicated Class for SelectedItem like: class SelectedItem etc. but it will be too complicated
-    @observable private _selectedItem = { label: "", value: "" };
-    get selectedItem(): ComboboxItem { return this._selectedItem; }
-    set selectedItem(item: ComboboxItem) { this._selectedItem = item; }
+    @observable private _selectedItem = "";
+    get selectedItem(): string { return this._selectedItem; }
+    set selectedItem(item: string) { this._selectedItem = item; }
 
     @observable private _textInput = "";
     get textInput(): string { return this._textInput; }
     set textInput(value: string) { this._textInput = value; }
     get textInputLength(): number { return this._textInput.length; }
 
-    @observable private _transformationText = "Here is some dummy text.";
-    get transformationText(): string { return this._transformationText; }
-    set transformationText(value: string) { this._transformationText = value; }
     @action setUppercase = () => {
-        this._transformationText = this.transformationText.toUpperCase();
+        this.textInput = this.textInput.toUpperCase();
     };
     @action setLowercase = () => {
-        this._transformationText = this.transformationText.toLowerCase();
-    }
+        this.textInput = this.textInput.toLowerCase();
+    };
 }
