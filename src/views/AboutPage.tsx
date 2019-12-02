@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { observer, inject } from "mobx-react";
-
 import { IAppModel } from "models/i_appmodel";
 
 type Props = {
