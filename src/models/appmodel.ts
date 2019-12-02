@@ -13,14 +13,19 @@ export class AppModel implements IAppModel {
     set selectedItem(item: string) { this._selectedItem = item; }
 
     @observable private _textInput = "";
-    get textInput(): string { return this._textInput; }
-    set textInput(value: string) { this._textInput = value; }
+    get flavorInput(): string { return this._textInput; }
+    set flavorInput(value: string) { this._textInput = value; }
 
     @action setUppercase = () => {
-        this.textInput = this.textInput.toUpperCase();
+        this.flavorInput = this.flavorInput.toUpperCase();
     };
     
     @action setLowercase = () => {
-        this.textInput = this.textInput.toLowerCase();
+        this.flavorInput = this.flavorInput.toLowerCase();
+    };
+    
+    @action addFlavor = () => {
+        this.flavors.push(this.flavorInput);
+        this.flavorInput = "";
     };
 }

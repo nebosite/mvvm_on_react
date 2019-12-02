@@ -2,9 +2,10 @@
 export interface IAppModel {
     mousePosition: { x: number, y: number } ;
     flavors: string[];
-    textInput: string;
+    flavorInput: string;
     selectedItem: string;
 
     setUppercase: () => void;
     setLowercase: () => void;
+    addFlavor: () => void;
 };
