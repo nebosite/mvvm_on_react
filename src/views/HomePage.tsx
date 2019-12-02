@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
-import { Combobox, Button } from "shared/components";
+import Combobox from "shared/components/Combobox";
 
 @inject("appModel")
 @observer
@@ -26,11 +26,11 @@ export default class Home
         <hr style={{ margin: "15px 0" }} />
 
         <h3>Text Input Length tracking</h3>
-        <input type="text" value={ appModel.textInput } onChange={this.handleInputChange} /><br/>
-        <b>Value</b>: { appModel.textInput }<br />
-        <b>Length</b>: {appModel.textInputLength}<br />
-        <Button onClick={appModel.setUppercase} >Make the text uppercased</Button>
-        <Button onClick={appModel.setLowercase} >Make the text lowercased</Button>
+        <input type="text" value={ appModel.textInput }
+          onChange={this.handleInputChange}  />
+        <b>Length</b>: {appModel.textInput.length}<br />
+        <button onClick={appModel.setUppercase} >Make Upper Case</button>
+        <button onClick={appModel.setLowercase} >Make Lower Case</button>
 
         <hr style={{ margin: "15px 0" }} />
 
