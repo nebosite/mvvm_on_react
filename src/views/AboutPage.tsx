@@ -15,7 +15,7 @@ function About(props: Props) {
       <h2 className="page-title">About</h2>
       <div className="alert alert-primary query-row">
         <span>Combobox selected Item: </span>
-        <b className="attention-msg">Here should be a selected checkbox item value</b>
+        <b className="attention-msg">{appModel.selectedItem}</b>
       </div>
     </div>
   );

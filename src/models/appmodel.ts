@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 import { IAppModel } from "./i_appmodel";
 
 export class AppModel implements IAppModel {

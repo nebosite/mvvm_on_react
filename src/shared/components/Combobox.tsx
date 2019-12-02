@@ -10,13 +10,6 @@ export type ComboboxItem = {
 	label: string;
 };
 
-enum OnInputChangeEnum {
-  setValue = "set-value",
-  inputChange = "input-change",
-  inputBlur = "input-blur",
-  menuClose = "menu-close"
-}
-
 enum OnChangeEnum {
   selectOption = "select-option",
   deselectOption = "deselect-option",
@@ -31,9 +24,6 @@ type ComboboxProps = {
   itemsSource: any[]; 
   selectedItem: string;
   onSelectValue: (selectedItem: string) => void;
-  // onInputChange: (val: string) => void;
-  // onInputEnter: () => void;
-  // onHide: () => void;
 };
 
 const itemMapper = {
