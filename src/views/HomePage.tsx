@@ -26,7 +26,8 @@ export default class Home
 
         <hr style={{ margin: "15px 0" }} />
 
-        <h3>Text Input</h3>
+        <h3>Text Input</h3> 
+        Type in a new flavor: 
         <input type="text" value={ appModel.flavorInput }
           onChange={this.handleFlavorTextChange} />
         (<b>Length</b>: {appModel.flavorInput.length})<br />
@@ -39,6 +40,7 @@ export default class Home
         <hr style={{ margin: "15px 0" }} />
 
         <h3>Combobox</h3>
+           Select a flavor: 
           <Combobox
             itemsSource={appModel.flavors}
             selectedItem={appModel.selectedItem}
