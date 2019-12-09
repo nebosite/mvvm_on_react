@@ -19,31 +19,29 @@ enum OnChangeEnum {
 
 type ComboboxProps = {
   itemsSource: any[]; 
-  selectedItem: string;
-  onSelectValue: (selectedItem: string) => void;
+  selectedItem: any;
+  onSelectValue: (selectedItem: any) => void;
 };
 
 const itemMapper = {
-  mapSourceItemToComboboxItem(sourceItem: string): ComboboxItem { return { value: sourceItem, label: sourceItem } },
-  mapComboboxItemToSourceItem(comboboxItem: ComboboxItem): string { return comboboxItem.label; }
+  mapSourceItemToComboboxItem(sourceItem: string): ComboboxItem { 
+    return { value: sourceItem, label: sourceItem.toString() } 
+  },
+  mapComboboxItemToSourceItem(comboboxItem: ComboboxItem): any { 
+    return comboboxItem.value; 
+  }
 }
 
 export default function Combobox(props: ComboboxProps) {
   const {
     itemsSource,
-    selectedItem,
     onSelectValue,
   } = props;
 
   const [open, setOpen] = React.useState(false);
 
-  const show = () => {
-    setOpen(true);
-
-  };
-  const hide = () => {
-    setOpen(false);
-  };
+  const show = () => { setOpen(true); };
+  const hide = () => { setOpen(false); };
 
   const options = itemsSource.map(itemMapper.mapSourceItemToComboboxItem);
 
@@ -53,7 +51,6 @@ export default function Combobox(props: ComboboxProps) {
   ) => {
     switch (actionMeta.action) {
       case OnChangeEnum.selectOption:
-
         onSelectValue(itemMapper.mapComboboxItemToSourceItem(newValue as ComboboxItem));
         hide(); // manually hiding the combobox as we control it by ourself
         break;
@@ -65,9 +62,6 @@ export default function Combobox(props: ComboboxProps) {
 
   return (
     <CreatableSelect
-      className="combobox"
-      isClearable
-      value={itemMapper.mapSourceItemToComboboxItem(selectedItem)}
       menuIsOpen={open}
       onMenuOpen={show}
       onBlur={hide}
