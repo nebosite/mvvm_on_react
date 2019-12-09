@@ -2,20 +2,10 @@ import * as React from "react";
 import { ActionMeta, ValueType } from "react-select";
 import CreatableSelect from "react-select/creatable";
 
-// The React Select is almost impossible to test because they didn't provide any api
-// and the implementation wasn't designed to be testable from outside
-
 export type ComboboxItem = {
 	value: any;
 	label: string;
 };
-
-enum OnInputChangeEnum {
-  setValue = "set-value",
-  inputChange = "input-change",
-  inputBlur = "input-blur",
-  menuClose = "menu-close"
-}
 
 enum OnChangeEnum {
   selectOption = "select-option",
@@ -31,9 +21,6 @@ type ComboboxProps = {
   itemsSource: any[]; 
   selectedItem: string;
   onSelectValue: (selectedItem: string) => void;
-  // onInputChange: (val: string) => void;
-  // onInputEnter: () => void;
-  // onHide: () => void;
 };
 
 const itemMapper = {
@@ -46,9 +33,6 @@ export default function Combobox(props: ComboboxProps) {
     itemsSource,
     selectedItem,
     onSelectValue,
-    // onInputChange,
-    // onInputEnter,
-    // onHide
   } = props;
 
   const [open, setOpen] = React.useState(false);
@@ -59,13 +43,8 @@ export default function Combobox(props: ComboboxProps) {
   };
   const hide = () => {
     setOpen(false);
-    // onHide();
   };
 
-  /* here could be some type checking is the itemSource an array etc.
-     Also in case of complicated data this mapper should be placed in the different file
-     in the mapper folder and it should map source to the Entities. like new SelectedItem() etc.
-  */
   const options = itemsSource.map(itemMapper.mapSourceItemToComboboxItem);
 
   const handleChange = (
@@ -81,22 +60,8 @@ export default function Combobox(props: ComboboxProps) {
       case OnChangeEnum.clear:
         onSelectValue(null);
         break;
-      // could add default but it's redundant
     }
   };
-  // const handleInputChange = (
-  //   inputValue: string,
-  //   actionMeta: InputActionMeta
-  // ) => {
-  //   switch (actionMeta.action) {
-  //     case OnInputChangeEnum.inputChange:
-  //       onInputChange(inputValue);
-  //       break;
-  //     case OnInputChangeEnum.setValue:
-  //       onInputEnter();
-  //       break;
-  //   }
-  // };
 
   return (
     <CreatableSelect
@@ -108,7 +73,6 @@ export default function Combobox(props: ComboboxProps) {
       onBlur={hide}
       options={options}
       onChange={handleChange}
-      // onInputChange={handleInputChange}
     />
   );
 }
