@@ -22,7 +22,7 @@ export default class Home
         <hr style={{ margin: "15px 0" }} />
 
         <h3>Dynamic pointer input:</h3> 
-        Mouse Position: {appModel.mousePosition.x}, {appModel.mousePosition.y}
+        Mouse Position: {appModel.someLocation.x}, {appModel.someLocation.y}
 
         <hr style={{ margin: "15px 0" }} />
 

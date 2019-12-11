@@ -1,6 +1,6 @@
 
 export interface IAppModel {
-    mousePosition: { x: number, y: number } ;
+    someLocation: { x: number, y: number } ;
     flavors: string[];
     flavorInput: string;
     selectedItem: string;

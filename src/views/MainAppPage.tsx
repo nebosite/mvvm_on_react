@@ -13,8 +13,8 @@ export default class MainAppPage
   extends React.Component<{appModel?: IAppModel}> {
 
   handleMouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    this.props.appModel.mousePosition.x = event.pageX;
-    this.props.appModel.mousePosition.y = event.pageY;
+    this.props.appModel.someLocation.x = event.pageX;
+    this.props.appModel.someLocation.y = event.pageY;
   };
 
   render() {

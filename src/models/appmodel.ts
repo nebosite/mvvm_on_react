@@ -2,9 +2,9 @@ import { observable, action } from "mobx";
 import { IAppModel } from "./i_appmodel";
 
 export class AppModel implements IAppModel {
-    @observable private _mousePosition = { x: -1, y: -1 };
-    get mousePosition(): { x: number, y: number } { return this._mousePosition; }
-    set mousePosition(value: { x: number, y: number } ) { this._mousePosition = value; }
+    @observable private _someLocation = { x: -1, y: -1 };
+    get someLocation(): { x: number, y: number } { return this._someLocation; }
+    set someLocation(value: { x: number, y: number } ) { this._someLocation = value; }
 
     public readonly flavors = observable(["Vanilla", "Strawberry", "Chocolate"]);
 
