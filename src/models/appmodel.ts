@@ -8,13 +8,18 @@ export class AppModel implements IAppModel {
 
     public readonly flavors = observable(["Vanilla", "Strawberry", "Chocolate"]);
 
-    @observable private _selectedItem = "";
-    get selectedItem(): string { return this._selectedItem; }
-    set selectedItem(item: string) { this._selectedItem = item; }
+    @observable private _selectedFlavor = "";
+    get selectedFlavor(): string { return this._selectedFlavor; }
+    set selectedFlavor(item: string) { this._selectedFlavor = item; }
 
     @observable private _textInput = "";
     get flavorInput(): string { return this._textInput; }
     set flavorInput(value: string) { this._textInput = value; }
+
+    constructor()
+    {
+        this.selectedFlavor = this.flavors[0];
+    }
 
     @action setUppercase = () => {
         this.flavorInput = this.flavorInput.toUpperCase();
@@ -25,7 +30,10 @@ export class AppModel implements IAppModel {
     };
     
     @action addFlavor = () => {
+        // PROBLEM: These actions should cause the combobox to rerender
+        // automatically, but that does not happen
         this.flavors.push(this.flavorInput);
+        this.selectedFlavor = this.flavorInput;
         this.flavorInput = "";
     };
 }

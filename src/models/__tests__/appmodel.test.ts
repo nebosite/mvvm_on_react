@@ -21,11 +21,18 @@ describe("AppModel.setUpperCase", () => {
 describe("AppModel.addFlavor", () => {
 	const appModel = new AppModel();
 	appModel.flavors.clear();
-	it(`should add flavorInput flavor list and clear flavorInput`, () => {
-		appModel.flavorInput = "grape";
-		appModel.addFlavor();
+	appModel.flavorInput = "grape";
+	appModel.addFlavor();
+	it(`should add flavorInput to flavor list`, () => {
 		expect(appModel.flavors.length).toBe(1);
 		expect(appModel.flavors[0]).toBe("grape");
+   	});
+
+	it(`should clear flavorInput`, () => {
 		expect(appModel.flavorInput).toBe("");
-   })
+   	});
+
+	it(`should set selectedFlavor to flavorInput`, () => {
+		expect(appModel.selectedFlavor).toBe("grape");
+   	});
 });

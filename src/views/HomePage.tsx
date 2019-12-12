@@ -43,12 +43,12 @@ export default class Home
            Select a flavor: 
           <Combobox
             itemsSource={appModel.flavors}
-            selectedItem={appModel.selectedItem}
+            selectedItem={appModel.selectedFlavor}
             onSelectValue={item => {
-              appModel.selectedItem = item;
+              appModel.selectedFlavor = item;
             }}
           /><br />
-          <b>Selected Item</b>: { appModel.selectedItem }<br/>
+          <b>Selected Item</b>: { appModel.selectedFlavor }<br/>
           <b>Item Count</b>: { appModel.flavors.length }<br/>
       </div>
     );

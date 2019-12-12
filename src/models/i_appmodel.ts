@@ -3,7 +3,7 @@ export interface IAppModel {
     someLocation: { x: number, y: number } ;
     flavors: string[];
     flavorInput: string;
-    selectedItem: string;
+    selectedFlavor: string;
 
     setUppercase: () => void;
     setLowercase: () => void;

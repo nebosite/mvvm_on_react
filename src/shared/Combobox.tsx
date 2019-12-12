@@ -35,6 +35,7 @@ const itemMapper = {
 export default function Combobox(props: ComboboxProps) {
   const {
     itemsSource,
+    selectedItem,
     onSelectValue,
   } = props;
 
@@ -64,6 +65,7 @@ export default function Combobox(props: ComboboxProps) {
     <CreatableSelect
       menuIsOpen={open}
       onMenuOpen={show}
+      defaultValue={itemMapper.mapSourceItemToComboboxItem(selectedItem)}
       onBlur={hide}
       options={options}
       onChange={handleChange}

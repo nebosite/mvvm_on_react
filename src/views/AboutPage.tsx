@@ -12,7 +12,7 @@ export default class AboutPage
       <div>
         <h2>About</h2>
         <div>
-          Combobox selected Item: <b>{this.props.appModel.selectedItem}</b>
+          Combobox selected Item: <b>{this.props.appModel.selectedFlavor}</b>
         </div>
       </div>
     );
