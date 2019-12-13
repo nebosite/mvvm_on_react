@@ -1,31 +1,38 @@
 import { AppModel } from "../appmodel";
 
-const appModel = new AppModel();
+describe("AppModel.setLowerCase", () => {
+	const appModel = new AppModel();
+	it(`should make the flavorInput text lowercased`, () => {
+		appModel.flavorInput = "TEXT";
+		appModel.setLowercase();
+		expect(appModel.flavorInput).toBe("text");
+   })
+});
 
-describe("text transformation suite", () => {
+describe("AppModel.setUpperCase", () => {
+	const appModel = new AppModel();
+	it(`should make the flavorInput text upperCased`, () => {
+		appModel.flavorInput = "text";
+		appModel.setUppercase();
+		expect(appModel.flavorInput).toBe("TEXT");
+   })
+});
 
-	it(`should make the textInput text lowercased
-		 when setLowercase method called`, () => {
-			 const initialText = "TEXT";
-			 const expectedResultText = "text";
-			 appModel.textInput = initialText;
-			 expect(appModel.textInput).toBe(initialText);
+describe("AppModel.addFlavor", () => {
+	const appModel = new AppModel();
+	appModel.flavors.clear();
+	appModel.flavorInput = "grape";
+	appModel.addFlavor();
+	it(`should add flavorInput to flavor list`, () => {
+		expect(appModel.flavors.length).toBe(1);
+		expect(appModel.flavors[0]).toBe("grape");
+   	});
 
-			 appModel.setLowercase();
+	it(`should clear flavorInput`, () => {
+		expect(appModel.flavorInput).toBe("");
+   	});
 
-			 expect(appModel.textInput).toBe(expectedResultText);
-		})
-
-	it(`should make the transformation text uppercased
-		 when setUppercase method called`, () => {
-			const initialText = "text";
-			const expectedResultText = "TEXT";
-			appModel.textInput = initialText;
-			expect(appModel.textInput).toBe(initialText);
-
-			appModel.setUppercase();
-
-			expect(appModel.textInput).toBe(expectedResultText);
-		})
-
+	it(`should set selectedFlavor to flavorInput`, () => {
+		expect(appModel.selectedFlavor).toBe("grape");
+   	});
 });
