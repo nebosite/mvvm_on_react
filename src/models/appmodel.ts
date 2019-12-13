@@ -16,6 +16,8 @@ export class AppModel implements IAppModel {
     get flavorInput(): string { return this._textInput; }
     set flavorInput(value: string) { this._textInput = value; }
 
+    get flavorTextIsValid() { return Boolean(this.flavorInput); }
+
     constructor()
     {
         this.selectedFlavor = this.flavors[0];

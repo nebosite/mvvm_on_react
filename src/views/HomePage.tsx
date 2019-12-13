@@ -14,7 +14,6 @@ export default class Home
 
   render() {
     const { appModel } = this.props;
-
     return (
       <div className="home">
         <h2>Home Page</h2>
@@ -33,9 +32,7 @@ export default class Home
         (<b>Length</b>: {appModel.flavorInput.length})<br />
         <button onClick={appModel.setUppercase} >Make Upper Case</button><br />
         <button onClick={appModel.setLowercase} >Make Lower Case</button><br />
-        <button onClick={appModel.addFlavor
-           /* TODO: link the style to the app model so that this 
-           button is disabled if there is no text in the input */} >Add</button>
+        <button onClick={appModel.addFlavor} disabled={!appModel.flavorTextIsValid} >Add</button>
 
         <hr style={{ margin: "15px 0" }} />
 
