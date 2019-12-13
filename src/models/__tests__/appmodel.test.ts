@@ -36,3 +36,17 @@ describe("AppModel.addFlavor", () => {
 		expect(appModel.selectedFlavor).toBe("grape");
    	});
 });
+
+// would be nice to test UI as well. Without enzume or ReactTestUtils it's impossible
+describe("AppModel.flavorTextIsValid", () => {
+	const appModel = new AppModel();
+	it(`should return true if the flawor text not an empty string`, () => {
+		appModel.flavorInput = "Dummy Test";
+		expect(appModel.flavorTextIsValid).toEqual(true);
+	 })
+	 
+	 it(`should return false if the flawor text is an empty string`, () => {
+		appModel.flavorInput = "";
+		expect(appModel.flavorTextIsValid).toEqual(false);
+   })
+});

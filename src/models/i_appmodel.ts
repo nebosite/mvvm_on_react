@@ -4,6 +4,7 @@ export interface IAppModel {
     flavors: string[];
     flavorInput: string;
     selectedFlavor: string;
+    flavorTextIsValid: boolean;
 
     setUppercase: () => void;
     setLowercase: () => void;
