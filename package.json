@@ -1,6 +1,6 @@
 {
   "name": "react_mobx_ts_mvvm_example",
-  "version": "1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -16,7 +16,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
+    "react-scripts": "^3.3.0",
     "react-select": "^3.0.8",
     "typescript": "3.7.2"
   },
