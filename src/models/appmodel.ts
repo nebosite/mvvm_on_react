@@ -1,12 +1,13 @@
 import { observable, action } from "mobx";
 import { IAppModel } from "./i_appmodel";
 
+
 export class AppModel implements IAppModel {
     @observable private _someLocation = { x: -1, y: -1 };
     get someLocation(): { x: number, y: number } { return this._someLocation; }
     set someLocation(value: { x: number, y: number } ) { this._someLocation = value; }
 
-    public readonly flavors = observable(["Vanilla", "Strawberry", "Chocolate"]);
+    public readonly flavors = observable([ "Vanilla", "Strawberry", "Chocolate" ]);
 
     @observable private _selectedFlavor = "";
     get selectedFlavor(): string { return this._selectedFlavor; }
@@ -38,4 +39,8 @@ export class AppModel implements IAppModel {
         this.selectedFlavor = this.flavorInput;
         this.flavorInput = "";
     };
+
+    @action chooseStrawberry = () => {
+        this.selectedFlavor = "Strawberry";
+    }
 }

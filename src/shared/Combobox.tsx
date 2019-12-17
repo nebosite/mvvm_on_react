@@ -38,7 +38,6 @@ export default function Combobox(props: ComboboxProps) {
     selectedItem,
     onSelectValue,
   } = props;
-
   const [open, setOpen] = React.useState(false);
 
   const show = () => { setOpen(true); };
@@ -65,7 +64,7 @@ export default function Combobox(props: ComboboxProps) {
     <CreatableSelect
       menuIsOpen={open}
       onMenuOpen={show}
-      defaultValue={itemMapper.mapSourceItemToComboboxItem(selectedItem)}
+      value={itemMapper.mapSourceItemToComboboxItem(selectedItem)}
       onBlur={hide}
       options={options}
       onChange={handleChange}

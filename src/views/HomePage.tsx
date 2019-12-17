@@ -65,8 +65,11 @@ export default class Home
           /><br />
           <b>Selected Item</b>: { appModel.selectedFlavor }<br/>
           <b>Item Count</b>: { appModel.flavors.length }<br/>
+
           <b>Items</b>: <br/>
           {appModel.flavors.map(f => (<div>{f}</div>))}
+          <p>Update the selected item via model method</p>
+          <button onClick={appModel.chooseStrawberry}>Choose Strawberry</button>
       </div>
     );
   }

@@ -9,4 +9,5 @@ export interface IAppModel {
     setUppercase: () => void;
     setLowercase: () => void;
     addFlavor: () => void;
+    chooseStrawberry: () => void;
 };
