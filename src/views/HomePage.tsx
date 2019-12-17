@@ -3,6 +3,24 @@ import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
 import Combobox from "shared/Combobox";
 
+// Performance Pattern:  For something that updates frequently, we want to 
+// extract that into its own component to prevent re-rendering of the entire page
+@inject("appModel")
+@observer
+class MouseBlock 
+  extends React.Component<{appModel?: IAppModel}> {
+    render()
+    {
+      const { appModel } = this.props;
+      return (
+        <div>
+          Mouse Position: {appModel.someLocation.x}, {appModel.someLocation.y}
+        </div>
+      );    
+    }
+}
+
+// Home page is just a simple page to display aspects of the app model
 @inject("appModel")
 @observer
 export default class Home 
@@ -21,7 +39,7 @@ export default class Home
         <hr style={{ margin: "15px 0" }} />
 
         <h3>Dynamic pointer input:</h3> 
-        Mouse Position: {appModel.someLocation.x}, {appModel.someLocation.y}
+        <MouseBlock />
 
         <hr style={{ margin: "15px 0" }} />
 
@@ -47,6 +65,9 @@ export default class Home
           /><br />
           <b>Selected Item</b>: { appModel.selectedFlavor }<br/>
           <b>Item Count</b>: { appModel.flavors.length }<br/>
+
+          <b>Items</b>: <br/>
+          {appModel.flavors.map(f => (<div>{f}</div>))}
           <p>Update the selected item via model method</p>
           <button onClick={appModel.chooseStrawberry}>Choose Strawberry</button>
       </div>
