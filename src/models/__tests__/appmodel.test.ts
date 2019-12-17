@@ -1,4 +1,4 @@
-import { AppModel } from "../appmodel";
+import { AppModel, flaworsData } from "../appmodel";
 
 describe("AppModel.setLowerCase", () => {
 	const appModel = new AppModel();
@@ -15,6 +15,16 @@ describe("AppModel.setUpperCase", () => {
 		appModel.flavorInput = "text";
 		appModel.setUppercase();
 		expect(appModel.flavorInput).toBe("TEXT");
+   })
+});
+
+describe("AppModel.chooseStrawberry", () => {
+	const appModel = new AppModel();
+	it(`should change the selectedFlavor to the "Strawberry"`, () => {
+		appModel.selectedFlavor = "Dummy Text";
+		expect(appModel.selectedFlavor).toBe("Dummy Text");
+		appModel.chooseStrawberry();
+		expect(appModel.selectedFlavor).toBe(flaworsData.strawberry);
    })
 });
 
