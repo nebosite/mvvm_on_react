@@ -36,8 +36,6 @@ export class AppModel implements IAppModel {
             this.flavors.clear();
             const jsonData = JSON.parse(data);
             this.selectedFlavor = jsonData.selected;
-            console.log("S: " + this.selectedFlavor);
-            console.log("J: " + JSON.stringify(jsonData));
             jsonData.flavors.forEach((f: any) => {
                 this.flavors.push(f);
             });
