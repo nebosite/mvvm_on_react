@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import { IAppModel } from "./i_appmodel";
+import { IDataModel } from "./i_dataModel";
 
 
 export class AppModel implements IAppModel {
@@ -19,9 +20,20 @@ export class AppModel implements IAppModel {
 
     get flavorTextIsValid() { return Boolean(this.flavorInput); }
 
-    constructor()
+    private _dataModel: IDataModel;
+
+    constructor(dataModel: IDataModel)
     {
         this.selectedFlavor = this.flavors[0];
+        this._dataModel = dataModel;
+        const data = dataModel.load();
+        if(data != null && data != "")
+        {
+            this.flavors.clear();
+            console.log("PARSING: " + data);
+            const jsonData = JSON.parse(data);
+            jsonData.flavors.forEach((f: any) => this.flavors.push(f));
+        }
     }
 
     @action setUppercase = () => {
@@ -33,14 +45,20 @@ export class AppModel implements IAppModel {
     };
     
     @action addFlavor = () => {
-        // PROBLEM: These actions should cause the combobox to rerender
-        // automatically, but that does not happen
         this.flavors.push(this.flavorInput);
         this.selectedFlavor = this.flavorInput;
         this.flavorInput = "";
+        this.saveState();
     };
 
     @action chooseStrawberry = () => {
         this.selectedFlavor = "Strawberry";
+    }
+
+    saveState() {
+        const outputFlavors: Array<string> = [];
+        this.flavors.forEach(f => outputFlavors.push(f));
+        const output = { "flavors": outputFlavors};
+        this._dataModel.save(JSON.stringify(output));
     }
 }
