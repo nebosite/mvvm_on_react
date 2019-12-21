@@ -30,9 +30,17 @@ export class AppModel implements IAppModel {
         if(data != null && data != "")
         {
             this.flavors.clear();
-            console.log("PARSING: " + data);
             const jsonData = JSON.parse(data);
-            jsonData.flavors.forEach((f: any) => this.flavors.push(f));
+            this.selectedFlavor = jsonData.selected;
+            console.log("S: " + this.selectedFlavor);
+            console.log("J: " + JSON.stringify(jsonData));
+            jsonData.flavors.forEach((f: any) => {
+                this.flavors.push(f);
+            });
+            if(this.selectedFlavor == null || this.selectedFlavor === 'undefined') {
+                this.selectedFlavor = jsonData.flavors[0];
+            }
+
         }
     }
 
@@ -58,7 +66,7 @@ export class AppModel implements IAppModel {
     saveState() {
         const outputFlavors: Array<string> = [];
         this.flavors.forEach(f => outputFlavors.push(f));
-        const output = { "flavors": outputFlavors};
+        const output = { "flavors": outputFlavors, "selected": this.selectedFlavor};
         this._dataModel.save(JSON.stringify(output));
     }
 }

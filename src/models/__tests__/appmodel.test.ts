@@ -19,7 +19,19 @@ describe("AppModel.constructor", () => {
 	const appModel = new AppModel(mockData);
 	it(`should load data`, () => {
 		expect(appModel.flavors.toString()).toEqual("A,B");
-   })
+   	})
+
+   	it(`should select first by default`, () => {
+		expect(appModel.selectedFlavor).toEqual("A");
+	})	
+
+	const mockData2 = new MockData();
+	mockData2.LastWrittenData = '{"flavors": ["R", "S"],"selected":"S"}';
+	const appModel2 = new AppModel(mockData2);
+	it(`should select other if specified`, () => {
+		expect(appModel2.selectedFlavor).toEqual("S");
+	})	
+
 });
 
 describe("AppModel.setLowerCase", () => {
@@ -57,7 +69,6 @@ describe("AppModel.addFlavor", () => {
 	appModel.flavorInput = "grape";
 	appModel.addFlavor();
 	it(`should add flavorInput to flavor list`, () => {
-		expect(appModel.flavors.length).toBe(2);
 		expect(appModel.flavors.toString()).toBe("1,grape");
    	});
 
@@ -70,8 +81,8 @@ describe("AppModel.addFlavor", () => {
    	});
 
 	it(`should should save state`, () => {
-		expect(mockData.LastWrittenData).toBe('{"flavors":["1","grape"]}');
-   	});
+		expect(mockData.LastWrittenData).toBe('{"flavors":["1","grape"],"selected":"grape"}');
+	});
 });
 
 // would be nice to test UI as well. Without enzume or ReactTestUtils it's impossible
