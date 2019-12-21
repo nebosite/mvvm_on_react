@@ -85,6 +85,18 @@ describe("AppModel.addFlavor", () => {
 	});
 });
 
+describe("AppModel.setSelectedFlavor", () => {
+	const mockData = new MockData();
+	mockData.LastWrittenData = '{"flavors": ["1", "2"]}';
+	const appModel = new AppModel(mockData);
+	appModel.selectedFlavor = "2";
+
+	it(`should should save state`, () => {
+		expect(mockData.LastWrittenData).toBe('{"flavors":["1","2"],"selected":"2"}');
+	});
+});
+
+
 // would be nice to test UI as well. Without enzume or ReactTestUtils it's impossible
 describe("AppModel.flavorTextIsValid", () => {
 	const appModel = new AppModel(new MockData());

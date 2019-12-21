@@ -12,8 +12,12 @@ export class AppModel implements IAppModel {
 
     @observable private _selectedFlavor = "";
     get selectedFlavor(): string { return this._selectedFlavor; }
-    set selectedFlavor(item: string) { this._selectedFlavor = item; }
+    set selectedFlavor(item: string) { 
+        this._selectedFlavor = item; 
+        if(!this._isConstructing) this.saveState();
+    }
 
+    private _isConstructing = true;q
     @observable private _textInput = "";
     get flavorInput(): string { return this._textInput; }
     set flavorInput(value: string) { this._textInput = value; }
@@ -42,6 +46,7 @@ export class AppModel implements IAppModel {
             }
 
         }
+        this._isConstructing = false;
     }
 
     @action setUppercase = () => {
