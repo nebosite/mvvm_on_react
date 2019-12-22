@@ -1,4 +1,3 @@
-import { observable, action } from "mobx";
 import { IDataModel } from "./i_dataModel";
 
 export class LocalDataModel implements IDataModel {

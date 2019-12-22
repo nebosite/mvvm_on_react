@@ -14,10 +14,9 @@ export class AppModel implements IAppModel {
     get selectedFlavor(): string { return this._selectedFlavor; }
     set selectedFlavor(item: string) { 
         this._selectedFlavor = item; 
-        if(!this._isConstructing) this.saveState();
+        this.saveState();
     }
 
-    private _isConstructing = true;q
     @observable private _textInput = "";
     get flavorInput(): string { return this._textInput; }
     set flavorInput(value: string) { this._textInput = value; }
@@ -31,7 +30,7 @@ export class AppModel implements IAppModel {
         this.selectedFlavor = this.flavors[0];
         this._dataModel = dataModel;
         const data = dataModel.load();
-        if(data != null && data != "")
+        if(data !== null && data !== "")
         {
             this.flavors.clear();
             const jsonData = JSON.parse(data);
@@ -39,12 +38,11 @@ export class AppModel implements IAppModel {
             jsonData.flavors.forEach((f: any) => {
                 this.flavors.push(f);
             });
-            if(this.selectedFlavor == null || this.selectedFlavor === 'undefined') {
+            if(this.selectedFlavor === null || this.selectedFlavor === 'undefined') {
                 this.selectedFlavor = jsonData.flavors[0];
             }
 
         }
-        this._isConstructing = false;
     }
 
     @action setUppercase = () => {
@@ -67,6 +65,9 @@ export class AppModel implements IAppModel {
     }
 
     saveState() {
+
+        if (!this._dataModel) return ;
+
         const outputFlavors: Array<string> = [];
         this.flavors.forEach(f => outputFlavors.push(f));
         const output = { "flavors": outputFlavors, "selected": this.selectedFlavor};
