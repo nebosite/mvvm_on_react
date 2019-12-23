@@ -59,11 +59,9 @@ describe("Home and AppModel binding", () => {
 		expect(selectedFlavorBoxWrapper.text()).toBe("foo");
 		
 
-		/* 
-		* check if our storage saved our data and keep it even after component destroying
-		*
-		* if we return the JSON we could describe a correct type and avoid repeated convertation
-		*/
+		
+		// check if our storage saved our data and keep it even after component destroying
+		// if we return the JSON we could describe a correct type and avoid repeated convertation
 		expect(JSON.parse(storageMock.load()).selected).toBe("foo");
 	});
 	
