@@ -1,7 +1,9 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 import { IAppModel } from "./i_appmodel";
 import { IDataModel } from "./i_dataModel";
 
+// we aren't using it, maybe we could remove this stuff? to be honest, I've never used it
+// import { mobxDidRunLazyInitializersSymbol } from "mobx/lib/internal";
 
 export class AppModel implements IAppModel {
     @observable private _someLocation = { x: -1, y: -1 };
@@ -28,7 +30,6 @@ export class AppModel implements IAppModel {
     constructor(dataModel: IDataModel)
     {
         this.selectedFlavor = this.flavors[0];
-        this._dataModel = dataModel;
         const data = dataModel.load();
         if(data !== null && data !== "")
         {
@@ -38,11 +39,12 @@ export class AppModel implements IAppModel {
             jsonData.flavors.forEach((f: any) => {
                 this.flavors.push(f);
             });
-            if(this.selectedFlavor === null || this.selectedFlavor === 'undefined') {
+            if(!this.selectedFlavor) {
                 this.selectedFlavor = jsonData.flavors[0];
             }
 
         }
+        this._dataModel = dataModel;
     }
 
     @action setUppercase = () => {
@@ -65,12 +67,11 @@ export class AppModel implements IAppModel {
     }
 
     saveState() {
-
-        if (!this._dataModel) return ;
-
-        const outputFlavors: Array<string> = [];
-        this.flavors.forEach(f => outputFlavors.push(f));
-        const output = { "flavors": outputFlavors, "selected": this.selectedFlavor};
+        if(!this._dataModel) return;
+        const output = { 
+            "flavors": toJS(this.flavors), 
+            "selected": this.selectedFlavor
+        };
         this._dataModel.save(JSON.stringify(output));
     }
 }
