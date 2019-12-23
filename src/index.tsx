@@ -7,7 +7,7 @@ import MainAppPage from "views/MainAppPage";
 import { AppModel } from "models/AppModel";
 import { LocalDataModel } from "models/LocalDataModel";
 
-const theAppModel = new AppModel(new LocalDataModel());
+const theAppModel = new AppModel(new LocalDataModel("MyAppData"));
 
 ReactDOM.render(
   // to provide reactivity via mobx

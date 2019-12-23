@@ -1,6 +1,7 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 import { IAppModel } from "./i_appmodel";
 import { IDataModel } from "./i_dataModel";
+import { mobxDidRunLazyInitializersSymbol } from "mobx/lib/internal";
 
 
 export class AppModel implements IAppModel {
@@ -14,10 +15,9 @@ export class AppModel implements IAppModel {
     get selectedFlavor(): string { return this._selectedFlavor; }
     set selectedFlavor(item: string) { 
         this._selectedFlavor = item; 
-        if(!this._isConstructing) this.saveState();
+        this.saveState();
     }
 
-    private _isConstructing = true;q
     @observable private _textInput = "";
     get flavorInput(): string { return this._textInput; }
     set flavorInput(value: string) { this._textInput = value; }
@@ -29,7 +29,6 @@ export class AppModel implements IAppModel {
     constructor(dataModel: IDataModel)
     {
         this.selectedFlavor = this.flavors[0];
-        this._dataModel = dataModel;
         const data = dataModel.load();
         if(data != null && data != "")
         {
@@ -39,12 +38,12 @@ export class AppModel implements IAppModel {
             jsonData.flavors.forEach((f: any) => {
                 this.flavors.push(f);
             });
-            if(this.selectedFlavor == null || this.selectedFlavor === 'undefined') {
+            if(!this.selectedFlavor) {
                 this.selectedFlavor = jsonData.flavors[0];
             }
 
         }
-        this._isConstructing = false;
+        this._dataModel = dataModel;
     }
 
     @action setUppercase = () => {
@@ -67,9 +66,11 @@ export class AppModel implements IAppModel {
     }
 
     saveState() {
-        const outputFlavors: Array<string> = [];
-        this.flavors.forEach(f => outputFlavors.push(f));
-        const output = { "flavors": outputFlavors, "selected": this.selectedFlavor};
+        if(!this._dataModel) return;
+        const output = { 
+            "flavors": toJS(this.flavors), 
+            "selected": this.selectedFlavor
+        };
         this._dataModel.save(JSON.stringify(output));
     }
 }
