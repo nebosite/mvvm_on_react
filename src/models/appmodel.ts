@@ -1,8 +1,9 @@
 import { observable, action, toJS } from "mobx";
 import { IAppModel } from "./i_appmodel";
 import { IDataModel } from "./i_dataModel";
-import { mobxDidRunLazyInitializersSymbol } from "mobx/lib/internal";
 
+// we aren't using it, maybe we could remove this stuff? to be honest, I've never used it
+// import { mobxDidRunLazyInitializersSymbol } from "mobx/lib/internal";
 
 export class AppModel implements IAppModel {
     @observable private _someLocation = { x: -1, y: -1 };
@@ -30,7 +31,7 @@ export class AppModel implements IAppModel {
     {
         this.selectedFlavor = this.flavors[0];
         const data = dataModel.load();
-        if(data != null && data != "")
+        if(data !== null && data !== "")
         {
             this.flavors.clear();
             const jsonData = JSON.parse(data);

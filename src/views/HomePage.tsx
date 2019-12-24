@@ -45,12 +45,12 @@ export default class Home
 
         <h3>Text Input</h3> 
         Type in a new flavor: 
-        <input type="text" value={ appModel.flavorInput }
+        <input className="flavor-input" type="text" value={ appModel.flavorInput }
           onChange={this.handleFlavorTextChange} />
         (<b>Length</b>: {appModel.flavorInput.length})<br />
         <button onClick={appModel.setUppercase} >Make Upper Case</button><br />
         <button onClick={appModel.setLowercase} >Make Lower Case</button><br />
-        <button onClick={appModel.addFlavor} disabled={!appModel.flavorTextIsValid} >Add</button>
+        <button className="flavor-add-btn" onClick={appModel.addFlavor} disabled={!appModel.flavorTextIsValid} >Add</button>
 
         <hr style={{ margin: "15px 0" }} />
 
@@ -63,11 +63,12 @@ export default class Home
               appModel.selectedFlavor = item;
             }}
           /><br />
-          <b>Selected Item</b>: { appModel.selectedFlavor }<br/>
+          <b>Selected Item</b>: <span className="selected-flavor-box">{ appModel.selectedFlavor }</span><br/>
           <b>Item Count</b>: { appModel.flavors.length }<br/>
 
           <b>Items</b>: <br/>
-          {appModel.flavors.map(f => (<div>{f}</div>))}
+          {/* just a quick solution. JSX keys should be unique ids */}
+          {appModel.flavors.map(f => (<div key={f}>{f}</div>))}
           <p>Update the selected item via model method</p>
           <button onClick={appModel.chooseStrawberry}>Choose Strawberry</button>
       </div>
