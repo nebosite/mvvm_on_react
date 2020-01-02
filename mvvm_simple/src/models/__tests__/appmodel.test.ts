@@ -1,6 +1,27 @@
 import { AppModel } from "../AppModel";
 import { IDataModel } from "models/i_dataModel";
 
+// -------------------------------------------------------------------
+// Note about test names:  
+// 
+// I use the following convention: 
+//
+//		describe("functionName"){ it('should do x [when y]'...)}
+//
+// This has the advantage of producing readable output like this:
+// 		AppModel.constructor
+// 			√ should load data (4ms)
+// 			× should select first by default (2ms)
+// 			√ should select other if specified
+// 		AppModel.setLowerCase
+// 			√ should make the flavorInput text lowercased (1ms)
+// -------------------------------------------------------------------
+
+
+// -------------------------------------------------------------------
+// Simple mock version of the data backend to isolate us from
+// the complexity of implementing a real backend for unit tests.
+// -------------------------------------------------------------------
 class MockData implements IDataModel {
 	LastWrittenData: string | null = null;
 
