@@ -1,0 +1,48 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+}
+
+.main-document-page {
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "toolbar toolbar toolbar"
+                        "new active done";
+  flex-grow: 1;
+}
+
+/* temporary */
+.main-document-page b {
+  font-size: 34px;
+  display: block;
+  text-align: center;
+}
+
+.main-document-page-toolbar {
+  grid-area: toolbar;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: violet;
+}
+
+.main-document-page-column-new {
+  grid-area: new;
+  background-color: green;
+}
+
+.main-document-page-column-active {
+  grid-area: active;
+  background-color: yellow;
+}
+
+.main-document-page-column-done {
+  grid-area: done;
+  background-color: royalblue;
+}
