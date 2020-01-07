@@ -10,18 +10,28 @@ html, body {
 
 .main-document-page {
   display: grid;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: 70px 1fr;
   grid-template-columns: repeat(3, 1fr);
   grid-template-areas: "toolbar toolbar toolbar"
                         "new active done";
   flex-grow: 1;
 }
 
-/* temporary */
-.main-document-page b {
-  font-size: 34px;
-  display: block;
-  text-align: center;
+
+
+.main-document-page-toolbar-title {
+  margin: 0 auto 0 60px;
+}
+
+.main-document-page-toolbar-title .editable-input {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+.main-document-page-toolbar-title .editable-input:disabled {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
 
 .main-document-page-toolbar {
@@ -30,6 +40,18 @@ html, body {
   align-items: center;
   justify-content: flex-end;
   background-color: violet;
+}
+
+
+/* temporary */
+.main-document-page .col-title {
+  font-size: 34px;
+  display: block;
+  text-align: center;
+  margin: 0;
+  padding: 20px 0;
+  background-color: rgba(0,0,0,0.3);
+  color: white;
 }
 
 .main-document-page-column-new {

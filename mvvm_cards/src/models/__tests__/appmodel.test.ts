@@ -19,7 +19,7 @@ describe("AppModel data", () => {
   const appModel = new AppModel()
 
   it(`should contain a test data`, () => {
-    expect(appModel.data).toEqual("Some test data of the AppModel");
+    expect(appModel.docTitle).toEqual("Main Document Title");
   })
 
 

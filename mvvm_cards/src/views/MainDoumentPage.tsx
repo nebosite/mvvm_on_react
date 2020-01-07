@@ -33,9 +33,9 @@ export default class MainDocumentPage
       <main className='main-document-page'>
         <MainDocumentPageToolbar />
 
-        <div className="main-document-page-column-new"><b>New</b></div>
-        <div className="main-document-page-column-active"><b>Active</b></div>
-        <div className="main-document-page-column-done"><b>Done</b></div>
+        <div className="main-document-page-column-new"><h5 className="col-title">New</h5></div>
+        <div className="main-document-page-column-active"><h5 className="col-title">Active</h5></div>
+        <div className="main-document-page-column-done"><h5 className="col-title">Done</h5></div>
 
       </main>
     );
