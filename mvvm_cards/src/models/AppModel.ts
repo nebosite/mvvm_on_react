@@ -22,11 +22,6 @@ export class AppModel implements IAppModel {
     @observable
     _docTitle = "Main Document Title"
 
-    get docTitle() {
-        return this._docTitle;
-    }
-
-    set docTitle(title: string) {
-        this._docTitle = title;
-    }
+    get docTitle() { return this._docTitle; }
+    set docTitle(title: string) { this._docTitle = title; }
 }
