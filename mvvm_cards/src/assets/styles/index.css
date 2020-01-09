@@ -17,10 +17,12 @@ html, body {
   flex-grow: 1;
 }
 
-
+.main-document-page-toolbar {
+  padding: 0 60px;
+}
 
 .main-document-page-toolbar-title {
-  margin: 0 auto 0 60px;
+  margin-right: auto;
 }
 
 .main-document-page-toolbar-title .editable-input {
@@ -68,3 +70,78 @@ html, body {
   grid-area: done;
   background-color: royalblue;
 }
+
+.btn {
+  min-width: 100px;
+  min-height: 34px;
+  border-radius: 9px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+/* --- modal --- */
+.modal-box {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transform: translate(-50%, 0);
+  min-width: 300px;
+  min-height: 400px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+  background-color: rgb(255, 255, 255);
+}
+
+.modal-box-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.modal-box-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.modal-decline-btn {
+  margin-right: 24px;
+}
+
+/* --- !modal --- */
+
+/* --- form --- */
+.form {
+  width: 100%;
+}
+
+.form-row {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.form-field {
+  display: block;
+  border: 1px solid rgba(0,0,0, .5);
+  min-height: 24px;
+  padding: 4px;
+  border-radius: 10px;
+  width: 100%
+}
+
+.canvas {
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: gray;
+  height: 100px;
+}
+/* --- !form --- */

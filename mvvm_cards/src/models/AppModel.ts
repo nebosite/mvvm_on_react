@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import { IAppModel } from "./i_appmodel";
+import { ICard } from "./i_card";
 
 
 // -------------------------------------------------------------------
@@ -21,7 +22,16 @@ import { IAppModel } from "./i_appmodel";
 export class AppModel implements IAppModel {
     @observable
     _docTitle = "Main Document Title"
-
     get docTitle() { return this._docTitle; }
     set docTitle(title: string) { this._docTitle = title; }
+
+    @observable
+    _cards: ICard[] = []
+    get cards() { return this._cards; }
+    set cards(cards: ICard[]) { this._cards = cards; }
+
+    addCard(card: ICard) { 
+        console.log("add card", card);
+     }
+
 }
