@@ -3,7 +3,7 @@ import React from "react";
 import { observer, inject } from "mobx-react";
 import { Switch, Route, Link } from "react-router-dom";
 
-import Home from "views/HomePage";
+import MainDocumentPage from "views/MainDoumentPage";
 import About from "views/AboutPage";
 import { IAppModel } from "models/i_appmodel";
 
@@ -25,14 +25,14 @@ export default class MainAppPage
         <header className="app-header">
           <h1>Cards</h1>
           <nav>
-                <Link className="nav-link" to="/">Home</Link> |&nbsp; 
+                <Link className="nav-link" to="/">Document</Link> |&nbsp; 
                 <Link className="nav-link" to="/about">About</Link>
           </nav>
         </header>
 
         <main>
           <Switch>
-            <Route exact path="/"><Home /></Route>
+            <Route exact path="/"><MainDocumentPage /></Route>
             <Route exact path="/about"><About /></Route>
           </Switch>
         </main>

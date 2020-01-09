@@ -20,10 +20,8 @@ import { IAppModel } from "./i_appmodel";
 // -------------------------------------------------------------------
 export class AppModel implements IAppModel {
     @observable
-    data = "Some test data of the AppModel"
+    _docTitle = "Main Document Title"
 
-    @action
-    changeData = () => {
-        this.data = "Modified test data of the AppModel"
-    }
+    get docTitle() { return this._docTitle; }
+    set docTitle(title: string) { this._docTitle = title; }
 }

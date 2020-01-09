@@ -6,6 +6,5 @@
 // or even set properties when certain UI actions should do so.  
 // -------------------------------------------------------------------
 export interface IAppModel {
-    data: string;
-    changeData: () => void
+    docTitle: string;
 };
