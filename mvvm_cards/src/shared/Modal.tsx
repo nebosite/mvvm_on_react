@@ -2,21 +2,17 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 
 type Props = {
-  isShow: boolean;
   onDecline: () => void;
   onConfirm: () => void;
   children: React.ReactNode[] | React.ReactNode
 }
 
 export default function Modal(props: Props) {
-  const { isShow, children, onDecline, onConfirm } = props;
+  const { children, onDecline, onConfirm } = props;
 
   const bodyEl = document.querySelector("body");
 
-  console.log("show => ", isShow);
-
-  return isShow ? 
-  (
+  return (
     ReactDOM.createPortal(
     <div className="modal-box">
       <div className="modal-box-content">
@@ -29,6 +25,5 @@ export default function Modal(props: Props) {
     </div>,
       bodyEl
     )
-  )
-  : null;
+  );
 }

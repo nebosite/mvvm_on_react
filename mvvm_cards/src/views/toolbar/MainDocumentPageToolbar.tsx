@@ -6,7 +6,7 @@ import { IAppModel } from "models/i_appmodel";
 import EditableInput from "shared/EditableInput";
 import AddNewCardModal from "./AddNewCardModal"
 
-const { useState } = React;
+const { useState, useCallback } = React;
 
 function MainDocumentPageToolbar(props: {appModel?: IAppModel}) {
   // could be avoided by props destruction like: MainDocumentPageToolbar({ appModel }: {appModel?: IAppModel})
@@ -14,9 +14,13 @@ function MainDocumentPageToolbar(props: {appModel?: IAppModel}) {
 
   const [ allowEdit, setAllowEdit ] = useState(false);
   const [ showModal, setShowModal ] = useState(false);
+
+  // a demonstration how to create the callback only once and won't re-create it at re-render
+  const hide = useCallback(() => setShowModal(false), []);
   
   return (
     <div className="main-document-page-toolbar" 
+      // it's possible to use such way in case of callbacks as well
       onClick={() => setAllowEdit(false) }
       >
       <div className="main-document-page-toolbar-title">
@@ -36,11 +40,11 @@ function MainDocumentPageToolbar(props: {appModel?: IAppModel}) {
         />
         <i>Double click on the title to Edit</i>
       </div>
-      <button onClick={() => setShowModal(true)}>Add</button>
-      <button onClick={() => alert("The Save functionality is coming soon")}>Save</button>
-      <button onClick={() => alert("The Load functionality is coming soon")}>Load</button>
-      <button onClick={() => alert("The New functionality is coming soon")}>New</button>
-      <AddNewCardModal showModal={showModal} hide={() => setShowModal(false)}/>
+      <button className="btn" onClick={() => setShowModal(true)}>Add</button>
+      <button className="btn" onClick={() => alert("The Save functionality is coming soon")}>Save</button>
+      <button className="btn" onClick={() => alert("The Load functionality is coming soon")}>Load</button>
+      <button className="btn" onClick={() => alert("The New functionality is coming soon")}>New</button>
+      { showModal && <AddNewCardModal hide={hide}/> }
     </div>
   )
 }

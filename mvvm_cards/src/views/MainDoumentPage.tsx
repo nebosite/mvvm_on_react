@@ -2,8 +2,8 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
 
-import MainDocumentPageToolbar from "./MainDocumentPageToolbar";
-
+import MainDocumentPageToolbar from "./toolbar/MainDocumentPageToolbar";
+import Card from "./Card";
 
 // -------------------------------------------------------------------
 // The home page Component
@@ -22,20 +22,26 @@ import MainDocumentPageToolbar from "./MainDocumentPageToolbar";
 export default class MainDocumentPage 
   extends React.Component<{appModel?: IAppModel}> {
 
-
   // -------------------------------------------------------------------
   // Generate the visuals.  Binding happens here by referncing this.props
   // -------------------------------------------------------------------
   render() {
-    // const { appModel } = this.props; // convenient handle to appModel
+    const { appModel } = this.props; // convenient handle to appModel
 
     return (
       <main className='main-document-page'>
         <MainDocumentPageToolbar />
 
-        <div className="main-document-page-column-new"><h5 className="col-title">New</h5></div>
-        <div className="main-document-page-column-active"><h5 className="col-title">Active</h5></div>
-        <div className="main-document-page-column-done"><h5 className="col-title">Done</h5></div>
+        <div className="main-document-page-column-new">
+          <h5 className="col-title">New</h5>
+          { appModel.cards.map(card => <Card {...card} />) }
+        </div>
+        <div className="main-document-page-column-active">
+          <h5 className="col-title">Active</h5>
+        </div>
+        <div className="main-document-page-column-done">
+          <h5 className="col-title">Done</h5>
+        </div>
 
       </main>
     );

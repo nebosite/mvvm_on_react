@@ -30,8 +30,10 @@ export class AppModel implements IAppModel {
     get cards() { return this._cards; }
     set cards(cards: ICard[]) { this._cards = cards; }
 
+     // in the current Mobx version we might not to write the action. Result will be the same
+    @action
     addCard(card: ICard) { 
-        console.log("add card", card);
+        this._cards.unshift(card);
      }
 
 }
