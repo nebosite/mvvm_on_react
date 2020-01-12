@@ -174,3 +174,7 @@ html, body {
 .dragging-el {
   background-color: red;
 }
+
+.dragover {
+  background-color: black;
+}

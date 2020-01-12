@@ -14,6 +14,7 @@ export default function Card(card: ICard) {
     let y = 0;
 
     document.body.appendChild(clone);
+    e.dataTransfer.setData('text/plain', JSON.stringify(card));
 
     document.addEventListener("dragover", function(ev: any){
       var ev = ev || window.event;

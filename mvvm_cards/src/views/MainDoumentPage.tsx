@@ -21,6 +21,12 @@ import Card from "./Card";
 @observer
 export default class MainDocumentPage 
   extends React.Component<{appModel?: IAppModel}> {
+    activeColRef: any
+
+    constructor(props: any) {
+      super(props);
+      this.activeColRef = React.createRef();
+    }
 
   // -------------------------------------------------------------------
   // Generate the visuals.  Binding happens here by referncing this.props
@@ -36,7 +42,27 @@ export default class MainDocumentPage
           <h5 className="col-title">New</h5>
           { appModel.cards.map(card => <Card {...card} />) }
         </div>
-        <div className="main-document-page-column-active">
+        <div ref={this.activeColRef} className="main-document-page-column-active"
+          onDragOver={(e) => {
+            e.preventDefault();
+            console.log("this.activeColRef", this.activeColRef)
+            this.activeColRef.current.classList.add("dragover");
+
+          }}
+          onDrop={(e: any) => {
+            console.log("e =>>>>>> Drop end", e);
+            const data = e.dataTransfer.getData("text/plain");
+            
+            console.log("OVER data => ", data);
+            this.activeColRef.current.classList.remove("dragover");
+          }}
+          onDragLeave={() => {
+            this.activeColRef.current.classList.remove("dragover");
+          }}
+          onDragEnd={() => {
+            this.activeColRef.current.classList.remove("dragover");
+          }}
+        >
           <h5 className="col-title">Active</h5>
         </div>
         <div className="main-document-page-column-done">
