@@ -26,7 +26,11 @@ export class AppModel implements IAppModel {
     set docTitle(title: string) { this._docTitle = title; }
 
     @observable
-    _cards: ICard[] = []
+    _cards: ICard[] = [ {
+        name: "Test Initial Card",
+        description: "Test Initial Card Description",
+        drawing: null
+    } ]
     get cards() { return this._cards; }
     set cards(cards: ICard[]) { this._cards = cards; }
 

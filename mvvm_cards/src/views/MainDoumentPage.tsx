@@ -42,26 +42,26 @@ export default class MainDocumentPage
           <h5 className="col-title">New</h5>
           { appModel.cards.map(card => <Card {...card} />) }
         </div>
-        <div ref={this.activeColRef} className="main-document-page-column-active"
-          onDragOver={(e) => {
-            e.preventDefault();
-            console.log("this.activeColRef", this.activeColRef)
-            this.activeColRef.current.classList.add("dragover");
+        <div ref={this.activeColRef} className="main-document-page-column-active dropzone--js"
+          // onDragOver={(e) => {
+          //   e.preventDefault();
+          //   console.log("this.activeColRef", this.activeColRef)
+          //   this.activeColRef.current.classList.add("dragover");
 
-          }}
-          onDrop={(e: any) => {
-            console.log("e =>>>>>> Drop end", e);
-            const data = e.dataTransfer.getData("text/plain");
+          // }}
+          // onDrop={(e: any) => {
+          //   console.log("e =>>>>>> Drop end", e);
+          //   const data = e.dataTransfer.getData("text/plain");
             
-            console.log("OVER data => ", data);
-            this.activeColRef.current.classList.remove("dragover");
-          }}
-          onDragLeave={() => {
-            this.activeColRef.current.classList.remove("dragover");
-          }}
-          onDragEnd={() => {
-            this.activeColRef.current.classList.remove("dragover");
-          }}
+          //   console.log("OVER data => ", data);
+          //   this.activeColRef.current.classList.remove("dragover");
+          // }}
+          // onDragLeave={() => {
+          //   this.activeColRef.current.classList.remove("dragover");
+          // }}
+          // onDragEnd={() => {
+          //   this.activeColRef.current.classList.remove("dragover");
+          // }}
         >
           <h5 className="col-title">Active</h5>
         </div>
