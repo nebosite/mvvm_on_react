@@ -1,12 +1,17 @@
 import * as React from "react";
 import { ICard } from "models/i_card";
 
-export default function Card(card: ICard) {
-  return (
-    <figure className="card">
-      <b>Name</b>: { card.name }
-      <br />
-      <b>Description</b>: { card.description }
-    </figure>
-  )
+export default class Card extends React.Component<ICard> {
+  
+  render() {
+    const { name, description } = this.props;
+    return (
+      <figure className="card">
+        <b>Name</b>: { name }
+        <br />
+        <b>Description</b>: { description }
+      </figure>
+    )
+  }
+
 }

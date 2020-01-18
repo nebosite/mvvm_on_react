@@ -8,29 +8,31 @@ type Props = {
   onWrapperDoubleClick: (e: React.SyntheticEvent) => void;
 }
 
-export default function EditableInput(props: Props) {
+export default class EditableInput extends React.Component<Props> {
   
-  const { 
-    value,
-    onChange,
-    disabled,
-    onWrapperDoubleClick,
-    onKeyPress,
-    ...otherProps
-  } = props;
-
-  return (
-    <div onDoubleClick={onWrapperDoubleClick}>
-      <input 
-        className="editable-input" 
-        type="text" 
-        value={value}
-        onKeyPress={e => onKeyPress(e)}
-        onClick={e => e.stopPropagation()}
-        onChange={e =>  onChange(e.target.value) }
-        disabled={disabled}
-        { ...otherProps }
-      />
-    </div>
-  )
+  render() {
+    const { 
+      value,
+      onChange,
+      disabled,
+      onWrapperDoubleClick,
+      onKeyPress,
+      ...otherProps
+    } = this.props;
+  
+    return (
+      <div onDoubleClick={onWrapperDoubleClick}>
+        <input 
+          className="editable-input" 
+          type="text" 
+          value={value}
+          onKeyPress={e => onKeyPress(e)}
+          onClick={e => e.stopPropagation()}
+          onChange={e =>  onChange(e.target.value) }
+          disabled={disabled}
+          { ...otherProps }
+        />
+      </div>
+    )
+  }
 }

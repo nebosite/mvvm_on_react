@@ -34,7 +34,7 @@ export default class MainDocumentPage
 
         <div className="main-document-page-column-new">
           <h5 className="col-title">New</h5>
-          { appModel.cards.map(card => <Card {...card} />) }
+          { appModel.cards.map(card => <Card key={card.name} {...card} />) }
         </div>
         <div className="main-document-page-column-active">
           <h5 className="col-title">Active</h5>

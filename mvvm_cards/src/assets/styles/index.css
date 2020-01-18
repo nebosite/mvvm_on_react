@@ -8,7 +8,7 @@ html, body {
   display: flex;
 }
 
-.btn {
+.button {
   min-width: 100px;
   min-height: 34px;
   border-radius: 9px;
@@ -17,7 +17,7 @@ html, body {
   transition: all 0.3s ease-in-out;
 }
 
-.btn:hover {
+.button:hover {
   filter: brightness(85%);
 }
 
@@ -39,7 +39,7 @@ html, body {
   background-color: violet;
 }
 
-.main-document-page-toolbar .btn {
+.main-document-page-toolbar .button {
   margin-right: 14px;
   border: none;
   box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, .3);
@@ -117,7 +117,7 @@ html, body {
   margin-top: 30px;
 }
 
-.modal-decline-btn {
+.modal-decline-button {
   margin-right: 24px;
 }
 
