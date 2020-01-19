@@ -1,3 +1,4 @@
+import { ICard } from "./i_card";
 
 // -------------------------------------------------------------------
 // This is everything that the UI is allowed to "know" about the 
@@ -7,4 +8,7 @@
 // -------------------------------------------------------------------
 export interface IAppModel {
     docTitle: string;
+
+    cards: ICard[];
+    addCard(card: ICard): void;
 };
