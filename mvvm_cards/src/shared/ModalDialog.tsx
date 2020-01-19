@@ -14,17 +14,23 @@ export default class MainDialog extends React.Component<Props> {
 
     const bodyHTMLElement = document.querySelector("body");
 
+    if (children === null) {
+      // can return children because this prop is null, but decided to
+      // make it a bit more obvious
+      return null;
+    }
+
     return (
       ReactDOM.createPortal(
-      <div className="modal-box">
-        <div className="modal-box-content">
-          { children }
-        </div>
-        <div className="modal-box-actions">
-          <button className="modal-decline-button button" onClick={onDecline}>Decline</button>
-          <button className="modalg-confirm-button button" onClick={onConfirm}>Save</button>
-        </div>
-      </div>,
+        <div className="modal-box">
+          <div className="modal-box-content">
+            { children }
+          </div>
+          <div className="modal-box-actions">
+            <button className="modal-decline-button button" onClick={onDecline}>Decline</button>
+            <button className="modalg-confirm-button button" onClick={onConfirm}>Save</button>
+          </div>
+        </div>,
         bodyHTMLElement
       )
     );
