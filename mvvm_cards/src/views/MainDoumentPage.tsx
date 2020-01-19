@@ -2,6 +2,8 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
 
+import { DragZone, DragElement } from "shared/drag-n-drop";
+
 import MainDocumentPageToolbar from "./toolbar/MainDocumentPageToolbar";
 import Card from "./Card";
 
@@ -40,7 +42,10 @@ export default class MainDocumentPage
 
         <div className="main-document-page-column-new">
           <h5 className="col-title">New</h5>
-          { appModel.cards.map(card => <Card {...card} />) }
+          <DragZone>
+            { appModel.cards.map(card => <DragElement><Card {...card} /></DragElement>) }  
+          </DragZone>
+          
         </div>
         <div ref={this.activeColRef} className="main-document-page-column-active dropzone--js"
           // onDragOver={(e) => {
