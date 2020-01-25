@@ -3,6 +3,9 @@ import { findDroppable } from "shared/util"
 
 import DragAvatar from "./services/DragAvatar";
 
+// TODO: implement DI
+import bus from "./services/bus";
+
 type Props = {
   children: React.ReactNode | React.ReactNode[];
 }
@@ -76,7 +79,7 @@ export default class DragZone extends React.Component<Props, State> {
     // break if we don't have the dnd element
     if (!element) return; 
 
-    console.log("document.onMouseMove", e);
+    // console.log("document.onMouseMove", e);
     // don't do anything if the user misclicked
     if (Math.abs(e.pageX - this.downX) < 3 && Math.abs(e.pageY - this.downY) < 3) {
       return;
@@ -85,10 +88,12 @@ export default class DragZone extends React.Component<Props, State> {
     // the element is pressed by the user didn't start to move it
     if (!this.avatar) {
       this.avatar = this.createAvatar(element, e);
+      bus.data.avatar = this.avatar;
 
       if (!this.avatar) {
         // can't receive the avatar. Clean everything and stop the program.
         this.cleanUp();
+        bus.reset()
       }
     }
 
@@ -96,7 +101,7 @@ export default class DragZone extends React.Component<Props, State> {
     this.avatar.onDragMove(e);
 
 
-    console.log("Wa can start dnd and try to take the element avatar", this.avatar)
+    // console.log("Wa can start dnd and try to take the element avatar", this.avatar)
     // TODO: Implement dnd avatar
     // moveAt(e, element, this.shiftX, this.shiftY)
 
@@ -116,8 +121,11 @@ export default class DragZone extends React.Component<Props, State> {
 
     document.onmousemove = null;
     document.onmouseup = null
+
+    bus.reset()
   }
 
+  // TODO. Maybe need to move it to the Avatar ?
   handleDocumentMouseUp = (e: any) => {
     console.log("document.MouseUp", e);
 

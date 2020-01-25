@@ -21,6 +21,7 @@ export default class DragAvatar {
 
   // an element that below the this.element while mouse move event
   currentTargetElement: Element
+  prevTargetElement: Element
 
   shiftX: number;
   shiftY: number;
@@ -79,15 +80,34 @@ export default class DragAvatar {
   }
 
   // get the current target element
-  getTargetEleme = () => this.currentTargetElement;
+  getCurrentTargetElement = () => this.currentTargetElement;
+  getPrevTargetElement = () => this.prevTargetElement;
 
   // on the each drag move event it moves this.element and records
   // the current element below this.element to this.currentTargetElement
   onDragMove = (e: any) => {
+    
     this.element.style.left = e.pageX - this.shiftX + "px";
     this.element.style.top = e.pageY - this.shiftY + "px";
 
-    this.currentTargetElement = getElementUnderClientXY(this.element, e.clientX, e.clientY);
+    // the element under the dragging element
+    const targetElement = getElementUnderClientXY(this.element, e.clientX, e.clientY);
+
+    // if the target element wasn't saved before we need to handle it
+    if ( this.currentTargetElement !== targetElement ) {
+     
+      // save the previous target element. To let the dropzone to remove highlight from it as the element left this area
+     this.prevTargetElement = this.currentTargetElement;
+
+      // remember this new target element
+      this.currentTargetElement = targetElement
+     
+     this.currentTargetElement = targetElement
+
+     
+    }
+
+    
   }
   
 }

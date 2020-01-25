@@ -200,3 +200,7 @@ html, body {
 .dragover {
   background-color: black;
 }
+
+.drag-zone-sector-over {
+  border-bottom: 2px solid red;
+}

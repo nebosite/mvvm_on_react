@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
 
-import { DragZone, DragElement } from "shared/drag-n-drop";
+import { DragZone, DragElement, DropZone } from "shared/drag-n-drop";
 
 import MainDocumentPageToolbar from "./toolbar/MainDocumentPageToolbar";
 import Card from "./Card";
@@ -23,12 +23,6 @@ import Card from "./Card";
 @observer
 export default class MainDocumentPage 
   extends React.Component<{appModel?: IAppModel}> {
-    activeColRef: any
-
-    constructor(props: any) {
-      super(props);
-      this.activeColRef = React.createRef();
-    }
 
   // -------------------------------------------------------------------
   // Generate the visuals.  Binding happens here by referncing this.props
@@ -47,7 +41,7 @@ export default class MainDocumentPage
           </DragZone>
           
         </div>
-        <div ref={this.activeColRef} className="main-document-page-column-active dropzone--js"
+        <DropZone className="main-document-page-column-active dropzone--js"
           // onDragOver={(e) => {
           //   e.preventDefault();
           //   console.log("this.activeColRef", this.activeColRef)
@@ -69,7 +63,7 @@ export default class MainDocumentPage
           // }}
         >
           <h5 className="col-title">Active</h5>
-        </div>
+        </DropZone>
         <div className="main-document-page-column-done">
           <h5 className="col-title">Done</h5>
         </div>
