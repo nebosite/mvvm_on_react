@@ -16,6 +16,8 @@ function isInDropZone(elementUnderMouse: any, dropZone: HTMLElement): any {
 type Props = {
   children: React.ReactNode | React.ReactNode[];
   className?: string;
+
+  onDragEnd?: (data: any) => void;
 }
 
 export default class DropZone extends React.Component<Props> {
@@ -29,19 +31,23 @@ export default class DropZone extends React.Component<Props> {
     alert("On Hover")
   }
 
+  componentDidMount() {
+    if (this.props.onDragEnd) {
+      // TODO. used dropzone ID to set the subscriber to avoid memoryleak in future
+      bus.subscribeToDragEnd(this.props.onDragEnd);
+    }
+    
+  }
+
   handleMouseMove = (e: any) => {
     if (!bus.data.avatar) return;
 
     const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
     const prevTargetElement = bus.data.avatar.getPrevTargetElement()
 
-    console.log("rootEl", this.rootElementRef);
-
     currentTargetElement.classList.add("drag-zone-sector-over");
     this.highlightedEl = currentTargetElement;
 
-    console.log("currentTargetElement => ", currentTargetElement)
-    
 
     // console.log('1', isInDropZone(currentTargetElement, this.rootElementRef.current))
     // it could be null on the first dropzone-sector enter
@@ -74,15 +80,8 @@ export default class DropZone extends React.Component<Props> {
         onMouseMove={this.handleMouseMove}
         onMouseLeave={this.handleMouseLeave}
         >
-          <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "orange" }}>
-            A
-          </section>
-          <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "blue" }}>
-            B
-          </section>
-          <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "violet" }}>
-            C
-          </section>
+
+        {children}
          
       </div>
     )

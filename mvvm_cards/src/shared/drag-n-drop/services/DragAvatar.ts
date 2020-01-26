@@ -13,6 +13,9 @@ export default class DragAvatar {
   // by default it's the whole dragZone
   dragZoneSector: HTMLElement;
 
+  // Data that should be handler on drag end
+  data: any;
+
 
   // the element that will be dragged.
   // In the simples solution it will be the same element that we clicked on
@@ -26,9 +29,11 @@ export default class DragAvatar {
   shiftX: number;
   shiftY: number;
 
-  constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: any) {
+  // TODO: options
+  constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: any, data: any) {
     this.parentDragZone = parentDragZone;
     this.dragZoneSector = parentDragZone;
+    this.data = data;
     // we can clone the drag el to create some other View and hide the original if necessary
     this.element = dragElement;
 

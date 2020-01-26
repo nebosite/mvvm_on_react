@@ -11,7 +11,8 @@ type Props = {
 }
 
 type DragObject = {
-  element: HTMLElement
+  element: HTMLElement;
+  data: any;
 } | null;
 
 // info about the drag object
@@ -29,7 +30,7 @@ function getElementCSSBox(element: HTMLElement) {
 type DragElementMouseDownEvent = React.MouseEvent & {
   data: {
     element: HTMLElement;
-    elementCSSBox: any;
+    data: any; // a data of the drag element
   }
 }
 
@@ -74,7 +75,7 @@ export default class DragZone extends React.Component<Props, State> {
   // }
 
   handleDocumentMouseMove = (e: any) => {
-    const element = this.dragObject.element
+    const { element, data } = this.dragObject;
 
     // break if we don't have the dnd element
     if (!element) return; 
@@ -87,7 +88,7 @@ export default class DragZone extends React.Component<Props, State> {
 
     // the element is pressed by the user didn't start to move it
     if (!this.avatar) {
-      this.avatar = this.createAvatar(element, e);
+      this.avatar = this.createAvatar(element, e, data);
       bus.data.avatar = this.avatar;
 
       if (!this.avatar) {
@@ -108,8 +109,8 @@ export default class DragZone extends React.Component<Props, State> {
   }
 
   // a small factory
-  createAvatar(element: HTMLElement | null, e: any) {
-    return element ? new DragAvatar(this.dragZoneRef.current, element, e) : null;
+  createAvatar(element: HTMLElement | null, e: any, data: any) {
+    return element ? new DragAvatar(this.dragZoneRef.current, element, e, data) : null;
   }
 
   cleanUp() {
@@ -132,6 +133,7 @@ export default class DragZone extends React.Component<Props, State> {
     const dropElem = findDroppable(e);
     
     if (dropElem) {
+      bus.triggerDragEnd()
       // just a quick DEMO that this proof of concept works
       dropElem.appendChild(this.dragObject.element)
       // restore the element margin
@@ -150,7 +152,7 @@ export default class DragZone extends React.Component<Props, State> {
 
 
   handleMouseDown = (e: DragElementMouseDownEvent ) => {
-    const { element, elementCSSBox } = e.data;
+    const { element, data } = e.data;
 
     console.log("MouseDown")
     // non primary button was pressed.  Don't do anything 
@@ -165,9 +167,10 @@ export default class DragZone extends React.Component<Props, State> {
     // return false;
     
 
-    // TODO: maybe need to clone it
+    // TODO: move to bus I guess
     this.dragObject = {
-      element: element
+      element: element,
+      data: data
     };
     
     // need to know the mouse shift regarding the element coorditates

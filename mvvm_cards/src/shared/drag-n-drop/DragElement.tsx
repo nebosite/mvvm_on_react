@@ -2,6 +2,9 @@ import * as React from "react";
 
 type Props = {
   children: React.ReactNode | React.ReactNode[];
+  
+  // a data that should be handler on drag end
+  data: any;
 }
 
 
@@ -17,7 +20,7 @@ export default class DragElement extends React.Component<Props> {
     // TODO: should I add the inner children instante to it as well ?
     (e as any).data = {
       element: element,
-      elementCSSBox: element.getBoundingClientRect()
+      data: this.props.data
     }
   }
 
