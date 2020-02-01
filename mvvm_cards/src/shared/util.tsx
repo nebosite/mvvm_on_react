@@ -16,11 +16,12 @@ export function findDroppable(e: any) {
   return elem.closest(".dropzone--js");
 }
 
+
 export function getElementUnderClientXY(element: HTMLElement, clientX: number, clientY: number) {
-  var display = element.style.display || '';
+  let display = element.style.display || '';
   element.style.display = "none";
 
-  var target = document.elementFromPoint(clientX, clientY);
+  let target = document.elementFromPoint(clientX, clientY);
 
   element.style.display = display;
 

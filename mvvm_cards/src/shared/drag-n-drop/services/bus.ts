@@ -3,24 +3,31 @@
 class BUS {
   data = this.getInitialData();
 
-  eventSubscribers: any = {
-    // implement a subscriber ID to avoid memory leak
-    "documentMouseUp": []
+  dragEndSubcribersRegistry: any = {
+    // // implement a subscriber ID to avoid memory leak
+    // "documentMouseUp": []
   }
 
   reset = () => this.data = this.getInitialData();
 
-  triggerDragEnd = () => {
-    if (this.eventSubscribers.length === 0) return;
-    
-    this.eventSubscribers.documentMouseUp.forEach((fn: any) => fn(this.data.avatar.data))
+  triggerDragEndByDropZoneId = (dropZoneId: string) => {
+    console.log("dropZoneId => ", dropZoneId);
+    console.log("this.dragEndSubcribersRegistry => ", this.dragEndSubcribersRegistry);
+    const dropZoneDragEndHandler = this.dragEndSubcribersRegistry[ dropZoneId ];
+    if (!dropZoneDragEndHandler) {
+      throw new Error(`There is not DropZone with such ID ${dropZoneId}`);
+    }
+
+    dropZoneDragEndHandler(this.data.avatar.data);
     console.log("trigger drag end");
 
   }
 
-  subscribeToDragEnd = (handler: (dragElementData: any) => void) => {
-    const handlersArrayLn = this.eventSubscribers.documentMouseUp.push(handler);
-    return handlersArrayLn - 1;
+  subscribeToDragEnd = (dropZoneId: string, handler: (dragElementData: any) => void) => {
+    // it's a very simple way to achieve this result. In the real app you need
+    // to have a possibility to subscribe to different events by name
+    // and a possibility to update the existing one instead of just replacing
+    this.dragEndSubcribersRegistry[dropZoneId] = handler
   }
 
   private getInitialData(): any {

@@ -14,6 +14,7 @@ function isInDropZone(elementUnderMouse: any, dropZone: HTMLElement): any {
 }
 
 type Props = {
+  id: string;
   children: React.ReactNode | React.ReactNode[];
   className?: string;
 
@@ -32,9 +33,12 @@ export default class DropZone extends React.Component<Props> {
   }
 
   componentDidMount() {
-    if (this.props.onDragEnd) {
+    const { onDragEnd, id } = this.props;
+    if (!id) throw new Error("Every DropZone should have the ID prop");
+
+    if (onDragEnd) {
       // TODO. used dropzone ID to set the subscriber to avoid memoryleak in future
-      bus.subscribeToDragEnd(this.props.onDragEnd);
+      bus.subscribeToDragEnd(id, onDragEnd);
     }
     
   }
@@ -72,11 +76,11 @@ export default class DropZone extends React.Component<Props> {
   }
 
   render() {
-    const { children, className } = this.props;
+    const { children, className, id } = this.props;
 
     // TODO: need to create some BUS between dnd components. Context would be best
     return (
-      <div ref={this.rootElementRef} className={cn("drop-zone", className)} 
+      <div ref={this.rootElementRef} id={id} className={cn("drop-zone", className)} 
         onMouseMove={this.handleMouseMove}
         onMouseLeave={this.handleMouseLeave}
         >

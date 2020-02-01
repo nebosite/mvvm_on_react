@@ -9,6 +9,16 @@ import { ICard } from "./i_card";
 export interface IAppModel {
     docTitle: string;
 
-    cards: ICard[];
-    addCard(card: ICard): void;
+    newCards: ICard[];
+    activeCards: ICard[];
+    doneCards: ICard[];
+    createNewCard(card: ICard): void;
+
+    moveCardToNew(card: ICard, positionIndex?: number): void;
+    moveCardToActive(card: ICard, positionIndex?: number): void;
+    moveCardToDone(card: ICard, positionIndex?: number): void;
+    
+    removeCardFromNew(card: ICard): void;
+    removeCardFromActive(card: ICard): void;
+    removeCardFromDone(card: ICard): void;
 };

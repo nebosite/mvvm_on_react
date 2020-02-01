@@ -6,6 +6,7 @@ import { DragZone, DragElement, DropZone } from "shared/drag-n-drop";
 
 import MainDocumentPageToolbar from "./toolbar/MainDocumentPageToolbar";
 import Card from "./Card";
+import { ICard } from "models/i_card";
 
 // -------------------------------------------------------------------
 // The home page Component
@@ -29,47 +30,44 @@ export default class MainDocumentPage
   // -------------------------------------------------------------------
   render() {
     const { appModel } = this.props; // convenient handle to appModel
-
+    console.log("appModel => ", appModel.newCards)
     return (
       <main className='main-document-page'>
         <MainDocumentPageToolbar />
 
-        <DropZone className="main-document-page-column-new">
+        <DropZone id="new" className="main-document-page-column-new  dropzone--js"
+        
+          onDragEnd={(card: ICard) => {
+            appModel.moveCardToNew(card)
+            console.log(" NEW DRAG END card => ", card);
+          }}
+
+        >
           <h5 className="col-title">New</h5>
-          <DragZone>
-            { appModel.cards.map(card => <DragElement data={card}><Card {...card} /></DragElement>) }  
+          <DragZone
+              onDragStart={(card: ICard) => {
+                console.log("ON DRAG START NEW", card)
+                // appModel.removeCardFromNew(card);
+              }}
+            >
+            { appModel.newCards.map(card => <DragElement data={card}><Card {...card} /></DragElement>) }  
           </DragZone>
           
         </DropZone>
-        <DropZone className="main-document-page-column-active dropzone--js"
-          onDragEnd={(dragElementData: any) => {
-            alert("on drag End");
-            console.log("dragElementData => ", dragElementData);
+        <DropZone id="active" className="main-document-page-column-active dropzone--js"
+          onDragEnd={(card: ICard) => {
+            appModel.moveCardToActive(card)
+            console.log(" ACTIVE DRAG END card => ", card);
           }}
-          // onDragOver={(e) => {
-          //   e.preventDefault();
-          //   console.log("this.activeColRef", this.activeColRef)
-          //   this.activeColRef.current.classList.add("dragover");
-
-          // }}
-          // onDrop={(e: any) => {
-          //   console.log("e =>>>>>> Drop end", e);
-          //   const data = e.dataTransfer.getData("text/plain");
-            
-          //   console.log("OVER data => ", data);
-          //   this.activeColRef.current.classList.remove("dragover");
-          // }}
-          // onDragLeave={() => {
-          //   this.activeColRef.current.classList.remove("dragover");
-          // }}
-          // onDragEnd={() => {
-          //   this.activeColRef.current.classList.remove("dragover");
-          // }}
-        >
+         >
          
           <h5 className="col-title">Active</h5>
-          <DragZone>
-            <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "orange" }}>
+          <DragZone onDragStart={() => {
+                console.log("ON DRAG START ACTIVE")
+              }}>
+            { appModel.activeCards.map(card => 
+              <DragElement data={card}><Card {...card} /></DragElement>) }  
+            {/* <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "orange" }}>
               A
             </section>
             <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "blue" }}>
@@ -77,7 +75,7 @@ export default class MainDocumentPage
             </section>
             <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "violet" }}>
               C
-            </section>
+            </section> */}
           </DragZone>
         </DropZone>
         <div className="main-document-page-column-done">

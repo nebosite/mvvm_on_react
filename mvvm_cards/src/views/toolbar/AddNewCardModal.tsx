@@ -43,7 +43,7 @@ export function AddNewCardModal(props: Props) {
           // in general we could avoing the form submitting at all 
           // and do it in the modal onConfirm method
           // but I just wanted to show you how can you handle forms
-          appModel.addCard(card);
+          appModel.createNewCard(card);
           hide();
         }}>
         <div className="form-row">

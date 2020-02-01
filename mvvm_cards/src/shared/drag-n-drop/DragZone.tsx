@@ -1,13 +1,15 @@
 import * as React from "react";
-import { findDroppable } from "shared/util"
+import { findDroppable, getElementUnderClientXY } from "shared/util"
 
 import DragAvatar from "./services/DragAvatar";
 
 // TODO: implement DI
 import bus from "./services/bus";
+import { ICard } from "models/i_card";
 
 type Props = {
   children: React.ReactNode | React.ReactNode[];
+  onDragStart: (card?: ICard) => void;
 }
 
 type DragObject = {
@@ -94,9 +96,11 @@ export default class DragZone extends React.Component<Props, State> {
       if (!this.avatar) {
         // can't receive the avatar. Clean everything and stop the program.
         this.cleanUp();
-        bus.reset()
+      } else {
+        this.props.onDragStart(data);
       }
     }
+
 
     // moving the avatar
     this.avatar.onDragMove(e);
@@ -123,6 +127,7 @@ export default class DragZone extends React.Component<Props, State> {
     document.onmousemove = null;
     document.onmouseup = null
 
+    this.avatar = null;
     bus.reset()
   }
 
@@ -130,15 +135,22 @@ export default class DragZone extends React.Component<Props, State> {
   handleDocumentMouseUp = (e: any) => {
     console.log("document.MouseUp", e);
 
-    const dropElem = findDroppable(e);
-    
+    const dropElem = getElementUnderClientXY(this.dragObject.element, e.clientX, e.clientY);
+    console.log("dropElem =>> ", dropElem);
+
     if (dropElem) {
-      bus.triggerDragEnd()
+      // passing the ID to the manager to clarify what exactly dropzone should handle it
+      bus.triggerDragEndByDropZoneId(dropElem.id)
       // just a quick DEMO that this proof of concept works
-      dropElem.appendChild(this.dragObject.element)
+      
+      console.log('=>> dropElem', dropElem);
+      
+      // dropElem.appendChild(this.dragObject.element)
       // restore the element margin
       // element.style.margin = elementMarginStr
-      this.dragObject.element.style.position = "static"
+
+      // removing the avatar element from the DOMTree as we don't need it anymore
+      this.dragObject.element.remove()
 
       
     } else {
