@@ -3,17 +3,9 @@ export function getElementCSSBox(element: HTMLElement) {
   return box;
 }
 
-export function findDroppable(e: any) {
-
-  // get an elment under the cursor postion
-  // Warning. This mthod returns topmost element. So if we need to get deepest/tree of elements
-  // I need to implement some utility with this functionality
-  const elem = document.elementFromPoint(e.clientX, e.clientY);
-  console.log("elem => ", elem);
-  // try to find droppable zone
-
-  console.log('closest', elem.closest(".dropzone--js"))
-  return elem.closest(".dropzone--js");
+export function findClosestParent(element: HTMLElement, cssSelector: string) {
+  
+  return element ? element.closest(cssSelector) : undefined;
 }
 
 

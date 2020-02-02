@@ -1,5 +1,5 @@
 import * as React from "react";
-import { findDroppable, getElementUnderClientXY } from "shared/util"
+import { findClosestParent, getElementUnderClientXY } from "shared/util"
 
 import DragAvatar from "./services/DragAvatar";
 
@@ -56,6 +56,9 @@ export default class DragZone extends React.Component<Props, State> {
 
   avatar: any;
 
+  // to recognize if we are dragging or no
+  isMouseHoldPressed: boolean = false;
+
   dragObject: DragObject;
   // position of mouse down event
   downX: number;
@@ -78,9 +81,10 @@ export default class DragZone extends React.Component<Props, State> {
 
   handleDocumentMouseMove = (e: any) => {
     const { element, data } = this.dragObject;
+    
 
-    // break if we don't have the dnd element
-    if (!element) return; 
+    // break if we don't have the dnd element or isn't pressing
+    if (!element || !this.isMouseHoldPressed) return; 
 
     // console.log("document.onMouseMove", e);
     // don't do anything if the user misclicked
@@ -119,42 +123,49 @@ export default class DragZone extends React.Component<Props, State> {
 
   cleanUp() {
     // TODO: logic
-    console.log("Clear Everything")
     this.dragObject.element.classList.remove("dragging")
+    this.isMouseHoldPressed = false;
 
     this.dragObject = null;
 
     document.onmousemove = null;
     document.onmouseup = null
 
+    // removing the avatar element from the DOMTree as we don't need it anymore
+    this.avatar.element.remove()
     this.avatar = null;
     bus.reset()
   }
 
   // TODO. Maybe need to move it to the Avatar ?
   handleDocumentMouseUp = (e: any) => {
-    console.log("document.MouseUp", e);
 
-    const dropElem = getElementUnderClientXY(this.dragObject.element, e.clientX, e.clientY);
-    console.log("dropElem =>> ", dropElem);
+    // we didn't stat to drag. Just a single click etc.
+    if (!this.avatar) {
+      this.isMouseHoldPressed = false;
+      return;
+    };
 
-    if (dropElem) {
+    // the element under the cursor
+    const targetElement: any = getElementUnderClientXY(this.dragObject.element, e.clientX, e.clientY);
+    // trying to find the dropzone of the element under the cursor.
+    // It MIGHT be undefined when there is no such dropzone. Eg. dragend outside of any dropzone
+    const dropZoneElement = findClosestParent(targetElement, ".drop-zone");
+    
+    if (dropZoneElement) {
       // passing the ID to the manager to clarify what exactly dropzone should handle it
-      bus.triggerDragEndByDropZoneId(dropElem.id)
+      bus.triggerDragEndByDropZoneId(dropZoneElement.id, this.avatar.currentPlaceIndex)
       // just a quick DEMO that this proof of concept works
-      
-      console.log('=>> dropElem', dropElem);
       
       // dropElem.appendChild(this.dragObject.element)
       // restore the element margin
       // element.style.margin = elementMarginStr
 
-      // removing the avatar element from the DOMTree as we don't need it anymore
-      this.dragObject.element.remove()
+
 
       
     } else {
-      // alert("Doesn't found droppable area")
+      this.rollback();
     }
 
  
@@ -162,11 +173,18 @@ export default class DragZone extends React.Component<Props, State> {
        
   }
 
+  rollback() {
+    const parentDropZone = this.avatar.getParentDropZone();
+    const initialPlaceIndex = this.avatar.initialPlaceIndex;
+    // need to place it exactly where it was
+    bus.triggerDragEndByDropZoneId(parentDropZone.id, initialPlaceIndex)
+  }
+
 
   handleMouseDown = (e: DragElementMouseDownEvent ) => {
+    this.isMouseHoldPressed = true;
     const { element, data } = e.data;
 
-    console.log("MouseDown")
     // non primary button was pressed.  Don't do anything 
     if (e.button  !== 0) { 
       return false;

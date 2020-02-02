@@ -1,5 +1,5 @@
 // This service should create a drag avatar
-import { findDroppable, getElementUnderClientXY } from "shared/util"
+import { findClosestParent, getElementUnderClientXY } from "shared/util"
 
 export default class DragAvatar {
   
@@ -17,6 +17,9 @@ export default class DragAvatar {
   data: any;
 
 
+  // the original element that shouldn't be moved because of the React VDom
+  originalElement: HTMLElement;
+
   // the element that will be dragged.
   // In the simples solution it will be the same element that we clicked on
   // But we can create some different avatar if needed as well and hide the original one
@@ -29,30 +32,38 @@ export default class DragAvatar {
   shiftX: number;
   shiftY: number;
 
+  // a position in the cards list. Need to know it to put at the proper place
+  initialPlaceIndex: number;
+  currentPlaceIndex: number;
+
   // TODO: options
   constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: any, data: any) {
     this.parentDragZone = parentDragZone;
     this.dragZoneSector = parentDragZone;
     this.data = data;
     // we can clone the drag el to create some other View and hide the original if necessary
-    this.element = dragElement;
+    this.originalElement = dragElement;
+    this.initialPlaceIndex = +dragElement.dataset.index;
+    this.element = dragElement.cloneNode(true) as HTMLElement;
 
     this.initFromEvent(e)
   }
 
+  getParentDropZone = () => findClosestParent(this.parentDragZone, ".drop-zone");
+
   initFromEvent(e: any) {
-    const elementCSSBox = this.element.getBoundingClientRect();
+    const elementCSSBox = this.originalElement.getBoundingClientRect();
     // need to know the mouse shift regarding the element coorditates
     // to give it the correct absolute coords after appending to the body el
     this.shiftX = e.pageX - elementCSSBox.left;
     this.shiftY = e.pageY - elementCSSBox.top;
     
     // TODO: maybe add padding/margin to dragElement ?
-    const elementPaddingValueStr = window.getComputedStyle(this.element, null).getPropertyValue("padding")
+    const elementPaddingValueStr = window.getComputedStyle(this.originalElement, null).getPropertyValue("padding")
     const elementTotalPadding = parseInt(elementPaddingValueStr) * 2;
     
     // let's rembmer initial element margin
-    const elementMarginStr = window.getComputedStyle(this.element, null).getPropertyValue("margin")
+    const elementMarginStr = window.getComputedStyle(this.originalElement, null).getPropertyValue("margin")
 
 
     // const totalElementMarginShift = dragElementTotalMargin + elementTotalPadding;
@@ -65,6 +76,9 @@ export default class DragAvatar {
     this.element.style.margin = "0"
     this.element.style.width = elementCSSBox.width - elementTotalPadding + "px"
     this.element.style.height = elementCSSBox.height - elementTotalPadding + "px"
+
+    // hiding the original element but we can't delete it regarding react VDom
+    // this.originalElement.style.display = "none";
 
     // moving it to the body to avoid unnecessary relative affect, etc.
     document.body.append(this.element);
@@ -88,6 +102,7 @@ export default class DragAvatar {
   getCurrentTargetElement = () => this.currentTargetElement;
   getPrevTargetElement = () => this.prevTargetElement;
 
+
   // on the each drag move event it moves this.element and records
   // the current element below this.element to this.currentTargetElement
   onDragMove = (e: any) => {
@@ -98,6 +113,19 @@ export default class DragAvatar {
     // the element under the dragging element
     const targetElement = getElementUnderClientXY(this.element, e.clientX, e.clientY);
 
+    const targetDragElement: any = findClosestParent(targetElement as HTMLElement, ".drag-element");
+
+    // check if we are over a drag-element
+    if (  targetDragElement ) {
+      let targetDragElementIndex = +targetDragElement.dataset.index;
+      
+      const isAtTopOfTarget = this.isAtTheTopPartOfTargetEl(targetElement, e.pageY);
+      console.log("targetDragElementIndex => ", targetDragElementIndex);
+      // Calculate the possible index to put our avatar. Index shouldn't be less than 0
+      this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
+    }
+
+
     // if the target element wasn't saved before we need to handle it
     if ( this.currentTargetElement !== targetElement ) {
      
@@ -107,13 +135,24 @@ export default class DragAvatar {
       // remember this new target element
       this.currentTargetElement = targetElement
      
-     this.currentTargetElement = targetElement
-
-     
     }
 
     
   }
+
+
+  // detect if our cursor is over at the top half part of the current target element while dragging
+  private isAtTheTopPartOfTargetEl(targetElement: any, pageY: number) {
+    const targetElementCSSBox = targetElement.getBoundingClientRect();
+    
+    // it means the middle point of the target element from the page Top 
+    const targetElementHalfLine = targetElementCSSBox.top + (targetElementCSSBox.height / 2);
+    return pageY < targetElementHalfLine
+  }
+
+  // onDragEnd = () => {
+  //   console.log("DRAG Avatar on Drag End");
+  // }
   
 }
 

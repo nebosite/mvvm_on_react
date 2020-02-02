@@ -37,9 +37,9 @@ export default class MainDocumentPage
 
         <DropZone id="new" className="main-document-page-column-new  dropzone--js"
         
-          onDragEnd={(card: ICard) => {
-            appModel.moveCardToNew(card)
-            console.log(" NEW DRAG END card => ", card);
+          onDragEnd={(card: ICard, placeIndex: number) => {
+            console.log("placeIndex", placeIndex)
+            appModel.moveCardToNew(card, placeIndex)
           }}
 
         >
@@ -47,26 +47,26 @@ export default class MainDocumentPage
           <DragZone
               onDragStart={(card: ICard) => {
                 console.log("ON DRAG START NEW", card)
-                // appModel.removeCardFromNew(card);
+                appModel.removeCardFromNew(card);
               }}
             >
-            { appModel.newCards.map(card => <DragElement data={card}><Card {...card} /></DragElement>) }  
+            { appModel.newCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }  
           </DragZone>
           
         </DropZone>
         <DropZone id="active" className="main-document-page-column-active dropzone--js"
-          onDragEnd={(card: ICard) => {
-            appModel.moveCardToActive(card)
+          onDragEnd={(card: ICard, placeIndex: number) => {
+            appModel.moveCardToActive(card, placeIndex)
             console.log(" ACTIVE DRAG END card => ", card);
           }}
          >
          
           <h5 className="col-title">Active</h5>
-          <DragZone onDragStart={() => {
+          <DragZone onDragStart={(card: ICard) => {
                 console.log("ON DRAG START ACTIVE")
+                appModel.removeCardFromActive(card);
               }}>
-            { appModel.activeCards.map(card => 
-              <DragElement data={card}><Card {...card} /></DragElement>) }  
+            { appModel.activeCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }
             {/* <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "orange" }}>
               A
             </section>

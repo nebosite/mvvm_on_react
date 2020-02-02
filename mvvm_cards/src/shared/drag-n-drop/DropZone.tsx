@@ -1,10 +1,10 @@
 import * as React from "react"
 import cn from "classnames";
 
+import { findClosestParent } from "shared/util";
+
 // TODO: DI
 import bus from "./services/bus";
-
-import { findDroppable, getElementUnderClientXY } from "shared/util"
 
 // TODO: Move it to shared if useful
 function isInDropZone(elementUnderMouse: any, dropZone: HTMLElement): any {
@@ -18,7 +18,7 @@ type Props = {
   children: React.ReactNode | React.ReactNode[];
   className?: string;
 
-  onDragEnd?: (data: any) => void;
+  onDragEnd?: (data: any, placeIndex: number) => void;
 }
 
 export default class DropZone extends React.Component<Props> {
@@ -49,15 +49,15 @@ export default class DropZone extends React.Component<Props> {
     const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
     const prevTargetElement = bus.data.avatar.getPrevTargetElement()
 
-    currentTargetElement.classList.add("drag-zone-sector-over");
-    this.highlightedEl = currentTargetElement;
+    // currentTargetElement.classList.add("drag-zone-sector-over");
+    //this.highlightedEl = currentTargetElement;
 
 
     // console.log('1', isInDropZone(currentTargetElement, this.rootElementRef.current))
     // it could be null on the first dropzone-sector enter
     if (prevTargetElement) {
       // console.log("prevTargetElement => ", prevTargetElement)
-      prevTargetElement.classList.remove("drag-zone-sector-over");
+      // prevTargetElement.classList.remove("drag-zone-sector-over");
 
       
     }

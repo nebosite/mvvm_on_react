@@ -3,6 +3,9 @@ import * as React from "react";
 type Props = {
   children: React.ReactNode | React.ReactNode[];
   
+  // a position index in the element list. Necessary to know where to put it at drag end
+  index: number;
+
   // a data that should be handler on drag end
   data: any;
 }
@@ -25,10 +28,11 @@ export default class DragElement extends React.Component<Props> {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, index } = this.props;
 
     return (
       <div className="drag-element"
+          data-index={index}
           onMouseDown={this.handleMouseDown}
         >
         { children }

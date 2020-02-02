@@ -33,12 +33,19 @@ export class AppModel implements IAppModel {
             description: "Test Initial Card Description 0",
             drawing: null
         },
-        // {
-        //     id: 1,
-        //     name: "Test Initial Card 1",
-        //     description: "Test Initial Card Description 1",
-        //     drawing: null
-        // } 
+        {
+            id: 1,
+            name: "Test Initial Card 1",
+            description: "Test Initial Card Description 1",
+            drawing: null
+        } 
+        ,
+        {
+            id: 2,
+            name: "FFFFFF",
+            description: "ZZZZZZ",
+            drawing: null
+        } 
     ]
     get newCards() { return this._newCards; }
     set newCards(cards: ICard[]) { this._newCards = cards; }
@@ -63,6 +70,7 @@ export class AppModel implements IAppModel {
 
     @action
     moveCardToActive = (card: ICard, positionIndex: number = 0) => {
+        console.log("positionIndex =>> ", positionIndex);
         // TODO: check is instance Card
         this.addCardByType(card, "_activeCards", positionIndex);
     }
