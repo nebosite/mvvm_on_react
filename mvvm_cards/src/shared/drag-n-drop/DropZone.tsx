@@ -84,9 +84,8 @@ export default class DropZone extends React.Component<Props> {
         onMouseMove={this.handleMouseMove}
         onMouseLeave={this.handleMouseLeave}
         >
-
         {children}
-         
+
       </div>
     )
   }

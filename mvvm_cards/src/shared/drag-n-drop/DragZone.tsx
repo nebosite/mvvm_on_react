@@ -45,7 +45,10 @@ function moveAt(e: DragElementMouseDownEvent,
   element.style.top = e.pageY - shiftY + "px";
 }
 
-
+// Typescript custom guard
+function isNotDragElementClick(e: DragElementMouseDownEvent | React.MouseEvent<HTMLElement>): e is React.MouseEvent<HTMLElement> {
+  return (e as DragElementMouseDownEvent).data === undefined;
+}
 
 export default class DragZone extends React.Component<Props, State> {
 
@@ -181,8 +184,13 @@ export default class DragZone extends React.Component<Props, State> {
   }
 
 
-  handleMouseDown = (e: DragElementMouseDownEvent ) => {
+  handleMouseDown = (e: DragElementMouseDownEvent | React.MouseEvent<HTMLElement> ) => {
+    // gold pass. We want to handle bubbling only of the DragElement. We don't need to handle click on outer area
+    if ( isNotDragElementClick(e) ) return;
+
     this.isMouseHoldPressed = true;
+
+
     const { element, data } = e.data;
 
     // non primary button was pressed.  Don't do anything 
@@ -249,6 +257,9 @@ export default class DragZone extends React.Component<Props, State> {
 
   render() {
     const { children } = this.props;
+    // an index of the spacer. Useful to know what index we need to set for Drag Avatar
+    // if there are no elements under the cursor (maybe at the top we have a few Drag avatars)
+    const spacerIndex = Object.keys(children).length
 
     return (
       <div className="drag-zone"
@@ -256,6 +267,7 @@ export default class DragZone extends React.Component<Props, State> {
           onMouseDown={this.handleMouseDown as any}
         >
         { children }
+        <div className="drag-zone-spacer-bottom" data-index={spacerIndex} />
       </div>
     )
   }

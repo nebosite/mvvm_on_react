@@ -111,19 +111,29 @@ export default class DragAvatar {
     this.element.style.top = e.pageY - this.shiftY + "px";
 
     // the element under the dragging element
-    const targetElement = getElementUnderClientXY(this.element, e.clientX, e.clientY);
+    const targetElement: any = getElementUnderClientXY(this.element, e.clientX, e.clientY);
 
-    const targetDragElement: any = findClosestParent(targetElement as HTMLElement, ".drag-element");
 
-    // check if we are over a drag-element
-    if (  targetDragElement ) {
-      let targetDragElementIndex = +targetDragElement.dataset.index;
-      
-      const isAtTopOfTarget = this.isAtTheTopPartOfTargetEl(targetElement, e.pageY);
-      console.log("targetDragElementIndex => ", targetDragElementIndex);
-      // Calculate the possible index to put our avatar. Index shouldn't be less than 0
-      this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
+
+
+    // TODO: ---  I must refactor it ---
+
+    // if we are over the spacer so there is no other DragElements and we should use it's index
+    if (targetElement.classList.contains("drag-zone-spacer-bottom")) {
+      this.currentPlaceIndex = +targetElement.dataset.index
+    } else {
+      const targetDragElement: any = findClosestParent(targetElement as HTMLElement, ".drag-element");
+      // check if we are over a drag-element
+            if (  targetDragElement ) {
+        let targetDragElementIndex = +targetDragElement.dataset.index;
+        
+        const isAtTopOfTarget = this.isAtTheTopPartOfTargetEl(targetElement, e.pageY);
+        // Calculate the possible index to put our avatar. Index shouldn't be less than 0
+        this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
+      } 
     }
+
+
 
 
     // if the target element wasn't saved before we need to handle it

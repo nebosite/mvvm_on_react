@@ -35,7 +35,7 @@ export default class MainDocumentPage
       <main className='main-document-page'>
         <MainDocumentPageToolbar />
 
-        <DropZone id="new" className="main-document-page-column-new  dropzone--js"
+        <DropZone id="new" className="main-document-page-column  dropzone--js"
         
           onDragEnd={(card: ICard, placeIndex: number) => {
             console.log("placeIndex", placeIndex)
@@ -54,7 +54,7 @@ export default class MainDocumentPage
           </DragZone>
           
         </DropZone>
-        <DropZone id="active" className="main-document-page-column-active dropzone--js"
+        <DropZone id="active" className="main-document-page-column dropzone--js"
           onDragEnd={(card: ICard, placeIndex: number) => {
             appModel.moveCardToActive(card, placeIndex)
             console.log(" ACTIVE DRAG END card => ", card);
@@ -78,7 +78,7 @@ export default class MainDocumentPage
             </section> */}
           </DragZone>
         </DropZone>
-        <div className="main-document-page-column-done">
+        <div id="done" className="main-document-page-column">
           <h5 className="col-title">Done</h5>
         </div>
 
