@@ -3,12 +3,53 @@
 class BUS {
   data = this.getInitialData();
 
+
+  mouseData = {
+    pageX: 0,
+    pageY: 0
+  }
+
+
+  dragObject: {
+    element: HTMLElement,
+    data: any
+  } = null;
+
+  setDragObject(element: any, data: any) {
+    this.dragObject = {
+      element,
+      data
+    }
+  }
+
+  resetDragObject() { this.dragObject = null; }
+
+  sourceElementData = {
+    // a shift dimension from the left & top corners of the element and the mouse pointer clicked on the drag element
+    shiftX: 0,
+    shiftY: 0,
+
+    // a shift dimension from the right & bottom corners of the element and the mouse pointer clicked on the drag element
+    shiftXInversed: 0,
+    shiftYInversed: 0,
+  }
+
+
   dragEndSubcribersRegistry: any = {
     // // implement a subscriber ID to avoid memory leak
     // "documentMouseUp": []
   }
 
-  reset = () => this.data = this.getInitialData();
+  reset = () => { 
+    this.dragObject.element.classList.remove("dragging")
+    this.dragObject = null;
+
+    // TODO: maybe just use the drag object?
+    this.data.avatar.element.remove()
+    this.data.avatar = null;
+
+    this.data = this.getInitialData();
+  }
 
   triggerDragEndByDropZoneId = (dropZoneId: string, placeIndex?: number | undefined) => {
     const dropZoneDragEndHandler = this.dragEndSubcribersRegistry[ dropZoneId ];

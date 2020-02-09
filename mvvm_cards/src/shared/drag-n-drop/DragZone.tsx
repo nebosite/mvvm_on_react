@@ -23,27 +23,12 @@ type State = {
   dragObject: DragObject
 }
 
-// TODO: maybe move to utils etc. ?
-function getElementCSSBox(element: HTMLElement) { 
-  const box = element.getBoundingClientRect();
-  return box;
-
-}
 
 type DragElementMouseDownEvent = React.MouseEvent & {
   data: {
     element: HTMLElement;
     data: any; // a data of the drag element
   }
-}
-
-function moveAt(e: DragElementMouseDownEvent, 
-                element: HTMLElement, 
-                shiftX: number, 
-                shiftY: number
-                ) {
-  element.style.left = e.pageX - shiftX + "px";
-  element.style.top = e.pageY - shiftY + "px";
 }
 
 // Typescript custom guard
@@ -54,87 +39,57 @@ function isNotDragElementClick(e: DragElementMouseDownEvent | React.MouseEvent<H
 export default class DragZone extends React.Component<Props, State> {
 
   dragZoneRef: React.RefObject<HTMLDivElement> = React.createRef();
-  // state = {
-  //   dragObject: {}
-  // }
 
   avatar: any;
 
   // to recognize if we are dragging or no
   isMouseHoldPressed: boolean = false;
-
-  dragObject: DragObject;
-  // position of mouse down event
-  downX: number;
-  downY: number;
-
-  // the element click shift from the left top corner
-  shiftX: number;
-  shiftY: number;
-
-  // componentWillUnmount() {
-  //   // to avoind memory leak on the component re-mount
-  //   document.removeEventListener("mousemove", this.handleDocumentMouseMove);
-  //   document.removeEventListener("mouseup", this.handleDocumentMouseUp);
-  // }
+  
 
   handleDocumentMouseMove = (e: any) => {
-    const { element, data } = this.dragObject;
+    const { element, data } = bus.dragObject;
     
 
     // break if we don't have the dnd element or isn't pressing
     if (!element || !this.isMouseHoldPressed) return; 
 
-    // console.log("document.onMouseMove", e);
-    // don't do anything if the user misclicked
-    if (Math.abs(e.pageX - this.downX) < 3 && Math.abs(e.pageY - this.downY) < 3) {
+    // don't do anything if the user misclicked and doesn't drag the element
+    if (Math.abs(e.pageX - bus.mouseData.pageX) < 3 && Math.abs(e.pageY - bus.mouseData.pageY) < 3) {
       return;
     }
 
     // the element is pressed by the user didn't start to move it
-    if (!this.avatar) {
-      this.avatar = this.createAvatar(element, e, data);
-      bus.data.avatar = this.avatar;
+    if (!bus.data.avatar) {
 
-      if (!this.avatar) {
-        // can't receive the avatar. Clean everything and stop the program.
-        this.cleanUp();
-      } else {
-        this.props.onDragStart(data);
-      }
+      bus.data.avatar = this.createAvatar(element, e, data);
+      this.props.onDragStart(data);
     }
 
 
     // moving the avatar
-    this.avatar.onDragMove(e);
-
-
-    // console.log("Wa can start dnd and try to take the element avatar", this.avatar)
-    // TODO: Implement dnd avatar
-    // moveAt(e, element, this.shiftX, this.shiftY)
-
+    bus.data.avatar.onDragMove(e);
   }
 
   // a small factory
-  createAvatar(element: HTMLElement | null, e: any, data: any) {
-    // to allow CSS know about the active dragging process
+  createAvatar(element: HTMLElement, e: any, data: any) {
+       // to allow CSS know about the active dragging process
     document.documentElement.classList.add("active-dragging");
-    return element ? new DragAvatar(this.dragZoneRef.current, element, e, data) : null;
+    return new DragAvatar(this.dragZoneRef.current, element, e, data);
   }
 
   cleanUp() {
     // TODO: logic
-    this.dragObject.element.classList.remove("dragging")
+    // this.dragObject.element.classList.remove("dragging")
     this.isMouseHoldPressed = false;
 
-    this.dragObject = null;
+    // this.dragObject = null;
 
     document.onmousemove = null;
     document.onmouseup = null
 
     // removing the avatar element from the DOMTree as we don't need it anymore
-    this.avatar.element.remove()
-    this.avatar = null;
+    // this.avatar.element.remove()
+    // this.avatar = null;
     bus.reset()
   }
 
@@ -142,131 +97,60 @@ export default class DragZone extends React.Component<Props, State> {
   handleDocumentMouseUp = (e: any) => {
 
     // we didn't stat to drag. Just a single click etc.
-    if (!this.avatar) {
+    if (!bus.data.avatar) {
       this.isMouseHoldPressed = false;
       return;
     };
 
     // the element under the cursor
-    const targetElement: any = getElementUnderClientXY(this.dragObject.element, e.clientX, e.clientY);
+    const targetElement: any = getElementUnderClientXY(bus.dragObject.element, e.clientX, e.clientY);
     // trying to find the dropzone of the element under the cursor.
     // It MIGHT be undefined when there is no such dropzone. Eg. dragend outside of any dropzone
     const dropZoneElement = findClosestParent(targetElement, ".drop-zone");
     
     if (dropZoneElement) {
       // passing the ID to the manager to clarify what exactly dropzone should handle it
-      bus.triggerDragEndByDropZoneId(dropZoneElement.id, this.avatar.currentPlaceIndex)
-      // just a quick DEMO that this proof of concept works
-      
-      // dropElem.appendChild(this.dragObject.element)
-      // restore the element margin
-      // element.style.margin = elementMarginStr
+      bus.triggerDragEndByDropZoneId(dropZoneElement.id, bus.data.avatar.currentPlaceIndex)
 
-
-
-      
     } else {
       this.rollback();
     }
 
  
     this.cleanUp();
-       
   }
 
   rollback() {
-    const parentDropZone = this.avatar.getParentDropZone();
-    const initialPlaceIndex = this.avatar.initialPlaceIndex;
+    const parentDropZone = bus.data.avatar.getParentDropZone();
+    const initialPlaceIndex = bus.data.avatar.initialPlaceIndex;
+
     // need to place it exactly where it was
     bus.triggerDragEndByDropZoneId(parentDropZone.id, initialPlaceIndex)
   }
 
-  // generateDragObject = (element: HTMLElement, data: any) => ({
-  //     element: element,
-  //     data: data,
-  //     documentEdges: {
-  //       left: 0,
-  //       top: 0,
-  //       right: document.documentElement.clientWidth,
-  //       bottom: document.documentElement.clientHeight
-  //     }
-  //   })
 
   handleMouseDown = (e: DragElementMouseDownEvent | React.MouseEvent<HTMLElement> ) => {
-    // gold pass. We want to handle bubbling only of the DragElement. We don't need to handle click on outer area
+    // gold pass. We want to handle bubbling only of the DragElement. 
+    // We don't need to handle click on outer area
     if ( isNotDragElementClick(e) ) return;
 
+    // to know if the mouse button holds or it's just a click
     this.isMouseHoldPressed = true;
-
 
     const { element, data } = e.data;
 
-    // non primary button was pressed.  Don't do anything 
+    // non primary mouse button was pressed.  Don't do anything 
     if (e.button  !== 0) { 
       return false;
     }
-
-    this.downX = e.pageX;
-    this.downY = e.pageY;
-
-    // If I implement the separated document handlers
-    // return false;
     
-    // TODO: move to bus I guess
-    this.dragObject = {
-      element: element,
-      data: data,
-      documentEdges: { // TODO: maybe remove it?
-        left: 0,
-        top: 0,
-        right: document.documentElement.clientWidth, // it should be calculated at the mouseclick only
-        bottom: document.documentElement.clientHeight
-      }
-    };
     
+    bus.mouseData.pageX = e.pageX;
+    bus.mouseData.pageY = e.pageY;
 
-
-    // need to know the mouse shift regarding the element coorditates
-    // to give it the correct absolute coords after appending to the body el
-    // this.shiftX = e.pageX - elementCSSBox.left;
-    // this.shiftY = e.pageY - elementCSSBox.top;
-    
-    // // TODO: maybe add padding/margin to dragElement ?
-    // const elementPaddingValueStr = window.getComputedStyle(element, null).getPropertyValue("padding")
-    // const elementTotalPadding = parseInt(elementPaddingValueStr) * 2;
-    
-    // // let's rembmer initial element margin
-    // const elementMarginStr = window.getComputedStyle(element, null).getPropertyValue("margin")
-
-
-    // // const totalElementMarginShift = dragElementTotalMargin + elementTotalPadding;
-    
-    //     // TODO: don't forget to do something with the margin
-
-    // element.classList.add("dragging")
-    // element.style.position = "absolute"
-    // // reset the element margin to avoid incorrect position
-    // element.style.margin = "0"
-    // element.style.width = elementCSSBox.width - elementTotalPadding + "px"
-    // element.style.height = elementCSSBox.height - elementTotalPadding + "px"
-
-    // // moving it to the body to avoid unnecessary relative affect, etc.
-    // document.body.append(element);
-
-    // // set the render priority to maximum. The card shouldn't overlap by any element
-    // element.style.zIndex = "1000"
-    // moveAt(e, element, this.shiftX, this.shiftY);
-
-
+    bus.setDragObject(element, data)
 
     document.onmousemove = this.handleDocumentMouseMove
-
-    // document.onmousemove = function mouseMoveCallback(e: any) {
-
-    // //   moveAt(e, element, shiftX, shiftY)
-    // };
-
-
     document.onmouseup = this.handleDocumentMouseUp;
   }
 

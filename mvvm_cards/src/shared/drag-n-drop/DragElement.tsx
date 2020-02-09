@@ -18,8 +18,7 @@ export default class DragElement extends React.Component<Props> {
     e.persist();
 
     const element = e.currentTarget;
-    // const element = e.currentTarget.firstChild as HTMLElement;
-    
+
     // TODO: should I add the inner children instante to it as well ?
     (e as any).data = {
       element: element,
