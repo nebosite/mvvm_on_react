@@ -30,7 +30,6 @@ export default class MainDocumentPage
   // -------------------------------------------------------------------
   render() {
     const { appModel } = this.props; // convenient handle to appModel
-    console.log("appModel => ", appModel.newCards)
     return (
       <main className='main-document-page'>
         <MainDocumentPageToolbar />
@@ -38,7 +37,6 @@ export default class MainDocumentPage
         <DropZone id="new" className="main-document-page-column  dropzone--js"
         
           onDragEnd={(card: ICard, placeIndex: number) => {
-            console.log("placeIndex", placeIndex)
             appModel.moveCardToNew(card, placeIndex)
           }}
 
@@ -46,7 +44,6 @@ export default class MainDocumentPage
           <h5 className="col-title">New</h5>
           <DragZone
               onDragStart={(card: ICard) => {
-                console.log("ON DRAG START NEW", card)
                 appModel.removeCardFromNew(card);
               }}
             >
@@ -57,30 +54,33 @@ export default class MainDocumentPage
         <DropZone id="active" className="main-document-page-column dropzone--js"
           onDragEnd={(card: ICard, placeIndex: number) => {
             appModel.moveCardToActive(card, placeIndex)
-            console.log(" ACTIVE DRAG END card => ", card);
           }}
          >
          
           <h5 className="col-title">Active</h5>
           <DragZone onDragStart={(card: ICard) => {
-                console.log("ON DRAG START ACTIVE")
                 appModel.removeCardFromActive(card);
               }}>
             { appModel.activeCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }
-            {/* <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "orange" }}>
-              A
-            </section>
-            <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "blue" }}>
-              B
-            </section>
-            <section className="drop-zone-sector" style={{ height: "100px", display: "block", backgroundColor: "violet" }}>
-              C
-            </section> */}
           </DragZone>
         </DropZone>
-        <div id="done" className="main-document-page-column">
+        <DropZone id="done" className="main-document-page-column dropzone--js"
+          onDragEnd={(card: ICard, placeIndex: number) => {
+            appModel.moveCardToDone(card, placeIndex)
+          }}
+        >
           <h5 className="col-title">Done</h5>
-        </div>
+
+          <DragZone
+              onDragStart={(card: ICard) => {
+                appModel.removeCardFromDone(card);
+              }}
+            >
+            { appModel.doneCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }  
+          </DragZone>
+          
+
+        </DropZone>
 
       </main>
     );

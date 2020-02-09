@@ -70,7 +70,6 @@ export class AppModel implements IAppModel {
 
     @action
     moveCardToActive = (card: ICard, positionIndex: number = 0) => {
-        console.log("positionIndex =>> ", positionIndex);
         // TODO: check is instance Card
         this.addCardByType(card, "_activeCards", positionIndex);
     }

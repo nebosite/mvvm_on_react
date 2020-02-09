@@ -79,10 +79,9 @@ export default class DropZone extends React.Component<Props> {
     
     const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
     const prevTargetElement = bus.data.avatar.getPrevTargetElement()
-    console.log("currentTargetElement => ", currentTargetElement)
-    console.log("prevTargetElement => ", prevTargetElement)
+
     if (currentTargetElement) {
-      console.log("ERASE")
+
       currentTargetElement.dataset.highlight = null;
     }
 
@@ -126,8 +125,6 @@ export default class DropZone extends React.Component<Props> {
 
   handleMouseLeave = () => {
     if (!bus.data.avatar) return;
-
-    console.log("REMOVE highlight")
 
     // remove highlight on the dropZone leave
     this.removeHighlight()

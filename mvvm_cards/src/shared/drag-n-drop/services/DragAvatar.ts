@@ -6,14 +6,7 @@ export default class DragAvatar {
   // the element parent zone. 
   parentDragZone: HTMLElement
 
-  // this is the dragzone sector where was our drag element
-  // Can be used when we won't drop the element somewhere 
-  // in this case we need to return the element back
-
-  // by default it's the whole dragZone
-  dragZoneSector: HTMLElement;
-
-  // Data that should be handler on drag end
+  // Data that should be handled on drag end
   data: any;
 
 
@@ -29,9 +22,16 @@ export default class DragAvatar {
   currentTargetElement: HTMLElement
   prevTargetElement: HTMLElement
 
-  shiftX: number;
-  shiftY: number;
 
+  sourceElementData = {
+    // a shift dimension from the left & top corners of the element and the mouse pointer clicked on the drag element
+    shiftX: 0,
+    shiftY: 0,
+
+    // a shift dimension from the right & bottom corners of the element and the mouse pointer clicked on the drag element
+    shiftXInversed: 0,
+    shiftYInversed: 0,
+  }
   // a position in the cards list. Need to know it to put at the proper place
   initialPlaceIndex: number;
   currentPlaceIndex: number;
@@ -42,7 +42,6 @@ export default class DragAvatar {
   // TODO: options
   constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: any, data: any) {
     this.parentDragZone = parentDragZone;
-    this.dragZoneSector = parentDragZone;
     this.data = data;
     // we can clone the drag el to create some other View and hide the original if necessary
     this.originalElement = dragElement;
@@ -58,16 +57,18 @@ export default class DragAvatar {
     const elementCSSBox = this.originalElement.getBoundingClientRect();
     // need to know the mouse shift regarding the element coorditates
     // to give it the correct absolute coords after appending to the body el
-    this.shiftX = e.pageX - elementCSSBox.left;
-    this.shiftY = e.pageY - elementCSSBox.top;
+
+    
+    this.sourceElementData.shiftX = e.pageX - elementCSSBox.left;
+    this.sourceElementData.shiftY = e.pageY - elementCSSBox.top;
+
+    this.sourceElementData.shiftXInversed = ( elementCSSBox.left + elementCSSBox.width ) - e.pageX;
+    this.sourceElementData.shiftYInversed = ( elementCSSBox.top + elementCSSBox.height ) - e.pageY;
     
     // TODO: maybe add padding/margin to dragElement ?
     const elementPaddingValueStr = window.getComputedStyle(this.originalElement, null).getPropertyValue("padding")
-    const elementTotalPadding = parseInt(elementPaddingValueStr) * 2;
     
-    // let's rembmer initial element margin
-    const elementMarginStr = window.getComputedStyle(this.originalElement, null).getPropertyValue("margin")
-
+    const elementTotalPadding = parseInt(elementPaddingValueStr) * 2;
 
     // const totalElementMarginShift = dragElementTotalMargin + elementTotalPadding;
     
@@ -75,8 +76,8 @@ export default class DragAvatar {
 
     this.element.classList.add("dragging")
     this.element.style.position = "absolute"
-    // reset the element margin to avoid incorrect position
-    this.element.style.margin = "0"
+
+
     this.element.style.width = elementCSSBox.width - elementTotalPadding + "px"
     this.element.style.height = elementCSSBox.height - elementTotalPadding + "px"
 
@@ -96,7 +97,6 @@ export default class DragAvatar {
   getDragInfo = () => {
     return {
       parentDragZone: this.parentDragZone,
-      dragZoneSector: this.dragZoneSector,
       element: this.element
     }
   }
@@ -128,12 +128,20 @@ export default class DragAvatar {
   // returns an array of the allowed left and top position of the drag avatar
   private getAvatarLeftAndTopPos = (pageX: number, pageY: number): [number, number] => {
 
-    const documentClientW = document.documentElement.clientWidth;
-    const documentClientH = document.documentElement.clientHeight;
+      // a pixel amount what will be used to stop the dragged avatar when it reach the viewporn ends
+    const viewportEndCornerModificator = 10
+
+    const documentClientW = document.documentElement.clientWidth - this.sourceElementData.shiftXInversed + viewportEndCornerModificator;
+    const documentClientH = document.documentElement.clientHeight - this.sourceElementData.shiftYInversed + viewportEndCornerModificator;
+
+    // console.log("this.shiftX", this.shiftX)
+    // console.log("this.shiftY", this.shiftY)
+
+    // console.log("L, R", this.shiftXInversed, this.shiftYInversed );
 
     // we shouldn't move a card at the left|top document edges
-    let left = pageX < 0 ? 0 : pageX;
-    let top = pageY < 0 ? 0 : pageY;
+    let left = pageX < this.sourceElementData.shiftX - viewportEndCornerModificator ? this.sourceElementData.shiftX - viewportEndCornerModificator : pageX;
+    let top = pageY < this.sourceElementData.shiftY - viewportEndCornerModificator ? this.sourceElementData.shiftY - viewportEndCornerModificator: pageY;
 
     // we shouldn't move a card farest than the client right edge
     if ( left >= documentClientW ) { 
@@ -155,8 +163,8 @@ export default class DragAvatar {
     
     const [ leftPos, topPos ] = this.getAvatarLeftAndTopPos(e.pageX, e.pageY);
     
-    this.element.style.left = leftPos - this.shiftX + "px";
-    this.element.style.top = topPos - this.shiftY + "px";
+    this.element.style.left = leftPos - this.sourceElementData.shiftX + "px";
+    this.element.style.top = topPos - this.sourceElementData.shiftY + "px";
 
     // the element under the dragging element. It could be any element
     const targetElement: any = getElementUnderClientXY(this.element, leftPos, topPos);

@@ -3,6 +3,10 @@ html, body {
   padding: 0;
 }
 
+html.active-dragging {
+  overflow: hidden;
+}
+
 #root {
   min-height: 100vh;
   display: flex;

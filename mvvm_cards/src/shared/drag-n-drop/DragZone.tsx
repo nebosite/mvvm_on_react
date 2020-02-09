@@ -216,7 +216,7 @@ export default class DragZone extends React.Component<Props, State> {
     this.dragObject = {
       element: element,
       data: data,
-      documentEdges: {
+      documentEdges: { // TODO: maybe remove it?
         left: 0,
         top: 0,
         right: document.documentElement.clientWidth, // it should be calculated at the mouseclick only

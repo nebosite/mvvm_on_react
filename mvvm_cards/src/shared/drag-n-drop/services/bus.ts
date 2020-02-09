@@ -16,14 +16,12 @@ class BUS {
       throw new Error(`There is not DropZone with such ID ${dropZoneId}`);
     }
 
-    console.log("1111 placeIndex", placeIndex)
     // TODO: maybe I need to refactor it and use this logic all the time?
     // if we can define the correct place index so there is no best option expect using the initial one
     if (placeIndex === undefined) {
       placeIndex = this.data.avatar.initialPlaceIndex;
     }
     
-    console.log("2222 placeIndex", placeIndex)
     dropZoneDragEndHandler(this.data.avatar.data, placeIndex);
   }
 
