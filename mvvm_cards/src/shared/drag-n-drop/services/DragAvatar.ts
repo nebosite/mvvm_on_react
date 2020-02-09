@@ -103,17 +103,45 @@ export default class DragAvatar {
   getPrevTargetElement = () => this.prevTargetElement;
 
 
+  // TODO: probably move to BUS. JSDOC
+  // returns an array of the allowed left and top position of the drag avatar
+  private getAvatarLeftAndTopPos = (pageX: number, pageY: number): [number, number] => {
+
+    const documentClientW = document.documentElement.clientWidth;
+    const documentClientH = document.documentElement.clientHeight;
+
+    // we shouldn't move a card at the left|top document edges
+    let left = pageX < 0 ? 0 : pageX;
+    let top = pageY < 0 ? 0 : pageY;
+
+    // we shouldn't move a card farest than the client right edge
+    if ( left >= documentClientW ) { 
+      left = documentClientW;
+     }
+
+    // we shouldn't move a card farest than the client top edge
+    if ( top >= documentClientH ) { 
+      top = documentClientH;
+     }
+
+     return [ left, top ];
+  }
+
+
   // on the each drag move event it moves this.element and records
   // the current element below this.element to this.currentTargetElement
   onDragMove = (e: any) => {
     
-    this.element.style.left = e.pageX - this.shiftX + "px";
-    this.element.style.top = e.pageY - this.shiftY + "px";
+    const [ leftPos, topPos ] = this.getAvatarLeftAndTopPos(e.pageX, e.pageY);
+    
+    this.element.style.left = leftPos - this.shiftX + "px";
+    this.element.style.top = topPos - this.shiftY + "px";
 
     // the element under the dragging element
-    const targetElement: any = getElementUnderClientXY(this.element, e.clientX, e.clientY);
+    const targetElement: any = getElementUnderClientXY(this.element, leftPos, topPos);
 
-
+    // when we move the element outer of the dropzone area we won't have the targetEl
+    if (!targetElement) return;
 
 
     // TODO: ---  I must refactor it ---

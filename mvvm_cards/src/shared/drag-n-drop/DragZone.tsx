@@ -15,6 +15,7 @@ type Props = {
 type DragObject = {
   element: HTMLElement;
   data: any;
+  documentEdges: any; // a border values of the document
 } | null;
 
 // info about the drag object
@@ -70,11 +71,6 @@ export default class DragZone extends React.Component<Props, State> {
   // the element click shift from the left top corner
   shiftX: number;
   shiftY: number;
-
-  // componentDidMount() {
-  //   document.addEventListener("mousemove", this.handleDocumentMouseMove);
-  //   document.addEventListener("mouseup", this.handleDocumentMouseUp);
-  // }
 
   // componentWillUnmount() {
   //   // to avoind memory leak on the component re-mount
@@ -183,6 +179,16 @@ export default class DragZone extends React.Component<Props, State> {
     bus.triggerDragEndByDropZoneId(parentDropZone.id, initialPlaceIndex)
   }
 
+  // generateDragObject = (element: HTMLElement, data: any) => ({
+  //     element: element,
+  //     data: data,
+  //     documentEdges: {
+  //       left: 0,
+  //       top: 0,
+  //       right: document.documentElement.clientWidth,
+  //       bottom: document.documentElement.clientHeight
+  //     }
+  //   })
 
   handleMouseDown = (e: DragElementMouseDownEvent | React.MouseEvent<HTMLElement> ) => {
     // gold pass. We want to handle bubbling only of the DragElement. We don't need to handle click on outer area
@@ -205,12 +211,22 @@ export default class DragZone extends React.Component<Props, State> {
     // return false;
     
 
+    console.log("2222.clientWidth", document.documentElement.clientWidth, document.documentElement.clientHeight)
+
     // TODO: move to bus I guess
     this.dragObject = {
       element: element,
-      data: data
+      data: data,
+      documentEdges: {
+        left: 0,
+        top: 0,
+        right: document.documentElement.clientWidth, // it should be calculated at the mouseclick only
+        bottom: document.documentElement.clientHeight
+      }
     };
     
+
+
     // need to know the mouse shift regarding the element coorditates
     // to give it the correct absolute coords after appending to the body el
     // this.shiftX = e.pageX - elementCSSBox.left;
