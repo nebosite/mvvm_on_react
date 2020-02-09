@@ -26,8 +26,8 @@ export default class DragAvatar {
   element: HTMLElement; 
 
   // an element that below the this.element while mouse move event
-  currentTargetElement: Element
-  prevTargetElement: Element
+  currentTargetElement: HTMLElement
+  prevTargetElement: HTMLElement
 
   shiftX: number;
   shiftY: number;
@@ -35,6 +35,9 @@ export default class DragAvatar {
   // a position in the cards list. Need to know it to put at the proper place
   initialPlaceIndex: number;
   currentPlaceIndex: number;
+
+  // highlight type
+  highlightType: string;
 
   // TODO: options
   constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: any, data: any) {
@@ -102,6 +105,24 @@ export default class DragAvatar {
   getCurrentTargetElement = () => this.currentTargetElement;
   getPrevTargetElement = () => this.prevTargetElement;
 
+  private highlightDropPosition = (highlightType: string) => {
+    const currentTargetElement = this.getCurrentTargetElement()
+    const prevTargetElement = this.getPrevTargetElement()
+
+
+    currentTargetElement.dataset.highlight = highlightType;
+    // this.highlightedEl = currentTargetElement;
+
+
+    // console.log('1', isInDropZone(currentTargetElement, this.rootElementRef.current))
+    // it could be null on the first dropzone-sector enter.
+    // TODO. maybe move to pub/sub pattern via BUS?
+    if (prevTargetElement) {
+      // console.log("prevTargetElement => ", prevTargetElement)
+      prevTargetElement.dataset.highlight = null;
+    }
+  }
+
 
   // TODO: probably move to BUS. JSDOC
   // returns an array of the allowed left and top position of the drag avatar
@@ -137,27 +158,46 @@ export default class DragAvatar {
     this.element.style.left = leftPos - this.shiftX + "px";
     this.element.style.top = topPos - this.shiftY + "px";
 
-    // the element under the dragging element
+    // the element under the dragging element. It could be any element
     const targetElement: any = getElementUnderClientXY(this.element, leftPos, topPos);
 
     // when we move the element outer of the dropzone area we won't have the targetEl
     if (!targetElement) return;
+
+    // it should be only drag-element or spacer
+    let dragTargetElement = null;
+
+
+    this.highlightType = "top";
 
 
     // TODO: ---  I must refactor it ---
 
     // if we are over the spacer so there is no other DragElements and we should use it's index
     if (targetElement.classList.contains("drag-zone-spacer-bottom")) {
-      this.currentPlaceIndex = +targetElement.dataset.index
+      this.currentPlaceIndex = +targetElement.dataset.index;
+      
+      
+      dragTargetElement = targetElement;
+
+
     } else {
       const targetDragElement: any = findClosestParent(targetElement as HTMLElement, ".drag-element");
       // check if we are over a drag-element
-            if (  targetDragElement ) {
+      if (  targetDragElement ) {
         let targetDragElementIndex = +targetDragElement.dataset.index;
         
-        const isAtTopOfTarget = this.isAtTheTopPartOfTargetEl(targetElement, e.pageY);
+        const isOverAtTopOfDragElement = this.isAtTheTopPartOfTargetEl(targetElement, topPos);
         // Calculate the possible index to put our avatar. Index shouldn't be less than 0
-        this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
+        if (isOverAtTopOfDragElement) {
+          this.currentPlaceIndex = targetDragElementIndex;
+        } else {
+          this.currentPlaceIndex = ++targetDragElementIndex;
+          this.highlightType = "bottom";
+        }
+        // this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
+
+        dragTargetElement = targetDragElement;
       } 
     }
 
@@ -165,15 +205,17 @@ export default class DragAvatar {
 
 
     // if the target element wasn't saved before we need to handle it
-    if ( this.currentTargetElement !== targetElement ) {
+    if ( dragTargetElement && this.currentTargetElement !== dragTargetElement ) {
      
       // save the previous target element. To let the dropzone to remove highlight from it as the element left this area
      this.prevTargetElement = this.currentTargetElement;
 
       // remember this new target element
-      this.currentTargetElement = targetElement
+      this.currentTargetElement = dragTargetElement
      
     }
+
+    // this.highlightDropPosition(highlightType)
 
     
   }

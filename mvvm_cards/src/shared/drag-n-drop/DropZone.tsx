@@ -26,7 +26,7 @@ export default class DropZone extends React.Component<Props> {
   rootElementRef: React.RefObject<HTMLDivElement> = React.createRef()
 
 
-  highlightedEl: any;
+  // highlightedEl: any;
 
   onHover = () => {
     alert("On Hover")
@@ -38,29 +38,85 @@ export default class DropZone extends React.Component<Props> {
 
     if (onDragEnd) {
       // TODO. used dropzone ID to set the subscriber to avoid memoryleak in future
-      bus.subscribeToDragEnd(id, onDragEnd);
+      // bus.subscribeToDragEnd(id, onDragEnd);
+      bus.subscribeToDragEnd(id, this.handleDragEnd);
     }
     
   }
 
-  handleMouseMove = (e: any) => {
-    if (!bus.data.avatar) return;
 
+  private highlightDropPosition = () => {
     const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
     const prevTargetElement = bus.data.avatar.getPrevTargetElement()
-
-    // currentTargetElement.classList.add("drag-zone-sector-over");
-    //this.highlightedEl = currentTargetElement;
+ 
+    currentTargetElement.dataset.highlight = bus.data.avatar.highlightType;
+    // this.highlightedEl = currentTargetElement;
 
 
     // console.log('1', isInDropZone(currentTargetElement, this.rootElementRef.current))
-    // it could be null on the first dropzone-sector enter
+    // it could be null on the first dropzone-sector enter.
+    // TODO. maybe move to pub/sub pattern via BUS?
     if (prevTargetElement) {
       // console.log("prevTargetElement => ", prevTargetElement)
-      // prevTargetElement.classList.remove("drag-zone-sector-over");
+      prevTargetElement.dataset.highlight = null;
+    }
+  }
+
+
+  handleDragEnd = (data: any, placeIndex: number) => {
+    const { onDragEnd } = this.props;
+
+
+    // to allow CSS know about the active dragging process
+    this.removeHighlight()
+    // this.highlightedEl = null;
+    document.documentElement.classList.remove("active-dragging")
+    
+    onDragEnd(data, placeIndex);
+  }
+
+  private removeHighlight = () => {
+    
+    const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
+    const prevTargetElement = bus.data.avatar.getPrevTargetElement()
+    console.log("currentTargetElement => ", currentTargetElement)
+    console.log("prevTargetElement => ", prevTargetElement)
+    if (currentTargetElement) {
+      console.log("ERASE")
+      currentTargetElement.dataset.highlight = null;
+    }
+
+    if (prevTargetElement) {
+      prevTargetElement.dataset.highlight = null;
+    }
+  }
+
+  
+
+  handleMouseMove = (e: any) => {
+    if (!bus.data.avatar) return;
+
+    this.highlightDropPosition()
+
+    // const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
+    // const prevTargetElement = bus.data.avatar.getPrevTargetElement()
+
+    // console.log("prevTargetElement => ", prevTargetElement)
+    // console.log("currentTargetElement => ", currentTargetElement)
+
+    // currentTargetElement.classList.add("dragging-over");
+    // this.highlightedEl = currentTargetElement;
+
+
+    // console.log('1', isInDropZone(currentTargetElement, this.rootElementRef.current))
+    // it could be null on the first dropzone-sector enter.
+    // TODO. maybe move to pub/sub pattern via BUS?
+    // if (prevTargetElement) {
+    //   // console.log("prevTargetElement => ", prevTargetElement)
+    //   prevTargetElement.classList.remove("dragging-over");
 
       
-    }
+    // }
    
 
 
@@ -69,10 +125,12 @@ export default class DropZone extends React.Component<Props> {
   }
 
   handleMouseLeave = () => {
-    if (!this.highlightedEl) return;
+    if (!bus.data.avatar) return;
+
+    console.log("REMOVE highlight")
 
     // remove highlight on the dropZone leave
-    this.highlightedEl.classList.remove("drag-zone-sector-over");
+    this.removeHighlight()
   }
 
   render() {

@@ -193,7 +193,7 @@ html, body {
   /* transition: all .3s ease-in-out; */
 }
 
-.card:hover {
+html:not(.active-dragging) .card:hover {
   filter: brightness(85%);
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
 }
@@ -201,24 +201,33 @@ html, body {
 .drag-zone {
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
 }
 
 .drag-element {
-  margin: 20px;
-}
-
-.dragging-el {
-  background-color: red;
-}
-
-.dragover {
-  background-color: black;
-}
-
-.drag-zone-sector-over {
-  border-bottom: 2px solid red;
+  /* margin: 20px; */
+  padding: 20px;
 }
 
 .drag-zone-spacer-bottom {
   flex-grow: 1;  
 }
+
+.drag-element {
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.drag-zone-spacer-bottom {
+  border-top: 2px solid transparent;
+}
+
+.drag-element[data-highlight="top"],
+.drag-zone-spacer-bottom[data-highlight="top"] {
+  border-top-color: red;
+}
+
+.drag-element[data-highlight="bottom"] {
+  border-bottom-color: red;
+}
+

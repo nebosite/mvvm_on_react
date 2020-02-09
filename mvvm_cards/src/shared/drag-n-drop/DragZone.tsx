@@ -117,6 +117,8 @@ export default class DragZone extends React.Component<Props, State> {
 
   // a small factory
   createAvatar(element: HTMLElement | null, e: any, data: any) {
+    // to allow CSS know about the active dragging process
+    document.documentElement.classList.add("active-dragging");
     return element ? new DragAvatar(this.dragZoneRef.current, element, e, data) : null;
   }
 
@@ -210,9 +212,6 @@ export default class DragZone extends React.Component<Props, State> {
     // If I implement the separated document handlers
     // return false;
     
-
-    console.log("2222.clientWidth", document.documentElement.clientWidth, document.documentElement.clientHeight)
-
     // TODO: move to bus I guess
     this.dragObject = {
       element: element,
