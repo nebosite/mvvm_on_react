@@ -1,6 +1,17 @@
 // This service should create a drag avatar
 import { findClosestParent, getElementUnderClientXY } from "shared/util"
 
+
+enum DragTargetType {
+  spacer,
+  dragElement,
+}
+
+type DragTargetResult = {
+  type: DragTargetType;
+  element: HTMLElement;
+}
+
 export default class DragAvatar {
   
   // the element parent zone. 
@@ -53,13 +64,19 @@ export default class DragAvatar {
     this.initFromEvent(e)
   }
 
+  // a registry of the handlers for our allowed drag target types
+  dragTargetHandlers = {
+    [ DragTargetType.spacer ]: this.handleSpacerAsDragTarget.bind(this),
+    [ DragTargetType.dragElement ]: this.handleDragElementAsDragTarget.bind(this),
+  }
+
+
   getParentDropZone = () => findClosestParent(this.parentDragZone, ".drop-zone");
 
   initFromEvent(e: any) {
     const elementCSSBox = this.originalElement.getBoundingClientRect();
     // need to know the mouse shift regarding the element coorditates
     // to give it the correct absolute coords after appending to the body el
-
     
     this.sourceElementData.shiftX = e.pageX - elementCSSBox.left;
     this.sourceElementData.shiftY = e.pageY - elementCSSBox.top;
@@ -72,10 +89,6 @@ export default class DragAvatar {
     
     const elementTotalPadding = parseInt(elementPaddingValueStr) * 2;
 
-    // const totalElementMarginShift = dragElementTotalMargin + elementTotalPadding;
-    
-        // TODO: don't forget to do something with the margin
-
     this.element.classList.add("dragging")
     this.element.style.position = "absolute"
 
@@ -83,15 +96,11 @@ export default class DragAvatar {
     this.element.style.width = elementCSSBox.width - elementTotalPadding + "px"
     this.element.style.height = elementCSSBox.height - elementTotalPadding + "px"
 
-    // hiding the original element but we can't delete it regarding react VDom
-    // this.originalElement.style.display = "none";
-
     // moving it to the body to avoid unnecessary relative affect, etc.
     document.body.append(this.element);
 
     // set the render priority to maximum. The card shouldn't overlap by any element
     this.element.style.zIndex = "1000"
-
   }
 
   // return some info about the dragging. 
@@ -103,28 +112,11 @@ export default class DragAvatar {
     }
   }
 
+
   // get the current target element
   getCurrentTargetElement = () => this.currentTargetElement;
   getPrevTargetElement = () => this.prevTargetElement;
-
-  // private highlightDropPosition = (highlightType: string) => {
-  //   const currentTargetElement = this.getCurrentTargetElement()
-  //   const prevTargetElement = this.getPrevTargetElement()
-
-
-  //   currentTargetElement.dataset.highlight = highlightType;
-  //   // this.highlightedEl = currentTargetElement;
-
-
-  //   // console.log('1', isInDropZone(currentTargetElement, this.rootElementRef.current))
-  //   // it could be null on the first dropzone-sector enter.
-  //   // TODO. maybe move to pub/sub pattern via BUS?
-  //   if (prevTargetElement) {
-  //     // console.log("prevTargetElement => ", prevTargetElement)
-  //     prevTargetElement.dataset.highlight = null;
-  //   }
-  // }
-
+  
 
   // on the each drag move event it moves this.element and records
   // the current element below this.element to this.currentTargetElement
@@ -139,86 +131,83 @@ export default class DragAvatar {
     this.element.style.top = topPos - this.sourceElementData.shiftY + "px";
 
     // the element under the dragging element. It could be any element
-    const targetElement = getElementUnderClientXY(this.element, leftPos, topPos);
+    const elementUnderMouse = getElementUnderClientXY(this.element, leftPos, topPos);
 
-    // when we move the element outer of the dropzone area we won't have the targetEl
-    if (!targetElement) return;
+    // when we move outside of the viewport we'll receive null. We shouldn't do anything in this case
+    if (!elementUnderMouse) return;
 
-    // the element under our dragged Avatar. It should be only drag-element or spacer
-    let dragTargetElement = null;
-
-
-    // by default the highlight type will be 'top'
+    // by default the highlight type will be 'top' because by default we think that we are dragging
+    // over the spacer. And the spacer is always the last one element so our drag element
+    // will always be placed above of the spacer.
     this.highlightType = "top";
 
-    // this.handleTargetElement(targetElement, dragTargetElement);
+    const dragTargetResult = this.getElementUnderMouseType(elementUnderMouse);
+    if (dragTargetResult === null) return;
+   
 
-    // TODO: ---  I must refactor it ---
+    // some kind of overloading
+    this.dragTargetHandlers[dragTargetResult.type](dragTargetResult.element, topPos);
 
-    // if we are over the spacer so there is no other DragElements and we should use it's index
-    if (targetElement.classList.contains("drag-zone-spacer-bottom")) {
-      this.currentPlaceIndex = +targetElement.dataset.index;
-      dragTargetElement = targetElement;
-    } else {
-      const targetDragElement: any = findClosestParent(targetElement as HTMLElement, ".drag-element");
-      // check if we are over a drag-element
-      if (  targetDragElement ) {
-        let targetDragElementIndex = +targetDragElement.dataset.index;
-        
-        const isOverAtTopOfDragElement = this.isAtTheTopPartOfTargetEl(targetElement, topPos);
-        // Calculate the possible index to put our avatar. Index shouldn't be less than 0
-        if (isOverAtTopOfDragElement) {
-          this.currentPlaceIndex = targetDragElementIndex;
-        } else {
-          this.currentPlaceIndex = ++targetDragElementIndex;
-          this.highlightType = "bottom";
-        }
-        // this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
-
-        dragTargetElement = targetDragElement;
-      } 
-    }
-
-
-
-
-    // if the target element wasn't saved before we need to handle it
-    if ( dragTargetElement && this.currentTargetElement !== dragTargetElement ) {
-     
-      // save the previous target element. To let the dropzone to remove highlight from it as the element left this area
-     this.prevTargetElement = this.currentTargetElement;
-
-      // remember this new target element
-      this.currentTargetElement = dragTargetElement
-     
-    }
+    this.saveTargetsStack(dragTargetResult.element);
     
   }
 
-  // private handleTargetElement(targetElement: HTMLElement, dragTargetElement: HTMLElement) {
-  //   if (targetElement.classList.contains("drag-zone-spacer-bottom")) {
-  //     this.currentPlaceIndex = +targetElement.dataset.index;
-  //     dragTargetElement = targetElement;
-  //   } else {
-  //     const targetDragElement: any = findClosestParent(targetElement as HTMLElement, ".drag-element");
-  //     // check if we are over a drag-element
-  //     if (  targetDragElement ) {
-  //       let targetDragElementIndex = +targetDragElement.dataset.index;
-        
-  //       const isOverAtTopOfDragElement = this.isAtTheTopPartOfTargetEl(targetElement, topPos);
-  //       // Calculate the possible index to put our avatar. Index shouldn't be less than 0
-  //       if (isOverAtTopOfDragElement) {
-  //         this.currentPlaceIndex = targetDragElementIndex;
-  //       } else {
-  //         this.currentPlaceIndex = ++targetDragElementIndex;
-  //         this.highlightType = "bottom";
-  //       }
-  //       // this.currentPlaceIndex = isAtTopOfTarget ? targetDragElementIndex : ++targetDragElementIndex;
+  private saveTargetsStack(dragTarget: HTMLElement) {
+    // if the target element wasn't saved before so we need to handle it
+    if ( this.currentTargetElement !== dragTarget ) {
+     
+      // save the previous target element. To let the dropzone to remove highlight from it 
+      // as the drag avatar has left this area
+     this.prevTargetElement = this.currentTargetElement;
 
-  //       dragTargetElement = targetDragElement;
-  //     } 
-  //   }
-  // }
+      // remember this new target element
+      this.currentTargetElement = dragTarget
+    }
+  }
+
+
+  private handleSpacerAsDragTarget(dragTarget: HTMLElement) {
+    this.currentPlaceIndex = +dragTarget.dataset.index;
+  }
+
+
+  private handleDragElementAsDragTarget(dragTarget: HTMLElement, topPos: number) {
+    let targetDragElementIndex = +dragTarget.dataset.index;
+        
+    const isOverAtTopOfDragTarget = this.isAtTheTopPartOfTargetEl(dragTarget, topPos);
+
+    // if we are at the top of the drag target so we will assign it's index to our drag element.
+    // thus it will be placed at the dragTargetElement place (above of it)
+    if (isOverAtTopOfDragTarget) {
+      this.currentPlaceIndex = targetDragElementIndex;
+    } else { // otherwise we need to place our dragElement below of the drag target
+      this.currentPlaceIndex = ++targetDragElementIndex;
+      this.highlightType = "bottom";
+    }
+  }
+  
+
+  private getElementUnderMouseType(elementUnderMouse: HTMLElement): null | DragTargetResult {
+    // if the element under mouse is drag-zone spacer we don't need to proceed anything more
+    if (elementUnderMouse.classList.contains("drag-zone-spacer-bottom") ) {
+      return {
+        type: DragTargetType.spacer,
+        element: elementUnderMouse
+      };
+    }
+
+    // it isn't a spacer so let's try to find the drag-element in the element under mouse parent tree
+    const targetDragElement = findClosestParent(elementUnderMouse, ".drag-element");
+    if (targetDragElement) {
+      return {
+        type: DragTargetType.dragElement,
+        element: targetDragElement as HTMLElement
+      }
+    }
+
+    // the element under mouse neither a spacer or drag-element so will return a null value
+    return null;
+  }
 
   // detect if our cursor is over at the top half part of the current target element while dragging
   private isAtTheTopPartOfTargetEl(targetElement: any, pageY: number) {
@@ -269,5 +258,4 @@ export default class DragAvatar {
 
 
 }
-
 
