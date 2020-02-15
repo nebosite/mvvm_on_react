@@ -18,11 +18,6 @@ type DragObject = {
   documentEdges: any; // a border values of the document
 } | null;
 
-// info about the drag object
-type State = {
-  dragObject: DragObject
-}
-
 
 type DragElementMouseDownEvent = React.MouseEvent & {
   data: {
@@ -36,7 +31,7 @@ function isNotDragElementClick(e: DragElementMouseDownEvent | React.MouseEvent<H
   return (e as DragElementMouseDownEvent).data === undefined;
 }
 
-export default class DragZone extends React.Component<Props, State> {
+export default class DragZone extends React.Component<Props> {
 
   dragZoneRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -49,15 +44,13 @@ export default class DragZone extends React.Component<Props, State> {
   handleDocumentMouseMove = (e: any) => {
     const { element, data } = bus.dragObject;
     
-
     // break if we don't have the dnd element or isn't pressing
     if (!element || !this.isMouseHoldPressed) return; 
 
     // don't do anything if the user misclicked and doesn't drag the element
-    if (Math.abs(e.pageX - bus.mouseData.pageX) < 3 && Math.abs(e.pageY - bus.mouseData.pageY) < 3) {
-      return;
-    }
-
+    const isNotDragging = Math.abs(e.pageX - bus.mouseData.pageX) < 3 && Math.abs(e.pageY - bus.mouseData.pageY) < 3;
+    if (isNotDragging) return;
+    
     // the element is pressed by the user didn't start to move it
     if (!bus.data.avatar) {
 
@@ -140,14 +133,10 @@ export default class DragZone extends React.Component<Props, State> {
     const { element, data } = e.data;
 
     // non primary mouse button was pressed.  Don't do anything 
-    if (e.button  !== 0) { 
-      return false;
-    }
-    
-    
-    bus.mouseData.pageX = e.pageX;
-    bus.mouseData.pageY = e.pageY;
+    if (e.button  !== 0) return;
 
+    // TODO: maybe sync these things?
+    bus.extractMouseCoordsFromEvent(e);
     bus.setDragObject(element, data)
 
     document.onmousemove = this.handleDocumentMouseMove

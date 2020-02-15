@@ -1,15 +1,22 @@
-// Just a try to see if it make our life easier
+
+type DragElementMouseDownEvent = React.MouseEvent & {
+  data: {
+    element: HTMLElement;
+    data: any; // a data of the drag element
+  }
+}
 
 class BUS {
   data = this.getInitialData();
 
-
+  
   mouseData = {
     pageX: 0,
     pageY: 0
   }
 
 
+  // TODO. Do we really need it here?
   dragObject: {
     element: HTMLElement,
     data: any
@@ -21,8 +28,6 @@ class BUS {
       data
     }
   }
-
-  resetDragObject() { this.dragObject = null; }
 
   sourceElementData = {
     // a shift dimension from the left & top corners of the element and the mouse pointer clicked on the drag element
@@ -44,7 +49,7 @@ class BUS {
     this.dragObject.element.classList.remove("dragging")
     this.dragObject = null;
 
-    // TODO: maybe just use the drag object?
+    // TODO: maybe just use the drag object? why do we need this drag object here?
     this.data.avatar.element.remove()
     this.data.avatar = null;
 
@@ -71,6 +76,12 @@ class BUS {
     // to have a possibility to subscribe to different events by name
     // and a possibility to update the existing one instead of just replacing
     this.dragEndSubcribersRegistry[dropZoneId] = handler
+  }
+
+
+  extractMouseCoordsFromEvent(e: DragElementMouseDownEvent | React.MouseEvent<HTMLElement>) {
+    this.mouseData.pageX = e.pageX;
+    this.mouseData.pageY = e.pageY;
   }
 
   private getInitialData(): any {

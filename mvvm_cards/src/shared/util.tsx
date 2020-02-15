@@ -9,7 +9,7 @@ export function findClosestParent(element: HTMLElement, cssSelector: string) {
 }
 
 
-export function getElementUnderClientXY(element: HTMLElement, clientX: number, clientY: number) {
+export function getElementUnderClientXY(element: HTMLElement, clientX: number, clientY: number): HTMLElement {
   let display = element.style.display || '';
   element.style.display = "none";
 
@@ -17,5 +17,5 @@ export function getElementUnderClientXY(element: HTMLElement, clientX: number, c
 
   element.style.display = display;
 
-  return target;
+  return target as HTMLElement;
 }
