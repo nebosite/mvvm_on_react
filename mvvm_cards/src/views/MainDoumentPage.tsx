@@ -34,49 +34,65 @@ export default class MainDocumentPage
       <main className='main-document-page'>
         <MainDocumentPageToolbar />
 
-        <DropZone id="new" className="main-document-page-column  dropzone--js"
+        <DropZone<ICard> id="new" className="main-document-page-column"
         
-          onDragEnd={(card: ICard, placeIndex: number) => {
+          onDragEnd={(card, placeIndex) => {
             appModel.moveCardToNew(card, placeIndex)
           }}
 
         >
           <h5 className="col-title">New</h5>
-          <DragZone
-              onDragStart={(card: ICard) => {
+          <DragZone<ICard>
+              onDragStart={card => {
                 appModel.removeCardFromNew(card);
               }}
             >
-            { appModel.newCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }  
+            { appModel.newCards.map((card, index) => <DragElement<ICard> 
+                                                          index={index} 
+                                                          data={card}
+                                                        >
+                                                          <Card {...card} />
+                                                        </DragElement>) }  
           </DragZone>
           
         </DropZone>
-        <DropZone id="active" className="main-document-page-column dropzone--js"
-          onDragEnd={(card: ICard, placeIndex: number) => {
+        <DropZone<ICard> id="active" className="main-document-page-column"
+          onDragEnd={(card, placeIndex) => {
             appModel.moveCardToActive(card, placeIndex)
           }}
          >
          
           <h5 className="col-title">Active</h5>
-          <DragZone onDragStart={(card: ICard) => {
+          <DragZone<ICard>
+             onDragStart={(card) => {
                 appModel.removeCardFromActive(card);
               }}>
-            { appModel.activeCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }
+            { appModel.activeCards.map((card, index) => <DragElement<ICard> 
+                                                          index={index} 
+                                                          data={card}
+                                                        >
+                                                          <Card {...card} />
+                                                        </DragElement>) }
           </DragZone>
         </DropZone>
-        <DropZone id="done" className="main-document-page-column dropzone--js"
-          onDragEnd={(card: ICard, placeIndex: number) => {
+        <DropZone<ICard> id="done" className="main-document-page-column"
+          onDragEnd={(card, placeIndex) => {
             appModel.moveCardToDone(card, placeIndex)
           }}
         >
           <h5 className="col-title">Done</h5>
 
-          <DragZone
-              onDragStart={(card: ICard) => {
+          <DragZone<ICard>
+              onDragStart={card => {
                 appModel.removeCardFromDone(card);
               }}
             >
-            { appModel.doneCards.map((card, index) => <DragElement index={index} data={card}><Card {...card} /></DragElement>) }  
+            { appModel.doneCards.map((card, index) => <DragElement<ICard> 
+                                                          index={index} 
+                                                          data={card}
+                                                        >
+                                                          <Card {...card} />
+                                                        </DragElement>) }  
           </DragZone>
           
 

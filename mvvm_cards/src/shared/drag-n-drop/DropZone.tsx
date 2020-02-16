@@ -4,15 +4,15 @@ import cn from "classnames";
 // TODO: DI
 import bus from "./services/bus";
 
-type Props = {
+type Props<T> = {
   id: string;
   children: React.ReactNode | React.ReactNode[];
   className?: string;
 
-  onDragEnd?: (data: any, placeIndex: number) => void;
+  onDragEnd?: (data: T, placeIndex: number) => void;
 }
 
-export default class DropZone extends React.Component<Props> {
+export default class DropZone<T> extends React.Component<Props<T>> {
 
   rootElementRef: React.RefObject<HTMLDivElement> = React.createRef()
 
@@ -20,18 +20,19 @@ export default class DropZone extends React.Component<Props> {
     const { id } = this.props;
     if (!id) throw new Error("Every DropZone should have the ID prop");
 
-    bus.subscribeToDragEnd(id, this.handleDragEnd);
+    // a quickfix to handle ts:2345
+    bus.subscribeToDragEnd(id, this.handleDragEnd as any);
     
   }
 
   private highlightDropPosition = () => {
-    const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
-    const prevTargetElement = bus.data.avatar.getPrevTargetElement()
+    const currentTargetElement = bus.avatar.getCurrentTargetElement()
+    const prevTargetElement = bus.avatar.getPrevTargetElement()
  
     // we have 2 different highlight types. Top and Bottom. Avatar provides it
     // it means, when our dragged element at the top of the element user our cursor
     // we will place our dragged element above of the target, or vice versa.
-    currentTargetElement.dataset.highlight = bus.data.avatar.highlightType;
+    currentTargetElement.dataset.highlight = bus.avatar.highlightType;
 
     // reset the previous element highlight when we highlight the new one
     if (prevTargetElement) {
@@ -40,7 +41,7 @@ export default class DropZone extends React.Component<Props> {
   }
 
 
-  handleDragEnd = (data: any, placeIndex: number) => {
+  handleDragEnd = (data: T, placeIndex: number) => {
     const { onDragEnd } = this.props;
     // to allow CSS know about the active dragging process
     this.removeHighlight()
@@ -53,22 +54,22 @@ export default class DropZone extends React.Component<Props> {
     
   }
 
-  handleMouseMove = (e: any) => {
-    if (!bus.data.avatar) return;
+  handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!bus.avatar) return;
 
     this.highlightDropPosition()
   }
 
   handleMouseLeave = () => {
-    if (!bus.data.avatar) return;
+    if (!bus.avatar) return;
 
     // remove highlight on the dropZone leave
     this.removeHighlight()
   }
 
   private removeHighlight = () => {
-    const currentTargetElement = bus.data.avatar.getCurrentTargetElement()
-    const prevTargetElement = bus.data.avatar.getPrevTargetElement()
+    const currentTargetElement = bus.avatar.getCurrentTargetElement()
+    const prevTargetElement = bus.avatar.getPrevTargetElement()
 
 
     // it's possible to create a wrapper for it to make it in' one line. 

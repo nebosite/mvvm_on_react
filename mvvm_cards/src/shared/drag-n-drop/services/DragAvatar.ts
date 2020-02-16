@@ -1,6 +1,8 @@
-// This service should create a drag avatar
-import { findClosestParent, getElementUnderClientXY } from "shared/util"
+// This service creates a drag avatar and contains logic regarding
+// the dragged element (avatar) render and the DOM interacting
+// such as position to place and highlight type
 
+import { findClosestParent, getElementUnderClientXY } from "shared/util"
 
 enum DragTargetType {
   spacer,
@@ -12,24 +14,20 @@ type DragTargetResult = {
   element: HTMLElement;
 }
 
-export default class DragAvatar {
+export default class DragAvatar<T> {
   
-  // the element parent zone. 
+  // the drag element parent zone. 
   parentDragZone: HTMLElement
 
-  // Data that should be handled on drag end
-  data: any;
-
-
-  // the original element that shouldn't be moved because of the React VDom
-  originalElement: HTMLElement;
+  // Any kind of data that should be handled on drag end
+  data: T;
 
   // the element that will be dragged.
   // In the simples solution it will be the same element that we clicked on
   // But we can create some different avatar if needed as well and hide the original one
   element: HTMLElement; 
 
-  // an element that below the this.element while mouse move event
+  // an element that under the mouse while we dragging the avatar (drag element)
   currentTargetElement: HTMLElement
   prevTargetElement: HTMLElement
 
@@ -42,26 +40,36 @@ export default class DragAvatar {
     // a shift dimension from the right & bottom corners of the element and the mouse pointer clicked on the drag element
     shiftXInversed: 0,
     shiftYInversed: 0,
+
+    // the allowed values of the height and width. Based on the viewport data but we need
+    // to know about the right | bottom shift values of the drag element + our viewPortModificator
+    // our mouse pointer could be at the bottom of element so we need to know the width from the mouse till the
+    // right side of the element to get the correct 'right end' side. The same in the Top case
+    rightEnd: 0,
+    bottomEnd: 0,
+    leftEnd: 0,
+    topEnd: 0,
   }
   // a position in the cards list. Need to know it to put at the proper place
   initialPlaceIndex: number;
   currentPlaceIndex: number;
 
-  // highlight type
-  highlightType: string;
+  // highlight type. Depends on where will be placed the drag element regarding the element
+  // under the mouse. At top or at the bottom. Could be: top | bottom
+  highlightType: "top" | "bottom";
 
-  // TODO: options
-  constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: any, data: any) {
+  // TODO: Do some with Data type. Generic
+  constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: MouseEvent, data: T) {
     this.parentDragZone = parentDragZone;
     this.data = data;
 
-    this.originalElement = dragElement;
-    
-    // converting the data-attribute value from string to int.
+    // Saving the drag element index at list. Converting the data-attribute value from string to int.
     this.initialPlaceIndex = +dragElement.dataset.index;
+
     this.element = dragElement.cloneNode(true) as HTMLElement;
 
-    this.initFromEvent(e)
+    this.initFromEvent(e, dragElement);
+    this.calculateDragElementEnds();
   }
 
   // a registry of the handlers for our allowed drag target types
@@ -73,8 +81,8 @@ export default class DragAvatar {
 
   getParentDropZone = () => findClosestParent(this.parentDragZone, ".drop-zone");
 
-  initFromEvent(e: any) {
-    const elementCSSBox = this.originalElement.getBoundingClientRect();
+  initFromEvent(e: MouseEvent, originalElement: HTMLElement) {
+    const elementCSSBox = originalElement.getBoundingClientRect();
     // need to know the mouse shift regarding the element coorditates
     // to give it the correct absolute coords after appending to the body el
     
@@ -84,14 +92,14 @@ export default class DragAvatar {
     this.sourceElementData.shiftXInversed = ( elementCSSBox.left + elementCSSBox.width ) - e.pageX;
     this.sourceElementData.shiftYInversed = ( elementCSSBox.top + elementCSSBox.height ) - e.pageY;
     
-    // TODO: maybe add padding/margin to dragElement ?
-    const elementPaddingValueStr = window.getComputedStyle(this.originalElement, null).getPropertyValue("padding")
+    const elementPaddingValueStr = window.getComputedStyle(originalElement, null).getPropertyValue("padding")
     
     const elementTotalPadding = parseInt(elementPaddingValueStr) * 2;
 
+    // would be nice if this class will be moved to constants with the API to change them
+    // but I don't want to make things too complicated
     this.element.classList.add("dragging")
     this.element.style.position = "absolute"
-
 
     this.element.style.width = elementCSSBox.width - elementTotalPadding + "px"
     this.element.style.height = elementCSSBox.height - elementTotalPadding + "px"
@@ -103,25 +111,13 @@ export default class DragAvatar {
     this.element.style.zIndex = "1000"
   }
 
-  // return some info about the dragging. 
-  // Could contain any info that necessary to finish the dnd, etc.
-  getDragInfo = () => {
-    return {
-      parentDragZone: this.parentDragZone,
-      element: this.element
-    }
-  }
-
-
-  // get the current target element
   getCurrentTargetElement = () => this.currentTargetElement;
   getPrevTargetElement = () => this.prevTargetElement;
   
 
   // on the each drag move event it moves this.element and records
   // the current element below this.element to this.currentTargetElement
-  onDragMove = (e: any) => {
-    
+  onDragMove = (e: MouseEvent) => {
     const [ leftPos, topPos ] = this.getAvatarLeftAndTopPos(e.pageX, e.pageY);
     
     // our mouse pointer could be at the middle of the element so it's necessary to calculate
@@ -144,7 +140,6 @@ export default class DragAvatar {
     const dragTargetResult = this.getElementUnderMouseType(elementUnderMouse);
     if (dragTargetResult === null) return;
    
-
     // some kind of overloading
     this.dragTargetHandlers[dragTargetResult.type](dragTargetResult.element, topPos);
 
@@ -152,6 +147,11 @@ export default class DragAvatar {
     
   }
 
+  /**
+   * saves the prev target element and current target element to know what element should
+   * be highlighted and from what element the highlight should be removed
+   * @param dragTarget - an element under the mouse while we dragging the drag element
+   */
   private saveTargetsStack(dragTarget: HTMLElement) {
     // if the target element wasn't saved before so we need to handle it
     if ( this.currentTargetElement !== dragTarget ) {
@@ -166,11 +166,12 @@ export default class DragAvatar {
   }
 
 
+  // a handler  for the use case when under our mouse while dragging we have the spacer element
   private handleSpacerAsDragTarget(dragTarget: HTMLElement) {
     this.currentPlaceIndex = +dragTarget.dataset.index;
   }
 
-
+  // a handler  for the use case when under our mouse while dragging we have the another drag element
   private handleDragElementAsDragTarget(dragTarget: HTMLElement, topPos: number) {
     let targetDragElementIndex = +dragTarget.dataset.index;
         
@@ -186,7 +187,7 @@ export default class DragAvatar {
     }
   }
   
-
+  // returns the type of the element under mouse. Handles only allowed types or returns null
   private getElementUnderMouseType(elementUnderMouse: HTMLElement): null | DragTargetResult {
     // if the element under mouse is drag-zone spacer we don't need to proceed anything more
     if (elementUnderMouse.classList.contains("drag-zone-spacer-bottom") ) {
@@ -210,31 +211,19 @@ export default class DragAvatar {
   }
 
   // detect if our cursor is over at the top half part of the current target element while dragging
-  private isAtTheTopPartOfTargetEl(targetElement: any, pageY: number) {
+  private isAtTheTopPartOfTargetEl(targetElement: HTMLElement, pageY: number) {
     const targetElementCSSBox = targetElement.getBoundingClientRect();
     
     // it means the middle point of the target element from the page Top 
     const targetElementHalfLine = targetElementCSSBox.top + (targetElementCSSBox.height / 2);
     return pageY < targetElementHalfLine
   }
-  
 
   // returns an array of the allowed left and top position of the drag avatar
   private getAvatarLeftAndTopPos = (pageX: number, pageY: number): [number, number] => {
 
-      // a pixel amount what will be used to stop the dragged avatar when it reach the viewporn ends
-    const viewportEndCornerModificator = 10
-    const { clientWidth, clientHeight } = document.documentElement;
+    const { leftEnd, topEnd, rightEnd, bottomEnd } = this.sourceElementData;
 
-    // the allowed values of the height and width. Based on the viewport data but we need
-    // to know about the right | bottom shift values of the drag element + our viewPortModificator
-    // our mouse pointer could be at the bottom of element so we need to know the width from the mouse till the
-    // right side of the element to get the correct 'right end' side. The same in the Top case
-    const rightEnd = clientWidth - this.sourceElementData.shiftXInversed + viewportEndCornerModificator;
-    const bottomEnd = clientHeight - this.sourceElementData.shiftYInversed + viewportEndCornerModificator;
-
-    const leftEnd =  this.sourceElementData.shiftX - viewportEndCornerModificator;
-    const topEnd =  this.sourceElementData.shiftY - viewportEndCornerModificator;
     // it's basically the preventing for the dragging the element outer of the
     //  Left and Top sides of the viewport.
     // if the mouse coordinates less than the element left | top 'ends' we'll just freeze
@@ -256,6 +245,22 @@ export default class DragAvatar {
     return [ left, top ];
   }
 
+  // calculates the drag element (avatar) allowed ends value of the dragging area in viewport
+  // The element shouldn't cross out of any of these ends (depends on the dragging direction)
+  private calculateDragElementEnds() {
+    // a pixel amount what will be used to stop the dragged avatar when it reach the viewporn ends
+    const viewportEndCornerModificator = 10
+    const { clientWidth, clientHeight } = document.documentElement;
+
+    // the allowed values of the height and width. Based on the viewport data but we need
+    // to know about the right | bottom shift values of the drag element + our viewPortModificator
+    // our mouse pointer could be at the bottom of element so we need to know the width from the mouse till the
+    // right side of the element to get the correct 'right end' side. The same in the Top case
+    this.sourceElementData.rightEnd = clientWidth - this.sourceElementData.shiftXInversed + viewportEndCornerModificator;
+    this.sourceElementData.bottomEnd = clientHeight - this.sourceElementData.shiftYInversed + viewportEndCornerModificator;
+
+    this.sourceElementData.leftEnd =  this.sourceElementData.shiftX - viewportEndCornerModificator;
+    this.sourceElementData.topEnd =  this.sourceElementData.shiftY - viewportEndCornerModificator;
+  }
 
 }
-
