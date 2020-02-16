@@ -1,7 +1,3 @@
-// This service creates a drag avatar and contains logic regarding
-// the dragged element (avatar) render and the DOM interacting
-// such as position to place and highlight type
-
 import { findClosestParent, getElementUnderClientXY } from "shared/util"
 
 enum DragTargetType {
@@ -14,24 +10,30 @@ type DragTargetResult = {
   element: HTMLElement;
 }
 
+/** This service creates a drag avatar and contains logic regarding
+ *  the dragged element (avatar) render and the DOM interacting
+ *  such as position to place and highlight type
+ */
 export default class DragAvatar<T> {
   
-  // the drag element parent zone. 
+  /** the drag element parent zone. */
   parentDragZone: HTMLElement
 
-  // Any kind of data that should be handled on drag end
+  /** Any kind of data that should be handled on drag end */
   data: T;
 
-  // the element that will be dragged.
-  // In the simples solution it will be the same element that we clicked on
-  // But we can create some different avatar if needed as well and hide the original one
+  /** the element that will be dragged.
+   * In the simples solution it will be the same element that we clicked on
+   *  But we can create some different avatar if needed as well and hide the original one
+   */ 
   element: HTMLElement; 
 
-  // an element that under the mouse while we dragging the avatar (drag element)
+  /** an element that under the mouse while we dragging the avatar (drag element) */
   currentTargetElement: HTMLElement
   prevTargetElement: HTMLElement
 
 
+  /** a source element initial data regarding DOM positon */
   sourceElementData = {
     // a shift dimension from the left & top corners of the element and the mouse pointer clicked on the drag element
     shiftX: 0,
@@ -50,15 +52,15 @@ export default class DragAvatar<T> {
     leftEnd: 0,
     topEnd: 0,
   }
-  // a position in the cards list. Need to know it to put at the proper place
+  /** a position in the cards list. Need to know it to put at the proper place */
   initialPlaceIndex: number;
   currentPlaceIndex: number;
 
-  // highlight type. Depends on where will be placed the drag element regarding the element
-  // under the mouse. At top or at the bottom. Could be: top | bottom
+  /** highlight type. Depends on where will be placed the drag element regarding the element
+   * under the mouse. At top or at the bottom. Could be: top | bottom
+   */
   highlightType: "top" | "bottom";
 
-  // TODO: Do some with Data type. Generic
   constructor(parentDragZone: HTMLElement, dragElement: HTMLElement, e: MouseEvent, data: T) {
     this.parentDragZone = parentDragZone;
     this.data = data;
@@ -72,15 +74,21 @@ export default class DragAvatar<T> {
     this.calculateDragElementEnds();
   }
 
-  // a registry of the handlers for our allowed drag target types
+  /** a registry of the handlers for our allowed drag target types */
   dragTargetHandlers = {
     [ DragTargetType.spacer ]: this.handleSpacerAsDragTarget.bind(this),
     [ DragTargetType.dragElement ]: this.handleDragElementAsDragTarget.bind(this),
   }
 
-
+  /** returns the parent drop zone of the drag element.
+   * WARNING. In the case of thruly re-usable package the parent dropzone
+   * should be optional as we might want to drag element fron non-dropzone element
+   */
   getParentDropZone = () => findClosestParent(this.parentDragZone, ".drop-zone");
 
+  /** calculatess the drag element (avatar) DOM coordinates and
+   * places this element to DOM body without any visual state changes
+  */
   initFromEvent(e: MouseEvent, originalElement: HTMLElement) {
     const elementCSSBox = originalElement.getBoundingClientRect();
     // need to know the mouse shift regarding the element coorditates
@@ -111,12 +119,16 @@ export default class DragAvatar<T> {
     this.element.style.zIndex = "1000"
   }
 
+  /** returns the current target element under the mouse while dragging */
   getCurrentTargetElement = () => this.currentTargetElement;
+
+  /** returns the current previous element that was under the mouse while dragging */
   getPrevTargetElement = () => this.prevTargetElement;
   
 
-  // on the each drag move event it moves this.element and records
-  // the current element below this.element to this.currentTargetElement
+  /** on the each drag move event it moves this.element and records
+   * the current element below this.element to this.currentTargetElement
+   */
   onDragMove = (e: MouseEvent) => {
     const [ leftPos, topPos ] = this.getAvatarLeftAndTopPos(e.pageX, e.pageY);
     
@@ -166,12 +178,12 @@ export default class DragAvatar<T> {
   }
 
 
-  // a handler  for the use case when under our mouse while dragging we have the spacer element
+  /** a handler  for the use case when under our mouse while dragging we have the spacer element */
   private handleSpacerAsDragTarget(dragTarget: HTMLElement) {
     this.currentPlaceIndex = +dragTarget.dataset.index;
   }
 
-  // a handler  for the use case when under our mouse while dragging we have the another drag element
+  /** a handler  for the use case when under our mouse while dragging we have the another drag element */
   private handleDragElementAsDragTarget(dragTarget: HTMLElement, topPos: number) {
     let targetDragElementIndex = +dragTarget.dataset.index;
         
@@ -187,7 +199,7 @@ export default class DragAvatar<T> {
     }
   }
   
-  // returns the type of the element under mouse. Handles only allowed types or returns null
+  /** returns the type of the element under mouse. Handles only allowed types or returns null */
   private getElementUnderMouseType(elementUnderMouse: HTMLElement): null | DragTargetResult {
     // if the element under mouse is drag-zone spacer we don't need to proceed anything more
     if (elementUnderMouse.classList.contains("drag-zone-spacer-bottom") ) {
@@ -210,7 +222,7 @@ export default class DragAvatar<T> {
     return null;
   }
 
-  // detect if our cursor is over at the top half part of the current target element while dragging
+  /** detect if our cursor is over at the top half part of the current target element while dragging */
   private isAtTheTopPartOfTargetEl(targetElement: HTMLElement, pageY: number) {
     const targetElementCSSBox = targetElement.getBoundingClientRect();
     
@@ -219,7 +231,7 @@ export default class DragAvatar<T> {
     return pageY < targetElementHalfLine
   }
 
-  // returns an array of the allowed left and top position of the drag avatar
+  /** returns an array of the allowed left and top position of the drag avatar */
   private getAvatarLeftAndTopPos = (pageX: number, pageY: number): [number, number] => {
 
     const { leftEnd, topEnd, rightEnd, bottomEnd } = this.sourceElementData;
@@ -245,8 +257,9 @@ export default class DragAvatar<T> {
     return [ left, top ];
   }
 
-  // calculates the drag element (avatar) allowed ends value of the dragging area in viewport
-  // The element shouldn't cross out of any of these ends (depends on the dragging direction)
+  /** calculates the drag element (avatar) allowed ends value of the dragging area in viewport
+   * The element shouldn't cross out of any of these ends (depends on the dragging direction)
+   */
   private calculateDragElementEnds() {
     // a pixel amount what will be used to stop the dragged avatar when it reach the viewporn ends
     const viewportEndCornerModificator = 10

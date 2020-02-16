@@ -12,8 +12,15 @@ type Props<T> = {
   data: T;
 }
 
-
+/** The Component that provides data of itself via extending the event
+ * and bubbles it up to the catchers (DragZone)
+ * 
+ * This component shouldn't keep any complicated logic to increase performance
+ */
 export default class DragElement<T> extends React.Component<Props<T>> {
+  // Also it's possible to avoid attaching the mouse handler 
+  // if we want to increase performance in the case of
+  // thousands of dragged element. But it will complicated than this solution
   handleMouseDown = (e: React.MouseEvent) => {
     // make this event to be persistent for the DragZone
     // without it React will do a snapshot of event and warn you about re-use

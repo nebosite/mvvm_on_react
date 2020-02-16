@@ -12,6 +12,10 @@ type Props<T> = {
   onDragEnd?: (data: T, placeIndex: number) => void;
 }
 
+/**
+ * Defines the Dragged Avatar drop zone. Highlights the possible
+ * sector to drop the dragged avatar.
+ */
 export default class DropZone<T> extends React.Component<Props<T>> {
 
   rootElementRef: React.RefObject<HTMLDivElement> = React.createRef()

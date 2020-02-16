@@ -18,17 +18,23 @@ function isNotDragElementClick<T>(e: DragElementMouseDownEventType<T> | React.Mo
   return (e as DragElementMouseDownEventType<T>).data === undefined;
 }
 
+/**
+ * Holds the Drag Elements. Listens theirs mouse click events via bubbling,
+ * and mainly support the start and end of the d-n-d
+ */
 export default class DragZone<T> extends React.Component<Props<T>> {
 
   dragZoneRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   dragObjectData: DragObjectDataType<T>;
   
-
-  // to recognize if we are dragging or no
+  /** to recognize if we are dragging or no */
   isMouseHoldPressed: boolean = false;
   
-
+  /**
+   * decides if the user really want to do d-n-d and
+   * does all necessary actions in the positive use case
+   */
   handleDocumentMouseMove = (e: MouseEvent) => {
     const { element, data, initialPageX, initialPageY } = this.dragObjectData;
     
@@ -51,13 +57,14 @@ export default class DragZone<T> extends React.Component<Props<T>> {
     bus.avatar.onDragMove(e);
   }
 
-  // a small factory
+  /** a small Avatar factory */
   createAvatar(element: HTMLElement, e: MouseEvent, data: T) {
     // to allow CSS know about the active dragging process
     document.documentElement.classList.add("active-dragging");
     return new DragAvatar<T>(this.dragZoneRef.current, element, e, data);
   }
 
+  /** clears all data and reset the state of the drag zone (bus included) */
   cleanUp() {
     this.isMouseHoldPressed = false;
 
@@ -69,7 +76,9 @@ export default class DragZone<T> extends React.Component<Props<T>> {
     bus.reset()
   }
 
-  // TODO. Maybe need to move it to the Avatar ?
+  /** triggers the bus dragEnd method or rollback the dragged element
+   * if there no possible dropo zone to drop the avatar
+   */
   handleDocumentMouseUp = (e: MouseEvent) => {
 
     // we didn't stat to drag. Just a single click etc.
@@ -96,6 +105,7 @@ export default class DragZone<T> extends React.Component<Props<T>> {
     this.cleanUp();
   }
 
+  /** returns the drag element at the initial position */
   rollback() {
     const parentDropZone = bus.avatar.getParentDropZone();
     const initialPlaceIndex = bus.avatar.initialPlaceIndex;
@@ -105,6 +115,10 @@ export default class DragZone<T> extends React.Component<Props<T>> {
   }
 
 
+  /**
+   * handles the initial mouse down, extract the Drag Element data 
+   * and attaches listeners to the document moousemove and mouseup
+   */
   handleMouseDown = (e: DragElementMouseDownEventType<T> | React.MouseEvent<HTMLElement> ) => {
     // gold pass. We want to handle bubbling only of the DragElement. 
     // We don't need to handle click on outer area

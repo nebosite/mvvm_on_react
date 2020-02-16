@@ -1,0 +1,994 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>DragAvatar | react_mobx_ts_mvvm_example</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">react_mobx_ts_mvvm_example</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_shared_drag_n_drop_services_dragavatar_.html">&quot;shared/drag-n-drop/services/DragAvatar&quot;</a>
+				</li>
+				<li>
+					<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html">DragAvatar</a>
+				</li>
+			</ul>
+			<h1>Class DragAvatar&lt;T&gt;</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This service creates a drag avatar and contains logic regarding
+							the dragged element (avatar) render and the DOM interacting
+						such as position to place and highlight type</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">DragAvatar</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#currentplaceindex" class="tsd-kind-icon">current<wbr>Place<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#currenttargetelement" class="tsd-kind-icon">current<wbr>Target<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#highlighttype" class="tsd-kind-icon">highlight<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#initialplaceindex" class="tsd-kind-icon">initial<wbr>Place<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#parentdragzone" class="tsd-kind-icon">parent<wbr>Drag<wbr>Zone</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#prevtargetelement" class="tsd-kind-icon">prev<wbr>Target<wbr>Element</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#calculatedragelementends" class="tsd-kind-icon">calculate<wbr>Drag<wbr>Element<wbr>Ends</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getavatarleftandtoppos" class="tsd-kind-icon">get<wbr>Avatar<wbr>Left<wbr>And<wbr>Top<wbr>Pos</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getcurrenttargetelement" class="tsd-kind-icon">get<wbr>Current<wbr>Target<wbr>Element</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getelementundermousetype" class="tsd-kind-icon">get<wbr>Element<wbr>Under<wbr>Mouse<wbr>Type</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getparentdropzone" class="tsd-kind-icon">get<wbr>Parent<wbr>Drop<wbr>Zone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getprevtargetelement" class="tsd-kind-icon">get<wbr>Prev<wbr>Target<wbr>Element</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#handledragelementasdragtarget" class="tsd-kind-icon">handle<wbr>Drag<wbr>Element<wbr>AsDrag<wbr>Target</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#handlespacerasdragtarget" class="tsd-kind-icon">handle<wbr>Spacer<wbr>AsDrag<wbr>Target</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#initfromevent" class="tsd-kind-icon">init<wbr>From<wbr>Event</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#isatthetoppartoftargetel" class="tsd-kind-icon">is<wbr>AtThe<wbr>Top<wbr>Part<wbr>OfTarget<wbr>El</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#ondragmove" class="tsd-kind-icon">on<wbr>Drag<wbr>Move</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#savetargetsstack" class="tsd-kind-icon">save<wbr>Targets<wbr>Stack</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#dragtargethandlers" class="tsd-kind-icon">drag<wbr>Target<wbr>Handlers</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-class"><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#sourceelementdata" class="tsd-kind-icon">source<wbr>Element<wbr>Data</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Drag<wbr>Avatar<span class="tsd-signature-symbol">(</span>parentDragZone<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, dragElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html" class="tsd-signature-type">DragAvatar</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L62">src/shared/drag-n-drop/services/DragAvatar.ts:62</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>parentDragZone: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+								<li>
+									<h5>dragElement: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+								<li>
+									<h5>e: <span class="tsd-signature-type">MouseEvent</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html" class="tsd-signature-type">DragAvatar</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="currentplaceindex" class="tsd-anchor"></a>
+					<h3>current<wbr>Place<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Place<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L57">src/shared/drag-n-drop/services/DragAvatar.ts:57</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="currenttargetelement" class="tsd-anchor"></a>
+					<h3>current<wbr>Target<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Target<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L32">src/shared/drag-n-drop/services/DragAvatar.ts:32</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>an element that under the mouse while we dragging the avatar (drag element)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L23">src/shared/drag-n-drop/services/DragAvatar.ts:23</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Any kind of data that should be handled on drag end</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="element" class="tsd-anchor"></a>
+					<h3>element</h3>
+					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L29">src/shared/drag-n-drop/services/DragAvatar.ts:29</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>the element that will be dragged.
+								In the simples solution it will be the same element that we clicked on
+							But we can create some different avatar if needed as well and hide the original one</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="highlighttype" class="tsd-anchor"></a>
+					<h3>highlight<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">highlight<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"top"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"bottom"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L62">src/shared/drag-n-drop/services/DragAvatar.ts:62</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>highlight type. Depends on where will be placed the drag element regarding the element
+							under the mouse. At top or at the bottom. Could be: top | bottom</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="initialplaceindex" class="tsd-anchor"></a>
+					<h3>initial<wbr>Place<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">initial<wbr>Place<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L56">src/shared/drag-n-drop/services/DragAvatar.ts:56</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>a position in the cards list. Need to know it to put at the proper place</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="parentdragzone" class="tsd-anchor"></a>
+					<h3>parent<wbr>Drag<wbr>Zone</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<wbr>Drag<wbr>Zone<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L20">src/shared/drag-n-drop/services/DragAvatar.ts:20</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>the drag element parent zone.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="prevtargetelement" class="tsd-anchor"></a>
+					<h3>prev<wbr>Target<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">prev<wbr>Target<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L33">src/shared/drag-n-drop/services/DragAvatar.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="calculatedragelementends" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> calculate<wbr>Drag<wbr>Element<wbr>Ends</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">calculate<wbr>Drag<wbr>Element<wbr>Ends<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L263">src/shared/drag-n-drop/services/DragAvatar.ts:263</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>calculates the drag element (avatar) allowed ends value of the dragging area in viewport
+									The element shouldn&#39;t cross out of any of these ends (depends on the dragging direction)</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="getavatarleftandtoppos" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Avatar<wbr>Left<wbr>And<wbr>Top<wbr>Pos</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Avatar<wbr>Left<wbr>And<wbr>Top<wbr>Pos<span class="tsd-signature-symbol">(</span>pageX<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pageY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L235">src/shared/drag-n-drop/services/DragAvatar.ts:235</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>returns an array of the allowed left and top position of the drag avatar</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pageX: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>pageY: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcurrenttargetelement" class="tsd-anchor"></a>
+					<h3>get<wbr>Current<wbr>Target<wbr>Element</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>Target<wbr>Element<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L123">src/shared/drag-n-drop/services/DragAvatar.ts:123</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>returns the current target element under the mouse while dragging</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="getelementundermousetype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Element<wbr>Under<wbr>Mouse<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Element<wbr>Under<wbr>Mouse<wbr>Type<span class="tsd-signature-symbol">(</span>elementUnderMouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../modules/_shared_drag_n_drop_services_dragavatar_.html#dragtargetresult" class="tsd-signature-type">DragTargetResult</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L203">src/shared/drag-n-drop/services/DragAvatar.ts:203</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>returns the type of the element under mouse. Handles only allowed types or returns null</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>elementUnderMouse: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../modules/_shared_drag_n_drop_services_dragavatar_.html#dragtargetresult" class="tsd-signature-type">DragTargetResult</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getparentdropzone" class="tsd-anchor"></a>
+					<h3>get<wbr>Parent<wbr>Drop<wbr>Zone</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Parent<wbr>Drop<wbr>Zone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L87">src/shared/drag-n-drop/services/DragAvatar.ts:87</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>returns the parent drop zone of the drag element.
+										WARNING. In the case of thruly re-usable package the parent dropzone
+									should be optional as we might want to drag element fron non-dropzone element</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getprevtargetelement" class="tsd-anchor"></a>
+					<h3>get<wbr>Prev<wbr>Target<wbr>Element</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Prev<wbr>Target<wbr>Element<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L126">src/shared/drag-n-drop/services/DragAvatar.ts:126</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>returns the current previous element that was under the mouse while dragging</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="handledragelementasdragtarget" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> handle<wbr>Drag<wbr>Element<wbr>AsDrag<wbr>Target</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Drag<wbr>Element<wbr>AsDrag<wbr>Target<span class="tsd-signature-symbol">(</span>dragTarget<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, topPos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L187">src/shared/drag-n-drop/services/DragAvatar.ts:187</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>a handler  for the use case when under our mouse while dragging we have the another drag element</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dragTarget: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+								<li>
+									<h5>topPos: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="handlespacerasdragtarget" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> handle<wbr>Spacer<wbr>AsDrag<wbr>Target</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Spacer<wbr>AsDrag<wbr>Target<span class="tsd-signature-symbol">(</span>dragTarget<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L182">src/shared/drag-n-drop/services/DragAvatar.ts:182</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>a handler  for the use case when under our mouse while dragging we have the spacer element</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dragTarget: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="initfromevent" class="tsd-anchor"></a>
+					<h3>init<wbr>From<wbr>Event</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">init<wbr>From<wbr>Event<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span>, originalElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L92">src/shared/drag-n-drop/services/DragAvatar.ts:92</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>calculatess the drag element (avatar) DOM coordinates and
+									places this element to DOM body without any visual state changes</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>e: <span class="tsd-signature-type">MouseEvent</span></h5>
+								</li>
+								<li>
+									<h5>originalElement: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="isatthetoppartoftargetel" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> is<wbr>AtThe<wbr>Top<wbr>Part<wbr>OfTarget<wbr>El</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>AtThe<wbr>Top<wbr>Part<wbr>OfTarget<wbr>El<span class="tsd-signature-symbol">(</span>targetElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, pageY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L226">src/shared/drag-n-drop/services/DragAvatar.ts:226</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>detect if our cursor is over at the top half part of the current target element while dragging</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>targetElement: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+								<li>
+									<h5>pageY: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="ondragmove" class="tsd-anchor"></a>
+					<h3>on<wbr>Drag<wbr>Move</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Drag<wbr>Move<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L132">src/shared/drag-n-drop/services/DragAvatar.ts:132</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>on the each drag move event it moves this.element and records
+									the current element below this.element to this.currentTargetElement</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>e: <span class="tsd-signature-type">MouseEvent</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="savetargetsstack" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> save<wbr>Targets<wbr>Stack</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">save<wbr>Targets<wbr>Stack<span class="tsd-signature-symbol">(</span>dragTarget<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L167">src/shared/drag-n-drop/services/DragAvatar.ts:167</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>saves the prev target element and current target element to know what element should
+									be highlighted and from what element the highlight should be removed</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dragTarget: <span class="tsd-signature-type">HTMLElement</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>an element under the mouse while we dragging the drag element</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class">
+					<a name="dragtargethandlers" class="tsd-anchor"></a>
+					<h3>drag<wbr>Target<wbr>Handlers</h3>
+					<div class="tsd-signature tsd-kind-icon">drag<wbr>Target<wbr>Handlers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L78">src/shared/drag-n-drop/services/DragAvatar.ts:78</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>a registry of the handlers for our allowed drag target types</p>
+						</div>
+					</div>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="dragtargethandlers.__computed" class="tsd-anchor"></a>
+						<h3>__computed</h3>
+						<div class="tsd-signature tsd-kind-icon">__computed<span class="tsd-signature-symbol">:</span> <a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#handledragelementasdragtarget" class="tsd-signature-type">handleDragElementAsDragTarget</a><span class="tsd-signature-symbol"> = this.handleDragElementAsDragTarget.bind(this)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L79">src/shared/drag-n-drop/services/DragAvatar.ts:79</a></li>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L80">src/shared/drag-n-drop/services/DragAvatar.ts:80</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class">
+					<a name="sourceelementdata" class="tsd-anchor"></a>
+					<h3>source<wbr>Element<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">source<wbr>Element<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L37">src/shared/drag-n-drop/services/DragAvatar.ts:37</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>a source element initial data regarding DOM positon</p>
+						</div>
+					</div>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.bottomend" class="tsd-anchor"></a>
+						<h3>bottom<wbr>End</h3>
+						<div class="tsd-signature tsd-kind-icon">bottom<wbr>End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L51">src/shared/drag-n-drop/services/DragAvatar.ts:51</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.leftend" class="tsd-anchor"></a>
+						<h3>left<wbr>End</h3>
+						<div class="tsd-signature tsd-kind-icon">left<wbr>End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L52">src/shared/drag-n-drop/services/DragAvatar.ts:52</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.rightend" class="tsd-anchor"></a>
+						<h3>right<wbr>End</h3>
+						<div class="tsd-signature tsd-kind-icon">right<wbr>End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L50">src/shared/drag-n-drop/services/DragAvatar.ts:50</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.shiftx" class="tsd-anchor"></a>
+						<h3>shiftX</h3>
+						<div class="tsd-signature tsd-kind-icon">shiftX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L39">src/shared/drag-n-drop/services/DragAvatar.ts:39</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.shiftxinversed" class="tsd-anchor"></a>
+						<h3>shiftXInversed</h3>
+						<div class="tsd-signature tsd-kind-icon">shiftXInversed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L43">src/shared/drag-n-drop/services/DragAvatar.ts:43</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.shifty" class="tsd-anchor"></a>
+						<h3>shiftY</h3>
+						<div class="tsd-signature tsd-kind-icon">shiftY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L40">src/shared/drag-n-drop/services/DragAvatar.ts:40</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.shiftyinversed" class="tsd-anchor"></a>
+						<h3>shiftYInversed</h3>
+						<div class="tsd-signature tsd-kind-icon">shiftYInversed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L44">src/shared/drag-n-drop/services/DragAvatar.ts:44</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="sourceelementdata.topend" class="tsd-anchor"></a>
+						<h3>top<wbr>End</h3>
+						<div class="tsd-signature tsd-kind-icon">top<wbr>End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nebosite/mvvm_on_react/blob/c7b83e9/mvvm_cards/src/shared/drag-n-drop/services/DragAvatar.ts#L53">src/shared/drag-n-drop/services/DragAvatar.ts:53</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_models_appmodel_.html">&quot;models/<wbr>App<wbr>Model&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_models_card_.html">&quot;models/<wbr>Card&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_models___tests___appmodel_test_.html">&quot;models/__tests__/appmodel.test&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_models_i_appmodel_.html">&quot;models/i_<wbr>appmodel&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_models_i_card_.html">&quot;models/i_<wbr>card&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_setuptests_.html">&quot;setup<wbr>Tests&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_editableinput_.html">&quot;shared/<wbr>Editable<wbr>Input&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_modal_.html">&quot;shared/<wbr>Modal&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_dragelement_.html">&quot;shared/drag-<wbr>n-drop/<wbr>Drag<wbr>Element&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_dragzone_.html">&quot;shared/drag-<wbr>n-drop/<wbr>Drag<wbr>Zone&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_dropzone_.html">&quot;shared/drag-<wbr>n-drop/<wbr>Drop<wbr>Zone&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_index_.html">&quot;shared/drag-<wbr>n-drop/index&quot;</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_services_dragavatar_.html">&quot;shared/drag-<wbr>n-drop/services/<wbr>Drag<wbr>Avatar&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_services_bus_.html">&quot;shared/drag-<wbr>n-drop/services/bus&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_drag_n_drop_types_.html">&quot;shared/drag-<wbr>n-drop/types&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_shared_util_.html">&quot;shared/util&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_views_aboutpage_.html">&quot;views/<wbr>About<wbr>Page&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_views_card_.html">&quot;views/<wbr>Card&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_views_mainapppage_.html">&quot;views/<wbr>Main<wbr>App<wbr>Page&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_views_maindoumentpage_.html">&quot;views/<wbr>Main<wbr>Doument<wbr>Page&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_views_toolbar_addnewcardmodal_.html">&quot;views/toolbar/<wbr>Add<wbr>New<wbr>Card<wbr>Modal&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_views_toolbar_maindocumentpagetoolbar_.html">&quot;views/toolbar/<wbr>Main<wbr>Document<wbr>Page<wbr>Toolbar&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/_shared_drag_n_drop_services_dragavatar_.dragtargettype.html" class="tsd-kind-icon">Drag<wbr>Target<wbr>Type</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html" class="tsd-kind-icon">Drag<wbr>Avatar</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#currentplaceindex" class="tsd-kind-icon">current<wbr>Place<wbr>Index</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#currenttargetelement" class="tsd-kind-icon">current<wbr>Target<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#data" class="tsd-kind-icon">data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#element" class="tsd-kind-icon">element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#highlighttype" class="tsd-kind-icon">highlight<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#initialplaceindex" class="tsd-kind-icon">initial<wbr>Place<wbr>Index</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#parentdragzone" class="tsd-kind-icon">parent<wbr>Drag<wbr>Zone</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#prevtargetelement" class="tsd-kind-icon">prev<wbr>Target<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#calculatedragelementends" class="tsd-kind-icon">calculate<wbr>Drag<wbr>Element<wbr>Ends</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getavatarleftandtoppos" class="tsd-kind-icon">get<wbr>Avatar<wbr>Left<wbr>And<wbr>Top<wbr>Pos</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getcurrenttargetelement" class="tsd-kind-icon">get<wbr>Current<wbr>Target<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getelementundermousetype" class="tsd-kind-icon">get<wbr>Element<wbr>Under<wbr>Mouse<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getparentdropzone" class="tsd-kind-icon">get<wbr>Parent<wbr>Drop<wbr>Zone</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#getprevtargetelement" class="tsd-kind-icon">get<wbr>Prev<wbr>Target<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#handledragelementasdragtarget" class="tsd-kind-icon">handle<wbr>Drag<wbr>Element<wbr>AsDrag<wbr>Target</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#handlespacerasdragtarget" class="tsd-kind-icon">handle<wbr>Spacer<wbr>AsDrag<wbr>Target</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#initfromevent" class="tsd-kind-icon">init<wbr>From<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#isatthetoppartoftargetel" class="tsd-kind-icon">is<wbr>AtThe<wbr>Top<wbr>Part<wbr>OfTarget<wbr>El</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#ondragmove" class="tsd-kind-icon">on<wbr>Drag<wbr>Move</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#savetargetsstack" class="tsd-kind-icon">save<wbr>Targets<wbr>Stack</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#dragtargethandlers" class="tsd-kind-icon">drag<wbr>Target<wbr>Handlers</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class">
+								<a href="_shared_drag_n_drop_services_dragavatar_.dragavatar.html#sourceelementdata" class="tsd-kind-icon">source<wbr>Element<wbr>Data</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_shared_drag_n_drop_services_dragavatar_.html#dragtargetresult" class="tsd-kind-icon">Drag<wbr>Target<wbr>Result</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,18 +1,22 @@
-// a central d-n-d communication channel
-// contains avatar data,  operates the drag end event trigger
-// and share the necessary data between components
+
 import { ICard } from "models/i_card";
 
 import { DragEndSubscripersRegistryType, DragEndSubscriberType } from "../types"
 
 import DragAvatar from "./DragAvatar";
 
+/**
+ * A central d-n-d communication channel
+ * contains avatar data,  operates the drag end event trigger
+ * and share the necessary data between components
+ */
 class BUS<T> {
   avatar: DragAvatar<T> = null;
 
-  // a very simple observer implementation. Supports only DragEnd
+  /** a very simple observer implementation. Supports only DragEnd */ 
   dragEndSubcribersRegistry: DragEndSubscripersRegistryType<T> = {}
 
+  /** resets the bus state */
   reset = () => { 
     this.avatar.element.remove()
     this.avatar = null;
