@@ -1,6 +1,3 @@
-
-import { ICard } from "models/i_card";
-
 import { DragEndSubscripersRegistryType, DragEndSubscriberType } from "../types"
 
 import DragAvatar from "./DragAvatar";

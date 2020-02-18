@@ -12,7 +12,7 @@ html.active-dragging {
   display: flex;
 }
 
-.btn {
+.button {
   min-width: 100px;
   min-height: 34px;
   border-radius: 9px;
@@ -21,7 +21,7 @@ html.active-dragging {
   transition: all 0.3s ease-in-out;
 }
 
-.btn:hover {
+.button:hover {
   filter: brightness(85%);
 }
 
@@ -101,8 +101,8 @@ html.active-dragging {
   background-color: royalblue;
 }
 
-/* --- modal --- */
-.modal-box {
+/* --- modal-dialog --- */
+.modal-dialog-box {
   position: absolute;
   top: 25%;
   left: 50%;
@@ -116,7 +116,7 @@ html.active-dragging {
   background-color: rgb(255, 255, 255);
 }
 
-.modal-box-content {
+.modal-dialog-box-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,13 +124,13 @@ html.active-dragging {
   flex-grow: 1;
 }
 
-.modal-box-actions {
+.modal-dialog-box-actions {
   display: flex;
   justify-content: center;
   margin-top: 30px;
 }
 
-.modal-decline-btn {
+.modal-dialog-decline-button {
   margin-right: 24px;
 }
 

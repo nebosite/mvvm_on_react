@@ -31,7 +31,7 @@ export default class MainDocumentPage
   render() {
     const { appModel } = this.props; // convenient handle to appModel
     return (
-      <main className='main-document-page'>
+      <main className="main-document-page">
         <MainDocumentPageToolbar />
 
         <DropZone<ICard> id="new" className="main-document-page-column"
@@ -47,7 +47,8 @@ export default class MainDocumentPage
                 appModel.removeCardFromNew(card);
               }}
             >
-            { appModel.newCards.map((card, index) => <DragElement<ICard> 
+            { appModel.newCards.map((card, index) => <DragElement<ICard>
+                                                          key={card.id}
                                                           index={index} 
                                                           data={card}
                                                         >
@@ -68,6 +69,7 @@ export default class MainDocumentPage
                 appModel.removeCardFromActive(card);
               }}>
             { appModel.activeCards.map((card, index) => <DragElement<ICard> 
+                                                          key={card.id}
                                                           index={index} 
                                                           data={card}
                                                         >
@@ -88,6 +90,7 @@ export default class MainDocumentPage
               }}
             >
             { appModel.doneCards.map((card, index) => <DragElement<ICard> 
+                                                          key={card.id}
                                                           index={index} 
                                                           data={card}
                                                         >

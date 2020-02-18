@@ -4,49 +4,79 @@ import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
 
 import EditableInput from "shared/EditableInput";
-import AddNewCardModal from "./AddNewCardModal"
+import AddNewCardModalDialog from "./AddNewCardModalDialog"
 
-const { useState, useCallback } = React;
+type Props = {
+  appModel?: IAppModel;
+}
 
-function MainDocumentPageToolbar(props: {appModel?: IAppModel}) {
-  // could be avoided by props destruction like: MainDocumentPageToolbar({ appModel }: {appModel?: IAppModel})
-  const appModel = props.appModel;
+type State = {
+  allowEdit: Boolean;
+  showDialog: Boolean;
+}
 
-  const [ allowEdit, setAllowEdit ] = useState(false);
-  const [ showModal, setShowModal ] = useState(false);
+class MainDocumentPageToolbar extends React.Component<Props, State> {
 
-  // a demonstration how to create the callback only once and won't re-create it at re-render
-  const hide = useCallback(() => setShowModal(false), []);
-  
-  return (
-    <div className="main-document-page-toolbar" 
-      // it's possible to use such way in case of callbacks as well
-      onClick={() => setAllowEdit(false) }
-      >
-      <div className="main-document-page-toolbar-title">
-        <EditableInput
-          value={appModel.docTitle} 
-          onChange={(val: string) => appModel.docTitle = val}
-          disabled={!allowEdit}
-          onKeyPress={e => {
-            if (e.key === "Enter") {
-              setAllowEdit(false)
-            }
-          }}
-          onWrapperDoubleClick={e => {
-            e.stopPropagation();
-            setAllowEdit(true)
-          }}
+  state = {
+    allowEdit: false,
+    showDialog: false
+  }
+
+  setAllowEdit = (allow: Boolean) => {
+    this.setState({
+      allowEdit: allow
+    })
+  }
+
+  setShowDialog = (show: Boolean) => {
+    this.setState({
+      showDialog: show
+    })
+
+  }
+
+  render() {
+    const appModel = this.props.appModel;
+    const { allowEdit, showDialog } = this.state;
+
+    return (
+      <div className="main-document-page-toolbar" 
+        // in the case of complex apps we shouldn't use the lambda in views
+        // because it creates a new function each time at re-render
+        // in general it's not a problem but in the very complex app even a small 
+        // blog of performance increasing matters
+        onClick={() => this.setAllowEdit(false)}
+        >
+        <div className="main-document-page-toolbar-title">
+          <EditableInput
+            value={appModel.docTitle} 
+            onChange={(val: string) => appModel.docTitle = val}
+            disabled={!allowEdit}
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                this.setAllowEdit(false)
+              }
+            }}
+            onWrapperDoubleClick={e => {
+              e.stopPropagation();
+              this.setAllowEdit(true)
+            }}
+          />
+          <i>Double click on the title to Edit</i>
+        </div>
+        <button className="button" onClick={() => this.setShowDialog(true)}>Add</button>
+        <button className="button" onClick={() => alert("The Save functionality is coming soon")}>Save</button>
+        <button className="button" onClick={() => alert("The Load functionality is coming soon")}>Load</button>
+        <button className="button" onClick={() => alert("The New functionality is coming soon")}>New</button>
+        <AddNewCardModalDialog 
+          showDialog={showDialog} 
+          addCard={appModel.createNewCard}
+          hide={() => this.setShowDialog(false)}
         />
-        <i>Double click on the title to Edit</i>
       </div>
-      <button className="btn" onClick={() => setShowModal(true)}>Add</button>
-      <button className="btn" onClick={() => alert("The Save functionality is coming soon")}>Save</button>
-      <button className="btn" onClick={() => alert("The Load functionality is coming soon")}>Load</button>
-      <button className="btn" onClick={() => alert("The New functionality is coming soon")}>New</button>
-      { showModal && <AddNewCardModal hide={hide}/> }
-    </div>
-  )
+    )
+  }
+  
 }
 
 export default inject("appModel")(observer(MainDocumentPageToolbar))

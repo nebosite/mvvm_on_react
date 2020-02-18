@@ -21,9 +21,7 @@ import { ICard } from "./i_card";
 // -------------------------------------------------------------------
 export class AppModel implements IAppModel {
     @observable
-    _docTitle = "Main Document Title"
-    get docTitle() { return this._docTitle; }
-    set docTitle(title: string) { this._docTitle = title; }
+    docTitle = "Main Document Title"
 
     @observable
     _newCards: ICard[] = [
@@ -99,10 +97,10 @@ export class AppModel implements IAppModel {
     }
     
 
-    
-
      // in the current Mobx version we might not to write the action. Result will be the same
-    @action
+    // we need to use bound if we are using action to save the context.
+    // Or we can use lambda (arrow) function if we aren't using mobx action
+    @action.bound
     createNewCard(card: ICard) { 
         this._newCards.unshift(card);
      }
