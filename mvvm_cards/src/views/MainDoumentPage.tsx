@@ -2,8 +2,11 @@ import * as React from "react";
 import { observer, inject } from "mobx-react";
 import { IAppModel } from "models/i_appmodel";
 
-import MainDocumentPageToolbar from "./MainDocumentPageToolbar";
+import { DragZone, DragElement, DropZone } from "shared/drag-n-drop";
 
+import MainDocumentPageToolbar from "./toolbar/MainDocumentPageToolbar";
+import Card from "./Card";
+import { ICard } from "models/i_card";
 
 // -------------------------------------------------------------------
 // The home page Component
@@ -22,20 +25,81 @@ import MainDocumentPageToolbar from "./MainDocumentPageToolbar";
 export default class MainDocumentPage 
   extends React.Component<{appModel?: IAppModel}> {
 
-
   // -------------------------------------------------------------------
   // Generate the visuals.  Binding happens here by referncing this.props
   // -------------------------------------------------------------------
   render() {
-    // const { appModel } = this.props; // convenient handle to appModel
-
+    const { appModel } = this.props; // convenient handle to appModel
     return (
-      <main className='main-document-page'>
+      <main className="main-document-page">
         <MainDocumentPageToolbar />
 
-        <div className="main-document-page-column-new"><h5 className="col-title">New</h5></div>
-        <div className="main-document-page-column-active"><h5 className="col-title">Active</h5></div>
-        <div className="main-document-page-column-done"><h5 className="col-title">Done</h5></div>
+        <DropZone<ICard> id="new" className="main-document-page-column"
+        
+          onDragEnd={(card, placeIndex) => {
+            appModel.moveCardToNew(card, placeIndex)
+          }}
+
+        >
+          <h5 className="col-title">New</h5>
+          <DragZone<ICard>
+              onDragStart={card => {
+                appModel.removeCardFromNew(card);
+              }}
+            >
+            { appModel.newCards.map((card, index) => <DragElement<ICard>
+                                                          key={card.id}
+                                                          index={index} 
+                                                          data={card}
+                                                        >
+                                                          <Card {...card} />
+                                                        </DragElement>) }  
+          </DragZone>
+          
+        </DropZone>
+        <DropZone<ICard> id="active" className="main-document-page-column"
+          onDragEnd={(card, placeIndex) => {
+            appModel.moveCardToActive(card, placeIndex)
+          }}
+         >
+         
+          <h5 className="col-title">Active</h5>
+          <DragZone<ICard>
+             onDragStart={(card) => {
+                appModel.removeCardFromActive(card);
+              }}>
+            { appModel.activeCards.map((card, index) => <DragElement<ICard> 
+                                                          key={card.id}
+                                                          index={index} 
+                                                          data={card}
+                                                        >
+                                                          <Card {...card} />
+                                                        </DragElement>) }
+          </DragZone>
+        </DropZone>
+        <DropZone<ICard> id="done" className="main-document-page-column"
+          onDragEnd={(card, placeIndex) => {
+            appModel.moveCardToDone(card, placeIndex)
+          }}
+        >
+          <h5 className="col-title">Done</h5>
+
+          <DragZone<ICard>
+              onDragStart={card => {
+                appModel.removeCardFromDone(card);
+              }}
+            >
+            { appModel.doneCards.map((card, index) => <DragElement<ICard> 
+                                                          key={card.id}
+                                                          index={index} 
+                                                          data={card}
+                                                        >
+                                                          <Card {...card} />
+                                                        </DragElement>) }  
+          </DragZone>
+          
+
+        </DropZone>
 
       </main>
     );
